@@ -1,13 +1,67 @@
-# Munto Dev Assistant — 개선 프로세스 가이드 (TO-BE)
+# Agentic Dev Chain — Munto 개발 자동화 프로세스 가이드 (TO-BE)
 
-> **이 문서의 범위**: 현재 `munto-dev-assistant` 하네스의 AS-IS 분석([2026-05-harness-AS-IS.md](./2026-05-harness-AS-IS.md))에서 도출된 비판을 바탕으로, **팀이 지향해야 할 개발 프로세스(TO-BE)** 를 다이어그램·단계별 가이드·규격으로 정리한다.
+> **이 문서의 범위**: 현재 `munto-dev-assistant`의 AS-IS 분석([2026-05-harness-AS-IS.md](./2026-05-harness-AS-IS.md))에서 도출된 비판을 바탕으로, **Munto 개발 자동화의 총칭인 `Agentic Dev Chain`** 의 목표 형태(TO-BE)를 다이어그램·단계별 가이드·규격으로 정의한다.
 > **팀 공유 브리핑**(문제·로드맵·교육)은 [2026-05-harness-team-developer-brief.md](../2026-05-harness-team-developer-brief.md) 참고.
 
 ---
 
 ## 1. 팀 용어 정의
 
-### 1.1 Spec의 범위
+> **왜 이 절이 가장 먼저인가**: 팀이 동일한 용어로 소통하지 않으면 같은 단어로 다른 것을 가리키게 된다. 본 문서·후속 회의·코드 리뷰에서 사용할 핵심 명칭을 **여기서 한 번에 고정**한다.
+
+### 1.1 Agentic Dev Chain — Munto 개발 자동화의 총칭
+
+**Agentic Dev Chain**은 Munto 개발팀이 **AI 에이전트와 협업해 기획부터 릴리즈까지 가는 개발 자동화 방법론**을 총칭한다. 단순한 도구·레포의 이름이 아니라 **프로세스·게이트·역할 분담을 포함한 방법론 그 자체**를 가리킨다.
+
+**진화 맥락:**
+
+| 세대 | 명칭 | 특징 |
+|------|------|------|
+| **v1 (~2024)** | `AI Dev Chain` | 단계별로 사람이 많이 개입하는 수작업 중심 워크플로 (참고: `AI development chain.drawio.png` legacy 자료) |
+| **v2 (2025~)** | **`Agentic Dev Chain`** (본 문서) | Agentic AI · 서브에이전트 · CLI를 활용해 자동화를 극대화하고, 사람이 *반드시* 개입해야 할 지점에 **명시적 게이트**를 둠 |
+
+**핵심 원칙 3가지:**
+
+1. **자동화 우선** — 가능한 모든 단계를 에이전트·CLI·파이프라인이 수행한다.
+2. **전략적 HITL (Human-in-the-Loop)** — 인간 개입은 *줄이는 게 아니라 강화한다*. 비즈니스 승인·DBML/Swagger Peer Review 등은 *명시적 게이트*로 박는다.
+3. **이름과 게이트의 일치** — 모든 단계·게이트가 고유한 이름을 갖는다. 팀이 동일 용어로 소통할 수 있도록 한다.
+
+### 1.2 Agentic Dev Chain의 구성 요소 (Implementation Layer)
+
+Agentic Dev Chain은 **방법론(본 문서)** 과, 그것을 실현하는 **여러 구현 요소(Implementation Layer)** 가 함께 떠받치는 구조다. 방법론과 구현 요소는 **1:N 관계**다.
+
+```
+Agentic Dev Chain (방법론 · 총칭)
+│
+├─ 프로세스 정의 (this document)
+│   └─ Phase 0 → 0.5 → 1 → Peer Review Gate → 2 → 3
+│
+└─ 구현 요소 (Implementation Layer)
+    ├─ ✅ munto-dev-assistant  (현재 운영 중)
+    │   ├─ Agent Configuration 레포
+    │   ├─ Skills · Rules · Subagents · Commands · Adapters
+    │   └─ Claude · Cursor · Codex 환경에서 동작
+    │
+    └─ 🚧 추가 예정 요소
+        ├─ OpenClaw 등 24시간 무인 실행 서비스
+        ├─ CI 통합 (어댑터 검증, 평가 자동화)
+        └─ 회귀 시나리오 자동 평가 시스템 등
+```
+
+| 구성 요소 | 카테고리 | 역할 | 현재 상태 |
+|----------|---------|------|---------|
+| **Agentic Dev Chain** | **방법론(총칭)** | Munto 개발 자동화의 표준 프로세스·게이트·역할 분담 정의 | 본 문서로 정의 |
+| **`munto-dev-assistant`** | 구현 요소 — *Agent Configuration 레포* | AI 에이전트가 위 프로세스를 실행하도록 만드는 **설정 모음** (스킬·규칙·서브에이전트·어댑터) | ✅ 운영 중 |
+| **OpenClaw** (예시·가칭) | 구현 요소 — *무인 실행 서비스* | **24시간 무인 실행** 환경 (스케줄러·러너·알림·롤백 등) — Spec만 깔아 두면 야간 자동 개발·테스트를 돌릴 인프라 | 🚧 미구축 (향후 검토) |
+| CI 통합 · 평가 자동화 등 | 구현 요소 — *품질 게이트 강화* | PR 시 어댑터 검증, 골든 시나리오 회귀 테스트 등 | 🚧 미구축 |
+
+**명명 원칙 (혼동 방지용 핵심 규칙):**
+
+- **"Agentic Dev Chain"** = *방법론·개념·총칭*. 외부 발표·회의·문서 머리말에서 쓴다.
+- **`munto-dev-assistant`** = *물리적 레포(파일·설정의 모음)* 이름. Git 클론·경로 표기 등 *구체적 산출물을 가리킬 때만* 쓴다.
+- **둘은 동의어가 아니다.** "munto-dev-assistant 프로세스"라는 표현은 잘못이다. 정확한 표현은 *"Agentic Dev Chain 프로세스"* 또는 *"`munto-dev-assistant` 레포에 정의된 스킬"* 처럼 카테고리를 분리해 쓴다.
+
+### 1.3 Spec의 범위
 
 | 포함 여부 | 산출물 |
 |-----------|--------|
@@ -16,7 +70,7 @@
 | **포함 기준** | 위 산출물이 **합의·완성**되고, 특히 **DBML·Swagger는 개발자 Peer Review**를 거쳤을 때 비로소 **Spec 완료** |
 | 범위 밖 | 코드 수준의 세부 설계 (필요 시 팀이 범위만 정하면 됨) |
 
-### 1.2 AS-IS에서 무엇이 빠져 있었나
+### 1.4 AS-IS에서 무엇이 빠져 있었나
 
 AS-IS(`AGENTS.md` 기준)의 Development Chain에는 아래가 없다:
 
@@ -25,7 +79,7 @@ AS-IS(`AGENTS.md` 기준)의 Development Chain에는 아래가 없다:
 3. **Peer Review 게이트** — `dev-chain-design` 후 바로 구현으로 넘어감
 4. **기획/PM 사람 승인** — 형식 리뷰(`munto-spec-review`)만 있고, 비즈니스 검증 단계 없음
 
-이 문서에서 정의하는 TO-BE 프로세스는 위 4가지를 **명시적 단계로 추가**한다.
+본 문서가 정의하는 **Agentic Dev Chain (TO-BE)** 은 위 4가지를 **명시적 단계·게이트로 추가**한다.
 
 ---
 
@@ -41,7 +95,7 @@ AS-IS(`AGENTS.md` 기준)의 Development Chain에는 아래가 없다:
 
 ---
 
-## 3. TO-BE Development Chain — 프로세스 도식
+## 3. Agentic Dev Chain — 프로세스 도식 (TO-BE)
 
 ### 3.1 전체 흐름 개요
 
@@ -227,7 +281,7 @@ flowchart TD
 | **Swagger** | `.yaml` (OpenAPI 3.0) | API 엔드포인트·DTO·응답 정의 |
 | **Unit TCL** | `.md` (마크다운 표) | API별 테스트 시나리오 (정상·오류·경계, 대상: BE/APP/FE/E2E) |
 
-### 4.4 Peer Review 게이트 (TO-BE 핵심 추가 단계)
+### 4.4 Peer Review 게이트 (Agentic Dev Chain 핵심 추가 단계)
 
 | 단계 | 무엇을 하나 | 주체 | 핵심 규칙 |
 |------|------------|------|----------|
@@ -320,14 +374,16 @@ flowchart TD
 
 ---
 
-## 6. AS-IS와 TO-BE 비교
+## 6. AS-IS와 Agentic Dev Chain(TO-BE) 비교
 
-| 항목 | AS-IS (현재 AGENTS.md) | TO-BE (본 문서) |
+| 항목 | AS-IS (현재 AGENTS.md) | Agentic Dev Chain (TO-BE, 본 문서) |
 |------|----------------------|-----------------|
+| **총칭(이름)** | 불명확. "Development Chain" 또는 "munto-dev-assistant" 혼용 | **`Agentic Dev Chain`** — 방법론·총칭으로 고정. `munto-dev-assistant`는 그 *구현 요소 중 하나* |
 | **SRS 작성** | `munto-spec-writer`로 한 번에 풀 작성 가능 | 사람이 1.2·2.1·2.2 먼저 → AI 확장 (풀 자동 비권장) |
 | **SRS 검증** | `munto-spec-review` 형식 검수만 | + **기획/PM 사람 승인** 단계 추가 |
 | **Spec 완료 정의** | 불명확 (SRS 끝 = Spec 끝?) | **SRS + 상위설계(DBML·Swagger·TCL) + Peer Review = Spec 완료** |
 | **설계 → 구현 전환** | reviewer PASS 후 바로 구현 진입 | **개발자 Peer Review 게이트** 추가 (승인 전 구현 금지) |
+| **무인 야간 실행 인프라** | 없음 (사람이 시작·종료) | **OpenClaw 등 24시간 무인 실행 서비스**를 구현 요소로 추가 검토 |
 | **실패 복귀** | 동일 | 동일 |
 
 ---
@@ -336,9 +392,9 @@ flowchart TD
 
 | 문서 | 쓰임 |
 |------|------|
-| [AS-IS 분석](./2026-05-harness-AS-IS.md) | `munto-dev-assistant`의 **현재 상태** 분석과 비판. |
-| [학습 가이드](./2026-05-harness-learning-guide.md) | 하네스를 **스스로 이해·분석**하기 위한 학습 로드맵. |
-| **본 문서** | AS-IS 비판을 바탕으로 한 **TO-BE 프로세스·다이어그램·단계별 사용법**. |
+| [AS-IS 분석](./2026-05-harness-AS-IS.md) | `munto-dev-assistant`의 **현재 상태(Agentic Dev Chain v1 잔재 포함)** 분석과 비판. |
+| [학습 가이드](./2026-05-harness-learning-guide.md) | `munto-dev-assistant` 레포를 **스스로 이해·분석**하기 위한 학습 로드맵. |
+| **본 문서** | **`Agentic Dev Chain`** 의 TO-BE 프로세스·다이어그램·단계별 사용법·구성 요소 계층. |
 | [팀 개발자 브리핑](../2026-05-harness-team-developer-brief.md) | **문제·개선 로드맵·교육/온보딩**을 동료에게 공유할 때 사용. |
 
 ---
@@ -350,3 +406,4 @@ flowchart TD
 | 2026-05-18 | AS-IS 분석에서 TO-BE 내용(프로세스 다이어그램·단계별 가이드·Peer Review 게이트·Spec 정의·목표 비전) 분리하여 신규 작성 |
 | 2026-05-18 | AS-IS vs TO-BE 비교 표(§6) 추가, 문서 간 교차 참조 정리 |
 | 2026-05-18 | 파일명 `2026-05-harness-TO-BE.md`로 변경, 학습 가이드 문서 참조 추가 |
+| 2026-05-19 | **`Agentic Dev Chain` 명칭 도입** — Munto 개발 자동화의 총칭으로 고정. §1.1 총칭 정의 + §1.2 구성 요소 계층(`munto-dev-assistant` ✅운영중 / OpenClaw 등 🚧예정) 신설. 기존 §1.1·1.2를 §1.3·1.4로 재번호. 문서 제목·§3·§4.4·§6·§7을 새 명칭으로 동기화. **명명 원칙(방법론 vs 레포 분리)** 명시 |
