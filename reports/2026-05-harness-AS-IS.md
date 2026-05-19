@@ -1,12 +1,6 @@
 # Munto Dev Assistant 하네스 — AS-IS 분석
 
-> **이 문서의 범위**: `munto-dev-assistant` 레포에 **현재 실제로 구현·기술되어 있는 것**만을 설명하고, 그 한계를 비판한다.
-> 개선 제안·프로세스 가이드는 담지 않는다.
-
-**관련 문서**:
-- **TO-BE 프로세스 가이드**: [2026-05-harness-TO-BE.md](./2026-05-harness-TO-BE.md) — 개선된 프로세스·다이어그램·단계별 사용법.
-- **학습 가이드**: [2026-05-harness-learning-guide.md](./2026-05-harness-learning-guide.md) — 하네스를 학습하기 위한 로드맵·실습 안내.
-- **팀 공유 브리핑**: [2026-05-harness-team-developer-brief.md](../2026-05-harness-team-developer-brief.md) — 문제·로드맵·교육.
+> **이 문서의 범위**: `munto-dev-assistant` 레포에 **현재 실제로 구현·기술되어 있는 것**만을 설명하고, 그 한계를 파악한다. 개선 제안·프로세스 가이드는 담지 않는다.
 
 **분석 일자**: 2026-05-14  
 **분석 범위**: `munto-dev-assistant` 내 `.agents/`, `.claude/`, `.cursor/`, `.codex/`, `scripts/`, `AGENTS.md`, 대표 스킬·에이전트.
@@ -23,12 +17,12 @@
 
 ### 2.1 단일 진실 공급원
 
-| 레이어 | 역할 |
-|--------|------|
+| 레이어         | 역할                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
 | **`.agents/`** | 스킬(`skills/**/SKILL.md`), 규칙(`rules/**/*.md`), 서브에이전트 원본(`agents/*.md`), 커맨드 원본(`commands/`) |
-| **`.claude/`** | Claude용 스킬/에이전트/커맨드 래퍼 |
-| **`.cursor/`** | `.mdc` → `.agents/rules` 연결 규칙 래퍼 |
-| **`.codex/`** | Codex 스킬·에이전트 래퍼(`source`, `spawn_agent` 절차) |
+| **`.claude/`** | Claude용 스킬/에이전트/커맨드 래퍼                                                                            |
+| **`.cursor/`** | `.mdc` → `.agents/rules` 연결 규칙 래퍼                                                                       |
+| **`.codex/`**  | Codex 스킬·에이전트 래퍼(`source`, `spawn_agent` 절차)                                                        |
 
 원칙: **수정은 `.agents/`에서만.** 래퍼 경로는 `scripts/check-adapters.sh`로 검증 가능.
 
@@ -67,6 +61,32 @@ Jira(acli), GWS(`gws`), DB(SSM+MCP 등), Notion MCP 등 스킬 전제 도구 다
 
 `AGENTS.md`의 Development Chain은 "기획/SRS"를 시작점으로 적고 있지만, 실제로 하네스에는 **SRS/One Pager를 작성·리뷰하는 스킬**(`munto-spec-writer`, `munto-spec-review`)이 존재한다. 이를 포함한 전체 AS-IS 프로세스를 정리한다.
 
+### 3.0 다이어그램 범례 (Legend)
+
+각 노드는 **누가 일을 수행하는가**에 따라 4가지로 분류한다. 색·아이콘이 동시에 표시되며, 한 채널이 깨져도 다른 채널이 의미를 살린다.
+
+| 아이콘 | 색 | 의미 | 예시 |
+|--------|-----|------|------|
+| 🤖 | 옅은 파랑 | **AI 자동** — 사람은 트리거만 하고, 실행 중 사람 개입 없음 | `munto-spec-writer` 호출, `dbml-writer`, reviewer 자동 분류 |
+| 👤 | 옅은 노랑 | **사람** — 사람이 직접 작성·결정. 결과물의 책임이 사람에게 있는 경우 | 입력 준비, BLOCKER 수정, WBS 필요 여부 판단 |
+| 🔄 | 옅은 보라 | **협업 반복** — AI가 만들고 사람이 검토·수정 요청을 반복하는 *루프* 작업 | `dev-chain-backend/mobile/frontend` (현재 상태), 수동 체크리스트 |
+| 🚧 | 옅은 빨강 (굵은 테두리) | **게이트** — 사람이 명시적으로 *PASS/REJECT*를 결정하는 의사결정 지점 | (AS-IS에는 거의 없음 — §4.1·4.2 비판 참조) |
+
+```mermaid
+flowchart LR
+    L1["🤖 AI 자동"]:::ai
+    L2["👤 사람"]:::human
+    L3["🔄 협업 반복"]:::collab
+    L4{"🚧 게이트"}:::gate
+
+    classDef ai fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef human fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef collab fill:#f3e8ff,stroke:#9333ea,color:#581c87
+    classDef gate fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:3px
+```
+
+> **분류 원칙**: 사람이 호출(trigger)만 하고 AI가 자율 완료하면 🤖이다. AI가 만든 결과를 사람이 *여러 번 검토·수정 요청*하는 패턴이 본질이면 🔄이다. AS-IS 다이어그램에서 🚧이 거의 보이지 않는다는 사실 자체가 **§4.1~4.2 비판(사람 승인 게이트 없음)** 의 시각적 증거다.
+
 ### 3.1 SRS/One Pager 작성·리뷰 프로세스 (AS-IS)
 
 하네스에 존재하는 두 스킬이 SRS/One Pager의 작성과 리뷰를 담당한다.
@@ -80,6 +100,7 @@ Jira(acli), GWS(`gws`), DB(SSM+MCP 등), Notion MCP 등 스킬 전제 도구 다
 5. 자체 검증 체크리스트 실행 (항목 구조·1.2 서술형·2.4↔7장 매핑 등)
 
 **스킬에 없는 것:**
+
 - "1.2·2.1·2.2를 사람이 먼저 쓰고 오라"는 **선행 조건 없음**
 - 섹션별 분할 작성·단계별 인간 확인 **강제 없음**
 - 입력 품질이 낮아도 **거부·경고 없이 생성 진행**
@@ -93,6 +114,7 @@ Jira(acli), GWS(`gws`), DB(SSM+MCP 등), Notion MCP 등 스킬 전제 도구 다
 5. BLOCKER / WARNING / SUGGESTION 분류 리포트 출력
 
 **스킬에 없는 것:**
+
 - **비즈니스 방향·조직 의사결정에 대한 검증 없음** — 형식·표준 대비 검수만
 - **리뷰 통과 후 사람 승인 단계 없음** — PASS하면 바로 끝
 - **"Spec 완료"라는 게이트와 연결 없음** — 후속 단계(`dev-chain-design` 등)와 자동 연결 안 됨
@@ -101,22 +123,27 @@ Jira(acli), GWS(`gws`), DB(SSM+MCP 등), Notion MCP 등 스킬 전제 도구 다
 
 ```mermaid
 flowchart TD
-    S0["사용자 입력\n(Notion URL / 파일 / 텍스트 / 없음)"]
-    S1["munto-spec-writer 호출\nspec-standard.md + 템플릿 로드"]
-    S2["SRS 또는 One Pager\n전체 일괄 생성"]
-    S3["자체 검증 체크리스트"]
-    S4["SRS / One Pager 산출"]
-    S5["munto-spec-review 호출\n(별도 트리거 필요)"]
-    S6["spec-reviewer 서브에이전트\n체크리스트 A~I / A~G 적용"]
-    S7{"BLOCKER?"}
-    S8["수정 후 재리뷰"]
-    S9["✅ 리뷰 PASS\n(= 프로세스 끝.\n사람 승인 게이트 없음)"]
+    S0["👤 사용자 입력 준비<br/>(Notion URL / 파일 / 텍스트 / 없음)"]:::human
+    S1["🤖 munto-spec-writer 호출<br/>spec-standard.md + 템플릿 로드"]:::ai
+    S2["🤖 SRS 또는 One Pager<br/>전체 일괄 생성"]:::ai
+    S3["🤖 자체 검증 체크리스트"]:::ai
+    S4["🤖 SRS / One Pager 산출"]:::ai
+    S5["🤖 munto-spec-review 호출<br/>(별도 트리거 필요)"]:::ai
+    S6["🤖 spec-reviewer 서브에이전트<br/>체크리스트 A~I / A~G 적용"]:::ai
+    S7{"🤖 BLOCKER?"}:::ai
+    S8["👤 수정 후 재리뷰"]:::human
+    S9["✅ 리뷰 PASS<br/>(= 프로세스 끝.<br/>🚧 사람 승인 게이트 없음)"]
 
     S0 --> S1 --> S2 --> S3 --> S4
     S4 -. "사용자가 별도 호출해야 함" .-> S5
     S5 --> S6 --> S7
     S7 -- "BLOCKER" --> S8 --> S5
     S7 -- "PASS" --> S9
+
+    classDef ai fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef human fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef collab fill:#f3e8ff,stroke:#9333ea,color:#581c87
+    classDef gate fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:3px
 ```
 
 > 주의: `munto-spec-writer` 완료 후 `munto-spec-review`는 **자동으로 이어지지 않는다.** 사용자가 별도로 리뷰를 요청해야 한다.
@@ -142,31 +169,31 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    S0["사용자 입력\n(Notion / 파일 / 텍스트 / 없음)"]
-    S1["munto-spec-writer\nSRS 또는 One Pager 일괄 생성"]
-    S2["munto-spec-review\nspec-reviewer가 체크리스트 적용\n(사용자가 별도 호출)"]
-    S3{"BLOCKER?"}
-    S4["수정 후 재리뷰"]
-    S5["리뷰 PASS\n(사람 승인 게이트 없음)"]
+    S0["👤 사용자 입력 준비<br/>(Notion / 파일 / 텍스트 / 없음)"]:::human
+    S1["🤖 munto-spec-writer<br/>SRS 또는 One Pager 일괄 생성"]:::ai
+    S2["🤖 munto-spec-review<br/>spec-reviewer가 체크리스트 적용<br/>(사용자가 별도 호출)"]:::ai
+    S3{"🤖 BLOCKER?"}:::ai
+    S4["👤 수정 후 재리뷰"]:::human
+    S5["🤖 리뷰 PASS<br/>(🚧 사람 승인 게이트 없음)"]:::ai
 
-    B{"WBS 필요?"}
-    C["dev-chain-wbs\nGoogle Sheets WBS"]
-    D["dev-chain-design\n(PM 역할)\nSRS → 서브에이전트 위임"]
-    E1["dbml-writer"]
-    E2["swagger-writer"]
-    E3["unit-tcl-writer"]
-    F1["dbml-reviewer"]
-    F2["design-consistency-reviewer"]
-    G{"reviewer\nBLOCKER?"}
-    H["해당 writer 재호출"]
-    I["DBML + Swagger + TCL 산출\n(Peer Review 게이트 없음)"]
-    J["dev-chain-backend\n→ backend-expert"]
-    K["dev-chain-mobile\n→ mobile-expert"]
-    L["dev-chain-frontend\n→ frontend-expert"]
-    M["dev-chain-verify\nTCL 커버리지 → E2E → 수동"]
-    N{"PASS?"}
+    B{"👤 WBS 필요?"}:::human
+    C["🤖 dev-chain-wbs<br/>Google Sheets WBS"]:::ai
+    D["🤖 dev-chain-design (PM)<br/>SRS → 서브에이전트 위임"]:::ai
+    E1["🤖 dbml-writer"]:::ai
+    E2["🤖 swagger-writer"]:::ai
+    E3["🤖 unit-tcl-writer"]:::ai
+    F1["🤖 dbml-reviewer"]:::ai
+    F2["🤖 design-consistency-reviewer"]:::ai
+    G{"🤖 reviewer<br/>BLOCKER?"}:::ai
+    H["🤖 해당 writer 재호출"]:::ai
+    I["🤖 DBML + Swagger + TCL 산출<br/>(🚧 Peer Review 게이트 없음)"]:::ai
+    J["🔄 dev-chain-backend<br/>→ backend-expert"]:::collab
+    K["🔄 dev-chain-mobile<br/>→ mobile-expert"]:::collab
+    L["🔄 dev-chain-frontend<br/>→ frontend-expert"]:::collab
+    M["🔄 dev-chain-verify<br/>TCL 커버리지 → E2E → 수동"]:::collab
+    N{"🔄 PASS?"}:::collab
     O["✅ Product:rc"]
-    P["실패 → 해당 도메인 복귀"]
+    P["👤 실패 → 해당 도메인 복귀"]:::human
 
     S0 --> S1 --> S2 --> S3
     S3 -- "BLOCKER" --> S4 --> S2
@@ -184,7 +211,14 @@ flowchart TD
     J & K & L --> M --> N
     N -- "PASS" --> O
     N -- "실패" --> P
+
+    classDef ai fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef human fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef collab fill:#f3e8ff,stroke:#9333ea,color:#581c87
+    classDef gate fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:3px
 ```
+
+> 다이어그램에 **🚧(게이트)** 가 나타나지 않는 것이 핵심 관찰: AS-IS에는 *사람 명시 승인 단계*가 사실상 없다. PHASE 2 도메인 구현(`dev-chain-backend/mobile/frontend`)은 의도상 🤖이지만 현재 **🔄 협업 반복**으로 운영되고 있어 그대로 표시했다. 이 두 가지가 **TO-BE에서 가장 큰 변화 지점**이다.
 
 ### 3.4 AGENTS.md에 적힌 에이전트 행동 원칙
 
@@ -197,7 +231,7 @@ flowchart TD
 ### 3.5 각 스킬이 실제로 하는 것 요약
 
 | 스킬 | 입력 | 산출물 | 서브에이전트 | 비고 |
-|------|------|--------|------------|------|
+| --- | --- | --- | --- | --- |
 | `munto-spec-writer` | 기획 문서 / Notion / 텍스트 / **없음** | SRS 또는 One Pager (마크다운) **전체 일괄 생성** | 없음 | `spec-standard.md` + 템플릿 로드. **선행 조건·단계 분할 없음.** 입력 부족 시 대화형 수집은 하지만 거부하지 않음 |
 | `munto-spec-review` | SRS / One Pager | BLOCKER/WARNING/SUGGESTION 리포트 | `spec-reviewer` (PM 모드) | 체크리스트 A~I (SRS) / A~G (One Pager). **형식·표준 검수만**, 비즈니스 검증 불가. **리뷰 후 사람 승인 단계 없음** |
 | `dev-chain-wbs` | SRS | Google Sheets WBS | 없음 | `gws` CLI 사용 |
@@ -209,16 +243,16 @@ flowchart TD
 
 ### 3.6 보조 스킬 (개발 체인 외 업무 도구)
 
-| 카테고리 | 스킬 | 트리거 예시 |
-|---------|------|------------|
-| **이슈 관리** | `munto-create-issue` · `munto-read-issue` | "Jira 이슈 만들어줘" · "DEVT-123 조회해줘" |
-| **PR 생성** | `munto-create-pr` | "PR 만들어줘" |
-| **DB 조회** | `munto-read-db` | "프로덕션 데이터 확인해줘" (SSM 먼저) |
-| **문서 읽기** | `munto-read-document` | "이 노션 문서 요약해줘" |
-| **스탠드업** | `munto-standup` | "오늘 할 일 정리해줘" |
-| **이메일** | `munto-check-email` | "메일 브리핑해줘" |
-| **QA TCL** | `qa-tcl-writer` | "QA TCL 만들어줘" (릴리즈 회귀용) |
-| **하네스 진단** | `harness-diagnostics` | "harness 진단해줘" |
+| 카테고리        | 스킬                                      | 트리거 예시                                |
+| --------------- | ----------------------------------------- | ------------------------------------------ |
+| **이슈 관리**   | `munto-create-issue` · `munto-read-issue` | "Jira 이슈 만들어줘" · "DEVT-123 조회해줘" |
+| **PR 생성**     | `munto-create-pr`                         | "PR 만들어줘"                              |
+| **DB 조회**     | `munto-read-db`                           | "프로덕션 데이터 확인해줘" (SSM 먼저)      |
+| **문서 읽기**   | `munto-read-document`                     | "이 노션 문서 요약해줘"                    |
+| **스탠드업**    | `munto-standup`                           | "오늘 할 일 정리해줘"                      |
+| **이메일**      | `munto-check-email`                       | "메일 브리핑해줘"                          |
+| **QA TCL**      | `qa-tcl-writer`                           | "QA TCL 만들어줘" (릴리즈 회귀용)          |
+| **하네스 진단** | `harness-diagnostics`                     | "harness 진단해줘"                         |
 
 ---
 
@@ -279,8 +313,9 @@ flowchart TD
 ## 변경 이력
 
 | 일자 | 내용 |
-|------|------|
+| --- | --- |
 | 2026-05-14 | 통합 분석 원고에서 분리·재구성하여 신규 작성 |
 | 2026-05-18 | 문서 성격을 AS-IS 순수 분석 + 비판으로 한정. TO-BE 내용은 별도 문서로 분리 |
 | 2026-05-18 | 학습 로드맵·준비도 평가를 별도 학습 가이드 문서로 분리. 파일명 `2026-05-harness-AS-IS.md`로 변경 |
 | 2026-05-18 | **SRS 작성·리뷰 프로세스 AS-IS 추가**: `munto-spec-writer`·`munto-spec-review` 스킬 분석을 §3.1에 신설, AS-IS 다이어그램에 SRS 단계 포함(§3.3), 비판 §4.1~§4.3을 SRS 스킬 관련 문제로 보강 (풀 자동 작성 무장벽·형식 검수만·자동 미연결), 기존 §4.2~§4.7을 §4.4~§4.9로 재번호 |
+| 2026-05-19 | **다이어그램 4-카테고리 분류 도입** — §3.0 범례 신설 (🤖 AI 자동 / 👤 사람 / 🔄 협업 반복 / 🚧 게이트). §3.1·§3.3 두 다이어그램에 색·아이콘·`classDef` 일괄 적용. `dev-chain-backend/mobile/frontend`는 현재 실태대로 🔄 표시. AS-IS에 🚧이 거의 없는 사실 자체가 §4.1·§4.2 비판의 시각적 증거임을 명시 |
