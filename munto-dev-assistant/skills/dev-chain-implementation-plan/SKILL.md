@@ -239,7 +239,7 @@ Task 카드에서는 *Spec Index ID + anchor* 로 줄여 표기 (예: `S-BE-1 §
 
 ### Task 단위 5 기준 (모두 만족해야 적정)
 
-PR 크기 200~500 줄 / 단일 책임 / LLM 30 분~2 시간 / 외부 의존 분리 / 1 git revert 로 롤백 가능.
+PR 크기 100~300 줄 / 단일 책임 / LLM 30 분~2 시간 / 외부 의존 분리 / 1 git revert 로 롤백 가능.
 
 → `estimate > 4h` 또는 `outputs > 3` 이면 *쪼갤 신호*.
 
