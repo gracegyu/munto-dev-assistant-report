@@ -114,10 +114,10 @@ Task(subagent_type=ip-writer,
 writer 응답이 도착하면 메인은 다음 경로에 임시 저장:
 
 ```
-munto-dev-assistant/projects/{프로젝트명}.ip.md
+munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md
 ```
 
-> ⚠️ *위 경로는 절대 변경 금지*. `ip-standard.md` §저장 위치와 파일명 규약 참조.
+> ⚠️ *위 경로는 절대 변경 금지*. 프로젝트 폴더(`{프로젝트명}/`) + 고정 파일명(`ImplementationPlan.md`). 부속 산출물(`sessions/`·`decisions/`·`attachments/`·`spec-stubs/`)은 같은 폴더의 옵션 서브폴더로 *필요할 때만* 생성. 상세는 `ip-standard.md` §저장 위치와 파일명 규약 참조.
 
 ---
 
@@ -125,7 +125,7 @@ munto-dev-assistant/projects/{프로젝트명}.ip.md
 
 ```
 Task(subagent_type=ip-reviewer,
-     prompt="IP 초안=<munto-dev-assistant/projects/{프로젝트명}.ip.md>,
+     prompt="IP 초안=<munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md>,
              표준=ip-standard.md,
              자동 점검 7 가지 질문 + 완료 체크리스트")
 ```
@@ -161,7 +161,8 @@ reviewer 는 read-only다. 출력:
 
 ```
 ✅ 자동 검증 체크리스트 (메인이 확인)
-- [ ] IP 파일이 munto-dev-assistant/projects/{프로젝트명}.ip.md 에 저장됨
+- [ ] IP 파일이 munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md 에 저장됨 (프로젝트 폴더 + 고정 파일명)
+- [ ] 프로젝트 폴더(`{프로젝트명}/`)에 *빈 옵션 서브폴더가 사전 생성되지 않았는가* (옵션은 필요할 때만 생성)
 - [ ] 8 개 섹션 모두 존재
 - [ ] ip-reviewer 판정: PASS (BLOCKER 0)
 - [ ] projects/README.md 인덱스에 추가됨 (메인이 자동 추가)
@@ -174,7 +175,7 @@ reviewer 는 read-only다. 출력:
 
 | 항목 | 값 |
 |------|------|
-| 저장 위치 | munto-dev-assistant/projects/{프로젝트명}.ip.md |
+| 저장 위치 | munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md |
 | 자동 점검 | ip-reviewer PASS |
 | 현재 상태 | **v0.1 (초안)** — 사람 리뷰 미통과 |
 
@@ -208,11 +209,21 @@ IP 는 *PHASE 2 의 유일한 입력* 이므로, *사람 리뷰 통과* 없이 P
 
 > 본 절은 *최소한의 핵심* 만 적습니다. 상세 양식·예시·사람 리뷰 7 가지 질문은 [`ip-standard.md`](../../../ip-standard.md) 를 단일 진실 공급원으로 합니다.
 
-### 저장 위치·파일명
+### 저장 위치·폴더·파일명
 
-- 위치: `munto-dev-assistant/projects/{프로젝트명}.ip.md` (절대 변경 금지)
-- 파일명: 영문 소문자·하이픈, 50 자 이내, 메이저 버전만 표기 (`paid-socialing-v2.ip.md`)
+- 단위: **프로젝트 폴더** `munto-dev-assistant/projects/{프로젝트명}/` (절대 변경 금지)
+- IP 본문 파일: `ImplementationPlan.md` (폴더 안 *고정 파일명*. 프로젝트명 prefix 없음 — 폴더가 이미 식별자 역할)
+- 폴더명: 영문 소문자·하이픈, 50 자 이내, 메이저 버전만 표기 (예: `paid-socialing-v2/`)
+- 옵션 서브폴더 (필요할 때만 생성, *빈 폴더 사전 생성 금지*): `README.md` / `sessions/` / `decisions/` / `attachments/` / `spec-stubs/`
 - 인덱스: `munto-dev-assistant/projects/README.md` 에 자동 추가
+- 메이저 변경(v2.0) = *새 폴더* (`{프로젝트명}-v2/`)
+
+### 동시 프로젝트 운영·세션 (필수 인식)
+
+- AI 도구의 세션 격리는 *cwd / 워크스페이스* 가 단위다 → **1 프로젝트 = 1 워크스페이스 = 1 세션 트랙**
+- 메타 작업(Spec·IP·오케스트레이션) cwd = `munto-dev-assistant/projects/{프로젝트명}/` — *IP 본문 옆* 에서 시작하면 세션 목록이 프로젝트별로 자연 격리됨
+- 구현 작업 cwd = 각 제품 Repo (`munto-backend`·`munto-frontend`·`munto-mobile` 등)
+- 상세 절차·도구별 명령(Claude Code / Cursor)·인계 6 단계·안티 패턴 5 종은 **TO-BE §4.3 IP-9** 와 `ip-standard.md` §동시 프로젝트 운영·세션 관리 (요약) 참조
 
 ### 8 섹션 고정 구조 (번호·제목 변경 금지)
 

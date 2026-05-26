@@ -530,7 +530,7 @@ flowchart TD
 > | --- | --- |
 > | **위치 / 범위** | PHASE 1 의 마지막 활동 (별도 PHASE 번호 없음). PHASE 2 의 *실행 입력*이 된다 |
 > | **입력** | 베이스라인 v1.0 4 종 산출물 + 기존 Repo 의 `docs/specs/` + 멀티 Repo Spec 인덱스 |
-> | **출력** | 단일 IP 문서 — `munto-dev-assistant/projects/{프로젝트명}.ip.md` (저장 위치 정책은 §4.3 IP-0 참조). Phase 분해 / Task 분해 / Task별 Spec 참조 경로(4 요소) / DoD / 의존성 DAG / Repo 매핑 포함 |
+> | **출력** | IP 본문 — `munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md` + 옵션 부속 산출물 (저장 위치·폴더 구조는 §4.3 IP-0 참조). Phase 분해 / Task 분해 / Task별 Spec 참조 경로(4 요소) / DoD / 의존성 DAG / Repo 매핑 포함 |
 > | **게이트** | IP 사람 리뷰 통과 = *PHASE 2 진입 자격 + 무인 실행 모드(§4.9) 입력 자격*. 통과 = 인수 원칙(§3.2 (1)) 동일 적용 |
 > | **작성 책임** | 분석 아키텍트 또는 프로젝트 리더 (1 인 가능). AI 가 1 차 분해를 도출하고 사람이 검수 |
 >
@@ -785,21 +785,43 @@ flowchart TD
 
 > **왜 별도 활동인가** — Spec 이 완벽해도 *"Task 1 번 구현해"* 라고만 지시하면 매 Task 마다 *어느 Repo · 어느 파일 · 어느 섹션 · 어느 TCL 케이스 · 어느 의존 Task* 를 사람이 다시 설명해야 한다. 이건 §4.9 무인 실행 모드를 *원천 불가능*하게 만든다. **IP 는 Spec 을 무인 실행 가능한 형태로 변환한 단일 문서**다. PHASE 1 의 마지막 활동으로 박는다 (별도 PHASE 번호 없음).
 
-##### IP-0. 저장 위치와 파일명 규약
+##### IP-0. 저장 위치·폴더 구조·파일명 규약
+
+> **단일 파일이 아닌 *프로젝트 폴더*** — 멀티 프로젝트 동시 운영(§IP-9) · 무인 실행 모드(§4.9) · ③ 별도 repo Spec 방식(§IP-7) 도입으로 *IP 본문 외 부속 산출물* 이 누적된다. 단일 `.ip.md` 파일은 *어디에 둘지 모호한 부속 산출물* 을 양산하므로 *프로젝트 폴더가 기본 단위* 다.
 
 | 항목 | 정책 |
 | --- | --- |
 | **저장 레포** | **`munto-dev-assistant`** 의 `projects/` 폴더 |
-| **파일명** | `{프로젝트명}.ip.md` (예: `paid-socialing-v2.ip.md`) |
-| **버전 관리** | 같은 폴더에서 Git 으로 버저닝. `v1.0 → v1.x → v2.0` 은 본문 헤더에 표기 (파일명 분기 X). 메이저 변경(v2.0) 은 별도 파일 신설 권장 — `{프로젝트명}-v2.ip.md` |
-| **인덱스** | `munto-dev-assistant/projects/README.md` 에 활성 IP 목록·상태·담당자·최신 v 표기 |
+| **프로젝트 단위** | `projects/{프로젝트명}/` (폴더). `{프로젝트명}` 은 *kebab-case 영문* (예: `paid-socialing-v2`) |
+| **IP 본문 파일명** | **`ImplementationPlan.md`** (폴더 안 *고정명*. 프로젝트명 prefix 없음 — 폴더가 이미 식별자 역할) |
+| **버전 관리** | 같은 파일에서 본문 헤더에 v 표기 (`v1.0 → v1.x`). 메이저 변경(v2.0) = *새 폴더* — `projects/{프로젝트명}-v2/ImplementationPlan.md` (파일명은 같음, 폴더로 분기) |
+| **인덱스** | `projects/README.md` 에 활성 프로젝트 목록·상태·담당자·최신 v 표기 |
 
-> **왜 BE/FE 가 아닌 `munto-dev-assistant` 인가** — IP 는 *Spec(BE/FE 각자에 baseline 으로 위치) 과 다른 위계의 문서*다.
->
-> - **Spec 은 SCM 의 baseline 철학에 따라 *해당 제품 Repo (BE/FE/APP)* 에 위치**한다 — *제품과 함께 버저닝되어야 하기* 때문 (예: BE Spec v1.0 = BE 코드 v1.0 에 대응).
-> - 반면 **IP 는 *프로젝트 단위 산출물* 이며 *멀티 Repo 를 가로지르는 단일 진입점*** 이다. BE Repo 에 두면 FE 변경 Task 가 어색하고, FE Repo 에 두면 그 반대다. 별도 *프로젝트 메타 레포* 가 필요하다.
-> - **`munto-dev-assistant` 가 이 역할에 가장 적합** — 이미 *Agentic Dev Chain 의 운영 레포* 이고, 무인 실행 루프(§4.9)·스킬·서브에이전트 정의가 모두 여기 있다. IP 는 *루프의 입력*이므로 *루프 정의와 같은 곳*에 두는 것이 자연스럽다.
-> - **워크스페이스 구성과 일관** — Munto 프로젝트는 일반적으로 *BE + FE + APP + munto-dev-assistant* 를 한 워크스페이스로 묶어 진행한다. `munto-dev-assistant` 가 *항상 포함되는 유일한 레포* 이므로 IP 의 단일 위치로 안정적이다.
+**프로젝트 폴더 구조 (필수 1 + 옵션 4):**
+
+```
+munto-dev-assistant/projects/
+├── README.md                            # 활성 프로젝트 인덱스 (전체)
+└── {프로젝트명}/                          # 프로젝트 1 개당 1 폴더
+    ├── ImplementationPlan.md            # 필수 — IP 본문 (단일 진실 공급원, IP-1 8 섹션)
+    ├── README.md                        # 옵션 — 프로젝트 현재 상태·Slack 채널·세션 인덱스·다음 작업자
+    ├── sessions/                        # 옵션 — 무인 모드(§4.9) 세션 로그·일일/Phase 요약·BLOCKER 기록 (자동/수동 매트릭스·Git 정책은 §4.9.7 참조)
+    │   ├── YYYY-MM-DD-daily-summary.md
+    │   ├── YYYY-MM-DD-phase-{n}-summary.md
+    │   └── YYYY-MM-DD-blocker-{id}.md
+    ├── decisions/                       # 옵션 — §4.7.3 대안 검토 박스 누적본 (Decision Log)
+    ├── attachments/                     # 옵션 — Figma 캡처·아키텍처 다이어그램·외부 자료
+    └── spec-stubs/                      # 옵션 — ③ 별도 repo Spec 방식(§IP-7)의 STUB·임시 사본
+```
+
+> **무인 모드를 안 쓰는 작은 프로젝트는 `ImplementationPlan.md` 하나만 두면 된다.** 옵션 서브폴더는 *필요할 때만* 생성. 빈 옵션 폴더를 미리 만들지 않는다.
+
+**왜 BE/FE 가 아닌 `munto-dev-assistant` 인가** — IP 는 *Spec(BE/FE 각자에 baseline 으로 위치) 과 다른 위계의 문서*다.
+
+- **Spec 은 SCM 의 baseline 철학에 따라 *해당 제품 Repo (BE/FE/APP)* 에 위치**한다 — *제품과 함께 버저닝되어야 하기* 때문 (예: BE Spec v1.0 = BE 코드 v1.0 에 대응).
+- 반면 **IP 는 *프로젝트 단위 산출물* 이며 *멀티 Repo 를 가로지르는 단일 진입점*** 이다. BE Repo 에 두면 FE 변경 Task 가 어색하고, FE Repo 에 두면 그 반대다. 별도 *프로젝트 메타 레포* 가 필요하다.
+- **`munto-dev-assistant` 가 이 역할에 가장 적합** — 이미 *Agentic Dev Chain 의 운영 레포* 이고, 무인 실행 루프(§4.9)·스킬·서브에이전트 정의가 모두 여기 있다. IP 는 *루프의 입력*이므로 *루프 정의와 같은 곳*에 두는 것이 자연스럽다.
+- **워크스페이스 구성과 일관** — Munto 프로젝트는 일반적으로 *BE + FE + APP + munto-dev-assistant* 를 한 워크스페이스로 묶어 진행한다. `munto-dev-assistant` 가 *항상 포함되는 유일한 레포* 이므로 IP 의 단일 위치로 안정적이다 (워크스페이스 정책은 §IP-9 참조).
 
 ##### IP-1. 문서 구조 — 8 개 필수 섹션
 
@@ -931,6 +953,109 @@ flowchart LR
 > 5. 모든 Task 의 `dod[]` 가 TCL 케이스 ID 를 1 개 이상 가지는가? (모호한 표현 0 개)
 > 6. ③ 별도 repo Spec 방식이라면, `T-MIGRATE-SPEC-FINAL` Task 가 포함되어 있는가?
 > 7. Operating Mode (섹션 7) 의 무인 모드 안전 기본값과 Kill Switch 가 명시되어 있는가?
+
+##### IP-9. 동시 프로젝트 운영·세션 관리 — *워크스페이스 = 프로젝트 = 세션*
+
+> **IP-6 과의 차이** — IP-6 은 *한 프로젝트 안에서* Spec→IP→구현을 *한 세션* 으로 할지 *나눌지* (인계 단위). IP-9 는 *여러 프로젝트 간에* 세션이 *섞이지 않도록* 격리하는 정책 (격리 단위). 두 축은 직교한다.
+
+**핵심 사실 — AI 도구의 세션 격리는 *cwd / 워크스페이스* 가 단위다:**
+
+| 도구 | 세션 분리 단위 | 세션 저장 위치 |
+| --- | --- | --- |
+| **Claude Code** | 실행 시점의 *cwd (작업 디렉터리)* | `~/.claude/projects/{cwd-encoded}/{session-id}.jsonl` |
+| **Cursor** | *워크스페이스* (`.code-workspace` 또는 폴더) | `~/.cursor/projects/{workspace-encoded}/...` |
+| **Codex** | 실행 시점의 *cwd* | 도구별 캐시 |
+
+> 같은 cwd / 같은 워크스페이스에서 *프로젝트 2 개를 번갈아* 작업하면 *세션이 물리적으로 섞이고*, AI 가 *한쪽 프로젝트의 컨텍스트를 다른 쪽으로 가져온다*. 격리는 반드시 *도구 레벨에서* 해야 한다.
+
+**원칙 4 가지:**
+
+1. **1 프로젝트 = 1 워크스페이스 = 1 세션 트랙.** 프로젝트 N 개 동시 진행 = 워크스페이스 N 개 = 세션 트랙 N 개.
+2. **워크스페이스는 *해당 프로젝트가 건드리는 Repo 묶음 + `munto-dev-assistant` (항상 포함)***.
+3. **메타 작업(Spec·IP·오케스트레이션) 의 cwd = `munto-dev-assistant/projects/{프로젝트명}/`**. 구현 작업의 cwd = 각 제품 Repo.
+4. **세션 인계의 단일 컨텍스트는 `ImplementationPlan.md`**. 인계자는 IP 와 `README.md` (활성 세션 인덱스) 외 따로 설명할 필요 없다.
+
+###### IP-9.1 워크스페이스 구성 — *프로젝트당 1 개*
+
+`munto-dev-assistant/workspace/` 폴더에 프로젝트별 `.code-workspace` 파일을 둔다 (이미 존재하는 `workspace/` 폴더 활용).
+
+```
+munto-dev-assistant/workspace/
+├── paid-socialing-v2.code-workspace
+│   └─ folders: [
+│        "../",                          # munto-dev-assistant
+│        "../../munto-backend",
+│        "../../munto-frontend"
+│      ]
+└── new-onboarding.code-workspace
+    └─ folders: [
+        "../",
+        "../../dating-backend",
+        "../../dating-mobile"
+      ]
+```
+
+- 워크스페이스 이름 = *IP 폴더 이름* (`{프로젝트명}` 일치). 디버깅 시 매핑 자명.
+- *Repo 가 다르면 워크스페이스도 다르다.* 같은 Repo 묶음 두 프로젝트는 워크스페이스 *공유 가능* 하지만 *세션이 섞이므로 비권장*.
+
+###### IP-9.2 Claude Code 의 cwd 결정 트리 — *작업 성격별 분리*
+
+| 작업 성격 | 권장 cwd | 이유 |
+| --- | --- | --- |
+| Spec·IP 작성·리뷰, 무인 루프 *오케스트레이션* | `munto-dev-assistant/projects/{프로젝트명}/` | IP 본문 옆에서 시작 → AI 가 `ImplementationPlan.md` 자동 인식. 세션 목록이 *프로젝트별로 자연 격리* |
+| BE 구현·디버깅 집중 | `munto-backend/` 또는 `dating-backend/` | 구현 컨텍스트 최소화. 다른 프로젝트 BE 작업이 끼어들지 않음 |
+| FE 구현·디버깅 집중 | `munto-frontend/` | 동일 |
+| App 구현·디버깅 집중 | `munto-mobile/` 또는 `dating-mobile/` | 동일 |
+| 멀티 Repo 가로지르는 *통합 검증·릴리즈* | `munto-dev-assistant/` (루트) | `.claude/` 세션 인덱싱이 여기 잡힘. 단 *프로젝트 식별이 약함 — 일회성 사용* |
+
+> **루트(`munto-dev-assistant/`)에서 메타 작업을 하면 안 되는가?** — 작동은 한다. 하지만 *프로젝트 2 개 동시 진행 시 세션이 같은 cwd 에 쌓여* `claude --resume` 목록에서 *어느 프로젝트의 세션인지 구분 불가*. 메타 작업은 *반드시 프로젝트 폴더 cwd* 에서.
+
+###### IP-9.3 세션 재개·전환 명령
+
+| 시나리오 | Claude Code | Cursor |
+| --- | --- | --- |
+| 같은 프로젝트, 같은 작업 재개 | `cd projects/{프로젝트명}` → `claude --continue` | 해당 워크스페이스 열기 → 사이드바 *최근 채팅* 클릭 |
+| 같은 프로젝트, 이전 특정 세션 재개 | `cd projects/{프로젝트명}` → `claude --resume` → 목록에서 선택 | 워크스페이스 열기 → 사이드바 *채팅 히스토리* 검색 |
+| 다른 프로젝트로 전환 | *새 터미널* 열기 → `cd projects/{다른프로젝트명}` → `claude` | *새 IDE 윈도우* 로 다른 워크스페이스 열기 |
+| 임시 일회성 질문 (세션 누적 X) | `claude -p "질문"` | (해당 없음 — IDE 채팅은 항상 누적) |
+
+> **같은 IDE 윈도우에서 워크스페이스를 *전환* 하지 말 것.** Cursor 는 워크스페이스 전환 시 채팅 컨텍스트가 *일부 누적된 상태로 따라오는 경우* 가 있다. 안전한 방법은 *별도 윈도우*.
+
+###### IP-9.4 세션 인계 — *작성자 ↔ 구현자, IP-6 *세션 분리* 선택 시*
+
+IP-6 의 *세션 분리* 모드(Repo 3+ / Task 21+ / 3+ 주 / 2+ 인원)에서 발생한다. IP-6 은 *왜·언제 분리* 를 다루고, 이 절은 *어떻게 인계* 를 다룬다.
+
+| 단계 | 작성자 | 인수자 |
+| --- | --- | --- |
+| 1 | `ImplementationPlan.md` 가 IP-8 *7 가지 자기점검* 모두 통과 확인 | — |
+| 2 | `projects/{프로젝트명}/README.md` 에 *현재 활성 세션 ID + 다음 작업자 Slack 핸들 + 다음 Task ID* 기록 | — |
+| 3 | Slack 으로 *워크스페이스 파일 경로 + README 링크* 전달 | — |
+| 4 | — | 본인 환경에서 `workspace/{프로젝트명}.code-workspace` 열기 (또는 cwd 이동) |
+| 5 | — | *새 세션* 시작 (`claude` 또는 새 Cursor 채팅). 첫 입력: *"`ImplementationPlan.md` 를 읽고 `README.md` 의 다음 Task 부터 진행"* |
+| 6 | — | IP 가 모든 컨텍스트를 공급 → 추가 설명 *없이* 진행 가능 |
+
+> 인수자가 *"이 프로젝트 처음인데..."* 라며 작성자에게 추가 질문을 해야 한다면 IP 가 *불완전한 것*. IP-8 자기점검으로 돌아가 보강.
+
+###### IP-9.5 세션 종료·아카이브
+
+| 시점 | 조치 |
+| --- | --- |
+| Task 완료 (PR 머지) | 별도 조치 없음. 다음 Task 트리거 |
+| Phase 완료 | `sessions/YYYY-MM-DD-phase-{n}-summary.md` 1 장 저장 (무인 모드의 경우 §4.9 자동 생성) |
+| IP v1.x 종료 (전체 Task 완료) | `README.md` 에 `STATUS=done` 표기 + 최종 회고 1 단락 추가 |
+| 프로젝트 종료 (3 개월 이상 비활성) | `projects/{프로젝트명}/` → `projects/_archive/{YYYY}/{프로젝트명}/` 이동 (Git 히스토리 보존) |
+
+> Claude Code 의 *JSONL 세션 파일 자체* 는 `~/.claude/` 에 자동 보존되므로 별도 백업 불필요. *팀이 공유해야 할 정보* 만 `sessions/` 에 요약 형태로 박는다.
+
+###### IP-9.6 안티 패턴 — *섞이지 말아야 할 것*
+
+| 안티 패턴 | 결과 | 대응 |
+| --- | --- | --- |
+| 한 IDE 윈도우에서 워크스페이스 *전환* 하며 두 프로젝트 작업 | 채팅 컨텍스트 누수 | 별도 윈도우로 분리 |
+| 같은 cwd 에서 `claude --continue` 로 다른 프로젝트 재개 | 이전 프로젝트 컨텍스트가 새 프로젝트로 유입 | 각 프로젝트 폴더로 `cd` 이동 후 새 세션 |
+| 루트(`munto-dev-assistant/`)에서 모든 프로젝트의 메타 작업 수행 | 세션 목록 식별 불가 | 메타 작업은 *프로젝트 폴더 cwd* |
+| IP 폴더에 *프로젝트 코드* 보관 (예: `attachments/` 에 임시 BE 코드) | Repo 경계 오염, baseline 추적 깨짐 | 코드는 *해당 제품 Repo* 에만, IP 폴더는 *메타 산출물* 만 |
+| 워크스페이스 파일 미공유 (개인 로컬에만) | 인수자가 *어떤 Repo 묶음인지 모름* | `workspace/*.code-workspace` 도 Git 으로 버저닝 |
 
 ### 4.4 PHASE 2 — 구현 (자동화 Chain 지향, 현재는 🔄 협업 반복)
 
@@ -1143,6 +1268,101 @@ PHASE 0·1 에서 위 체크리스트의 *사람* 칸을 실제로 책임지는 
 > - *"이 결정이 6 개월 뒤 *재검토되어야 할 조건*은 무엇인가?"*
 > - *"같은 결정을 *AI 없이 처음부터 다시 하라면* 같은 답이 나오겠는가? 그 이유는?"*
 
+#### 4.7.4 Spec 작성 세션 저장 정책 — *PHASE 0~1 작성 과정의 맥락을 PHASE 2 까지 흘려보냄*
+
+> **현 운영의 가장 큰 컨텍스트 유실 지점** — Spec 작성 중 AI 와 나눈 *추론·검토·대안 비교 대화* 가 *완성된 Spec 만* 남기고 모두 휘발된다 (AI 도구 raw 세션은 `~/.claude/` 에 *개인 로컬* 자동 보존되지만 *팀 공유 X·다음 단계 참조 X*). 다음 사람·다음 AI 세션은 *결과만* 받고 *왜* 를 모른다.
+> 본 절은 *Spec 작성 단계의 세션 정보* 를 `projects/{프로젝트명}/sessions/` 에 *팀 공유 영구 기록* 으로 박는 정책이다 (§4.9.7 *PHASE 2 무인 모드 세션 저장 정책* 과 *대칭 구조*).
+
+##### (1) 파일 종류 × 작성 주체 매트릭스
+
+| 파일 (`sessions/` 안) | 트리거 | 작성 주체 | 자동/수동 |
+|----|----|----|----|
+| **`spec-session-{YYYY-MM-DD}.md`** | `munto-spec-writer` 스킬 호출 시 매번 | 메인 에이전트 (스킬이 박음) | **자동 (a)** — *스킬 호출 자체가 트리거* |
+| **`spec-review-{YYYY-MM-DD}-{문서명}.md`** | `munto-spec-review` 스킬 호출 시 매번 | 메인 에이전트 (스킬이 박음) | **자동 (a)** |
+| **`spec-handover-{YYYY-MM-DD}-{from}-to-{to}.md`** | Spec 작성 중 사람 인계 시 | 인계자 (사람) | 수동 |
+| **`spec-baseline-handoff.md`** | Spec baseline v1.0 동결 시점 (PHASE 1 GATE 통과 직후) | Owner (사람) + ip-writer 참조 | **수동 의무** — *ip-writer 가 IP 초안 생성 시 반드시 이 파일 우선 참조* |
+| *(옵션)* `spec-hook-turn-{YYYY-MM-DD}.md` | Claude Code Hook 으로 *매 turn 자동* | Hook 스크립트 (Claude Code 한정) | **자동 (c)** — *Hook 설치 시점부터 작동, 미설치 시 무관* |
+
+> **(a) 스킬 호출 자동 + (c) Hook 자동 하이브리드** — (a) 는 모든 사용자·모든 도구에서 *스킬 호출만 하면 자동*. (c) 는 Claude Code Hook 설치자에게만 작동하며 *스킬 미호출 turn 도 캡처*. (c) 의 구현은 별도 트랙 (아래 (5) 참조).
+
+##### (2) 파일 내용 최소 양식
+
+| 파일 | 최소 포함 항목 |
+|------|---------------|
+| `spec-session-{date}.md` | 작성 일자·세션 시작/종료 시각·작업 대상 문서 경로·이 세션에서 *추가·수정한 섹션 ID 목록*·*제기된 의문·미해결 TBD 목록*·*다음 세션 첫 질문* |
+| `spec-review-{date}-{doc}.md` | 리뷰 일자·대상 문서 경로·spec-reviewer 자동 점검 결과 요약 (BLOCKER/WARNING/SUGGESTION 카운트)·*반영 결정한 항목 ID 목록*·*반영 보류·기각 항목 + 사유* |
+| `spec-handover-{date}-*.md` | 인계자/인수자 Slack 핸들·인계 시각·현재 작성 중 섹션·진행 중 의사결정 (대안 검토 진행 중인 항목)·다음 작업자 첫 액션·주의 사항 |
+| `spec-baseline-handoff.md` | **(가장 중요)** baseline v1.0 동결 일자·문서 경로 4 종 (SRS·DBML·Swagger·UI/TCL)·각 문서의 동결 SHA·*핵심 아키텍처 결정 3~5 개* (§4.7.3 대안 검토 박스에서 *채택안·기각 대안·재검토 조건* 만 추출)·*미해결 TBD 잔여 목록* (해소 책임자 + 결정 시점)·*PHASE 2 진입 시 ip-writer 가 우선 참조해야 할 5 가지 컨텍스트* |
+| `spec-hook-turn-{date}.md` *(옵션)* | turn 별 자동 append (사용자 요청 1 줄 + AI 응답 1 줄 + 수정 파일 목록). *압축·요약 없음 — 원시 로그 수준* |
+
+> **`spec-baseline-handoff.md` 가 *유일한 의무 산출물*** — 다른 4 종은 *자동 (a)/(c)* 또는 *인계 시 수동* 이지만, 본 파일은 *PHASE 1 GATE 통과 시 반드시 작성·인수자 기록* 한다. **ip-writer (IP 초안 생성 서브에이전트) 가 *Spec 본문보다 본 파일을 먼저 읽는다*** — 그래야 *왜* 가 다음 단계로 흐른다.
+
+##### (3) Git 커밋·PR 정책
+
+§4.9.7 (3) *PHASE 2 sessions/ append-only 정책* 과 동일 — *세션 파일은 운영 기록* 이므로 `sessions/` 폴더 안에서는 *PR 없이 main 직접 push 허용*, 리뷰 불요. 단 **`spec-baseline-handoff.md` 는 예외** — PHASE 1 GATE 와 연동되므로 *Owner + 분석 아키텍트 1 인 ack* 후 push.
+
+| 파일 | 커밋 시점 | 브랜치·PR | 리뷰 |
+|------|----------|----------|------|
+| `spec-session-{date}.md` | 스킬 호출 종료 직후 (자동) | `main` 직접 push | 리뷰 불요 |
+| `spec-review-{date}-{doc}.md` | 스킬 호출 종료 직후 (자동) | `main` 직접 push | 리뷰 불요 |
+| `spec-handover-{date}-*.md` | 인계 직전 push | `main` 직접 push | 인수자 Slack ack |
+| `spec-baseline-handoff.md` | PHASE 1 GATE 통과 시점 | `main` 직접 push | **Owner + 분석 아키텍트 ack 의무** |
+| `spec-hook-turn-{date}.md` *(옵션)* | 매 turn 자동 | `.gitignore` 권장 (개인 디버그용) | — |
+
+> **왜 `spec-hook-turn-*.md` 만 `.gitignore`?** — turn 단위 원시 로그는 *팀 공유 가치 낮음 + 노이즈* . *압축·요약된 (1) 의 4 종만* 공유. Hook 산출물은 *작성자 본인의 디버그용* 으로만 활용.
+
+##### (4) 메타 작업 cwd — *권장* (의무 아님)
+
+> §IP-9 *동시 프로젝트 운영·세션 관리* 의 *메타 작업 cwd = `projects/{프로젝트명}/`* 권장과 일관. *cwd 가 프로젝트 폴더면 스킬이 sessions/ 를 자동 발견*. *다른 cwd 면 스킬이 경고 + 수동 경로 안내*.
+
+| cwd | 스킬 동작 |
+|-----|----------|
+| **`munto-dev-assistant/projects/{프로젝트명}/`** *(권장)* | `sessions/` 폴더 자동 생성·자동 박기. ip-writer 가 같은 폴더에서 자동 참조 |
+| `munto-backend/` 또는 `munto-frontend/` 등 제품 Repo | 스킬이 *경고 출력*: *"세션 파일을 박을 프로젝트 폴더를 알 수 없습니다. 다음 중 하나를 선택하세요: (i) cwd 를 `projects/{프로젝트명}/` 으로 이동 후 재호출 (ii) 본 호출에서 `프로젝트명=` 인자 명시 (iii) 스킵 (세션 저장 안 함)"* |
+| 그 외 cwd | 위와 동일 경고 |
+
+> **권장 강도**: *경고만, 작업 계속 진행*. 의무화는 *추후 결정* (현재는 *작성자 자율* — IP-9 권장과 동일).
+
+##### (5) 자동 생성 책임자 (기술 구현)
+
+> *정책* 은 본 절에서 박고, *구현* 은 (a) 와 (c) 가 별도 트랙.
+
+| 트리거 | 자동 생성 책임자 | 구현 상태 |
+|--------|-----------------|----------|
+| **(a) `munto-spec-writer` 호출** | 스킬 자체가 작성 완료 단계에 `sessions/spec-session-{date}.md` append | **본 PR 에 포함** — 스킬 본문 갱신 (적용 대기 본문은 `-report/munto-dev-assistant/skills/munto-spec-writer/SKILL.md`) |
+| **(a) `munto-spec-review` 호출** | 스킬 자체가 리뷰 완료 단계에 `sessions/spec-review-{date}-{doc}.md` 생성 | **본 PR 에 포함** — 위와 동일 |
+| **(c) Claude Code Hook (`Stop`)** | `.claude/hooks.json` 의 `Stop` hook 이 매 응답 완료 시 스크립트 실행 → `sessions/spec-hook-turn-{date}.md` append | *후속 트랙* — Hook 견본 (`.claude-hooks-proposal.json`) 만 -report 에 박음. 실제 적용은 DEVT-XXX 별도 PR |
+| **인계 (`spec-handover-*.md`)** | 사람 (Owner / 인계자) | 자동화 대상 아님 |
+| **baseline 동결 (`spec-baseline-handoff.md`)** | Owner (사람 작성). `munto-spec-review` 스킬이 *마지막 리뷰가 PASS 일 때* *이 파일이 존재하는가* 자동 점검 → 없으면 BLOCKER | **본 PR 에 포함** — `munto-spec-review` SKILL.md 갱신 |
+
+##### (6) ip-writer 측 변경 (PHASE 1 → PHASE 2 컨텍스트 인계)
+
+> Spec 작성 세션을 박는 *이유* 의 핵심 — *PHASE 2 의 ip-writer 가 이 정보를 우선 읽어야* 한다. 그렇지 않으면 박기만 하고 *참조 안 되는 죽은 파일* 이 된다.
+
+`dev-chain-implementation-plan` SKILL.md (적용 대기 본문은 `-report/munto-dev-assistant/skills/dev-chain-implementation-plan/SKILL.md`) 의 Step 2 (ip-writer 호출) 프롬프트에 *입력 파일 목록* 갱신:
+
+```
+Task(subagent_type=ip-writer,
+     prompt="Spec=<3 종 경로>, Repos=<참여 repo 목록>, Project=<프로젝트명>,
+             ★ baseline-handoff=projects/{프로젝트명}/sessions/spec-baseline-handoff.md  ← 추가
+             ★ 최근 spec-session/review 파일도 참조 가능: projects/{프로젝트명}/sessions/spec-*.md  ← 추가
+             ")
+```
+
+ip-writer 는 *baseline-handoff.md 의 핵심 결정 3~5 개* 를 IP 본문 §1 Project Header 의 *작성 메모* 또는 §8 Change History 의 *v0.1 초안 작성 시 참조한 컨텍스트* 행에 자동 포함.
+
+##### (7) 아카이브·보존
+
+§4.9.7 (5) 와 동일 — 프로젝트 종료 시 `_archive/{YYYY}/{프로젝트명}/sessions/` 동행 이동.
+
+##### (8) 안티 패턴
+
+- ❌ Spec 작성을 *본인 PC 의 임의 cwd* 에서 진행 → 세션 파일 어디에도 안 박힘
+- ❌ `spec-baseline-handoff.md` 작성 *생략* 후 IP 작성 단계로 진입 → ip-writer 가 *Spec 본문만 보고 의도 추측*, *왜* 가 영원히 유실
+- ❌ `spec-session-*.md` 에 *Spec 본문 전체* 복사 → 가독성 0, baseline 과 *이중 진실*. *요약만* 박기
+- ❌ Hook 으로 생성된 `spec-hook-turn-*.md` 를 *공유 Git 에 push* → 노이즈. `.gitignore` 정책 유지
+- ❌ `spec-baseline-handoff.md` 의 *재검토 조건* 항목을 *공란* 으로 둠 → §4.7.3 대안 검토 박스의 *재검토 조건* 과 일관성 깨짐
+
 ### 4.8 스펙 변경 관리 (모든 PHASE 공통)
 
 §3.4 베이스라인 설정 이후 발생하는 *모든 변경* 은 본 절차를 따른다. **베이스라인이 있다는 것 ≠ 변경 금지** — *변경하되, 영향을 통제해서 변경* 한다는 의미다. (§2.4 변경 원칙 적용)
@@ -1308,8 +1528,79 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | **시간 윈도우** | 야간 작업 윈도우(예: 22 시 ~ 익일 08 시) 외 자동 정지 |
 | **Kill Switch** | Slack 명령(`/auto-stop <repo>`) 또는 GitHub Actions Workflow Cancel — *상시 가용* |
 | **알림 (Slack)** | Task 1 개 단위 푸시는 *노이즈*. **묶음 정책: ① Phase 완료 / ② BLOCKER / ③ 일일 요약 (예: 09 시) — 3 종만 사람 푸시**. 그 외 Task 단위 결과는 Jira 코멘트 + PR 등록만. 야간 작업 종료 시각에 종합 요약 1 회 |
+| **세션 파일** | Slack 알림과 별개로 *세션 단위 영구 기록* 을 `projects/{프로젝트명}/sessions/` 에 자동 저장 — *상세 정책은 §4.9.7 참조* |
 
-#### 4.9.7 권장 구현 + 단계적 도입
+#### 4.9.7 세션 파일 저장 정책 — *Slack 휘발 알림과 별개의 영구 기록*
+
+> Slack 알림(§4.9.6 *알림*) 은 *사람 푸시* 목적이므로 *휘발성·검색 어려움·인계 불가*. 무인 모드의 *팀 공유용 영구 기록* 은 `projects/{프로젝트명}/sessions/` 마크다운으로 별도 박는다 *(AI 도구의 raw 세션 jsonl 은 `~/.claude/` 에 개인 로컬로 자동 보존되므로 별도 백업 불필요 — 본 절은 *팀 공유 요약* 만 다룬다)*.
+>
+> **PHASE 0~1 (Spec 작성) 세션 저장 정책은 §4.7.4 참조** — 본 절(§4.9.7) 은 *PHASE 2 무인 모드* 만 다룬다. 두 절은 *대칭 구조*: PHASE 0~1 = 작성 컨텍스트의 PHASE 2 인계, PHASE 2 = 실행 컨텍스트의 일일·BLOCKER 추적.
+
+##### (1) 파일 종류 × 모드 매트릭스
+
+| 파일 (`sessions/` 안) | 유인 모드 | 무인 모드 | 트리거 | 작성 주체 |
+|----|----|----|----|----|
+| **`YYYY-MM-DD-daily-summary.md`** | 수동 (선택) | **자동 의무** ✅ | 매일 정해진 시각 (디폴트 09:00 KST — 야간 작업 종료 직후) | 오케스트레이터 (무인) / Owner (유인) |
+| **`YYYY-MM-DD-phase-{n}-summary.md`** | 수동 (선택) | **자동 의무** ✅ | Phase 완료 이벤트 발생 시 (모든 Task DoD 통과 직후) | 오케스트레이터 (무인) / Owner (유인) |
+| **`YYYY-MM-DD-blocker-{id}.md`** | 수동 (선택) | **자동 의무** ✅ | BLOCKER 정지 발생 시 즉시 (§4.9.2 자동 정지 조건 트리거) | 오케스트레이터 (무인 정지 사유 기록) |
+| **`YYYY-MM-DD-handover-{from}-to-{to}.md`** *(옵션)* | 수동 (인계 시) | 수동 (인계 시) | 다른 사람에게 세션 인계 시 (§IP-9 인계 6 단계) | 인계자 (사람) |
+
+> *디폴트 = 무인 모드 3 종 자동 의무*. 유인 모드 작성은 *권장* 이나 강제 아님. 단 *동시 프로젝트 운영 시 (§IP-9)* 인계가 발생하면 `handover-*.md` 는 사람이 *반드시* 작성.
+
+##### (2) 파일 내용 최소 양식
+
+| 파일 | 최소 포함 항목 |
+|------|---------------|
+| `daily-summary.md` | 날짜·진행 Task ID 목록·완료 Task 수·BLOCKER 수·다음 24 시간 계획·비용(토큰·CI)·Slack 알림 ID 링크 |
+| `phase-{n}-summary.md` | Phase ID·시작/종료 시각·완료 Task ID 목록·DoD 통과 TCL ID 목록·생성 PR 목록·Phase 단위 비용·다음 Phase 진입 조건 충족 여부 |
+| `blocker-{id}.md` | BLOCKER ID·발생 Task ID·정지 사유 (§4.9.2 매핑)·재시도 횟수·관련 PR·오케스트레이터 자동 시도 결과·**사람 위임 사항** |
+| `handover-*.md` | 인계자/인수자 Slack 핸들·인계 시각·현재 활성 Task ID·진행 중 PR 목록·다음 작업자 첫 액션·주의 사항 |
+
+> 양식은 *최소 항목* 만 정의. 추가 필드는 자유. 단 *기계 판독* 을 위해 *항목명은 위 키워드 유지*.
+
+##### (3) Git 커밋·PR 정책
+
+> 세션 파일은 *IP 본문(`ImplementationPlan.md`) 과 다른 변경 정책* 을 가진다 — IP 본문은 *베이스라인 동결* 대상, 세션 파일은 *append-only 운영 기록*.
+
+| 파일 | 커밋 시점 | 브랜치·PR | 리뷰 |
+|------|----------|----------|------|
+| `daily-summary.md` | 생성 즉시 (자동 push) | `main` 직접 push 가능 (PR 불요) | 리뷰 불요 — *운영 기록* |
+| `phase-{n}-summary.md` | 생성 즉시 (자동 push) | `main` 직접 push 가능 (PR 불요) | 리뷰 불요 — *운영 기록* |
+| `blocker-{id}.md` | 발생 즉시 (자동 push) | `main` 직접 push 가능 (PR 불요) — *추적성이 리뷰보다 우선* | 리뷰 불요 — *사람이 BLOCKER 해소 시 같은 파일 끝에 *해결 노트* append* |
+| `handover-*.md` | 인계 직전 push | `main` 직접 push (PR 불요) | 인수자가 *읽었음* 을 Slack 에서 ack |
+
+> **`ImplementationPlan.md` 와의 비대칭** — IP 본문 수정은 *§4.8 CCB 절차* 의무 (PR + 리뷰). 세션 파일은 *append-only 운영 기록* 이므로 PR 없이 *직접 push 허용*. **단 sessions/ 폴더 안에서만 적용 — 다른 폴더에는 영향 없음.**
+
+##### (4) 자동 생성 책임자 (기술 구현)
+
+> *정책* 은 본 절에서 박고, *구현* 은 DEVT-135 의 후속 트랙에서 진행 (현재 미구현).
+
+| 트리거 | 자동 생성 책임자 (권장 구현) |
+|--------|--------------------------|
+| 매일 09:00 (`daily-summary.md`) | GitHub Actions Cron Workflow (예: `.github/workflows/daily-session-summary.yml`) — 무인 오케스트레이터 사이클 종료 직후 |
+| Phase 완료 (`phase-{n}-summary.md`) | 무인 오케스트레이터의 *Phase 완료 이벤트 핸들러* — Slack 알림과 동시 트리거 |
+| BLOCKER 발생 (`blocker-{id}.md`) | 무인 오케스트레이터의 *자동 정지 핸들러* — §4.9.2 자동 정지 조건 매칭 즉시 |
+| 인계 (`handover-*.md`) | 사람 (Owner / 인계자) — 자동화 대상 아님 |
+
+> **구현 미존재 시점의 운영 (현재)** — DEVT-135 완료 전까지는 *유인 모드만 운영* 하며, *유인 모드의 sessions/ 작성은 선택* 이므로 *현 시점 작성 의무 0*. 무인 모드 진입 시점에 본 절 (1)~(4) 가 *동시 적용* 된다.
+
+##### (5) 아카이브·보존
+
+| 기간 | 정책 |
+|------|------|
+| 프로젝트 활성 중 | 모두 `sessions/` 에 보존 |
+| 프로젝트 종료 (3 개월 이상 비활성) | `projects/_archive/{YYYY}/{프로젝트명}/sessions/` 와 함께 이동 (§IP-9 종료 정책 참조) |
+| 영구 보존 / 외부 공유 필요 시 | 별도 정책 미정 — *추후 결정* |
+
+##### (6) 안티 패턴
+
+- ❌ Slack 알림으로 *대체* 하고 세션 파일 미작성 → 1 주 뒤 Slack 검색 어려움 + 인계 불가
+- ❌ 세션 파일에 *Task 단위 상세 로그* 모두 박기 → 가독성 0. *요약* 만, 상세는 `~/.claude/` raw jsonl 참조
+- ❌ `blocker-{id}.md` 의 BLOCKER 해소 후 *별도 파일 추가* → *같은 파일 끝에 append* 하여 *한 파일 = 한 BLOCKER 의 전체 생애* 유지
+- ❌ 세션 파일 작성 후 PR 띄움 → *append-only 운영 기록* 정책 위반. `main` 직접 push 가 정답
+- ❌ ImplementationPlan.md 변경을 `sessions/` 에 메모만 하고 IP 본문 미반영 → IP 베이스라인 유실. *IP 변경은 §4.8 CCB 의무*
+
+#### 4.9.8 권장 구현 + 단계적 도입
 
 - **구현 스택 (권장)**: GitHub Actions (워크플로 트리거·재실행·취소) + Slack Bot (트리거·알림·Kill Switch) + Jira (이슈 등록·라벨·변경 요청 위임).
 - **DEVT-135 와의 관계**: 본 절은 *운영 원칙·경계*. 구체 트리거·워크플로·도커 구성은 DEVT-135 구현 트랙에서 진행한다.
@@ -1463,4 +1754,7 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | 2026-05-20 | **AI 시대 개발자 행동 패턴(AS-IS §5)을 막는 검증 메커니즘 신설** — AS-IS §5.1~§5.3 의 3 가지 행동 패턴 *("AI 가 썼으니 내 책임 아님" / "모르는 용어 그냥 넘기기" / "1 안 통과")* 을 시스템 차원에서 차단하는 메커니즘 추가. ① **§3.2 PHASE 0 사람 리뷰(A4b) 보강** — *(1) AI 출력 책임 전환 원칙* (통과 = 인수, 이름 기록 의무, "AI 가 썼으니까" 면책 금지) / *(2) 리뷰어 자기점검 체크리스트 5 개* (이해·모순·Why·누락·대안 점검) — 체크 못 하면 통과 보류 / *(3) 모르는 용어 발견 시 질문 강제 4 단계* (Glossary 조회 → 작성자 질문 → Glossary 보강 → 재리뷰). *모른다고 말하는 비용 < 모르는 척 통과시킨 비용 × 100* 메시지. ② **§3.4 PHASE 1 사람 리뷰 보강** — §3.2 의 3 가지 메커니즘을 D3·S3·U2·T5·GATE 에 동일 적용 + 산출물별 추가 자기점검 항목 표 (DBML: 제약 조건 근거 / Swagger: 0-base·시간대·통화 명시 + BE/FE 각자 한 줄 설명 일치 / UI: 에러·로딩·빈 상태 + 접근성·다국어 / TCL: 경계값·실패·권한·동시성 / GATE: 4 종 상호 참조 정합성). GATE 통과 = 베이스라인 설정 = 4 종 산출물 각 리드의 인수 도장. ③ **§4.7.2 Glossary(용어집) 의무화 신설** — *모르는 용어 그냥 넘기기* 차단. 모든 Spec 산출물(SRS 부록/DBML 주석/Swagger description)에 Glossary 의무화. 포함 대상 4 종(도메인 용어 / 팀 안에서 정의 갈리는 기술 용어 / 약어·외래어 / AI 사용 용어). `munto-spec-writer` 가 자동 등록, `munto-spec-review` 가 누락 결함으로 잡음. *"Glossary 가 비어 있으면 안 된다 — 작성자가 본인이 모르는 용어가 무엇인지 모른다는 신호"*. 신규 입사자에게 30 분 용어 추출 시키는 운영 팁. ④ **§4.7.3 대안 검토 강제 신설** — *"AI 가 준 답 = 최선"* 환상 차단. 핵심 아키텍처 결정·주요 엔티티·계약 패턴에 대안 검토 박스 의무화 (고려 대안 ≥ 2 / 장단점·운영 비용·확장성 / 채택안·채택 사유·기각 사유·재검토 조건). 에이전트가 자동 생성, reviewer 가 누락 결함으로 잡음. *"AI 가 골랐겠지" 함정 깨기 — 리뷰어 질문 3 종 세트* (기각된 대안·재검토 조건·AI 없이도 같은 답?). **참조: 국내 SW 스펙 작성 표준 §6.11 「용어 정의」 및 일반 SW 공학 의사결정 기록 원칙.** **핵심 메시지: AI 작성물에 대한 책임은 통과시킨 사람에게 있다.** |
 | 2026-05-21 | **§4.9 PHASE 2 무인 실행 모드 (오케스트레이션 루프) 신설** *(DEVT-135 구현 트랙 연계)* — ① §2.3 ⑦ *24 시간 무인 실행 인프라* 의 구체 운영 규칙. ② 7 개 절: 4.9.1 적용 매트릭스 / 4.9.2 트리거·정지·종료 조건 / 4.9.3 검증 주체 분리 (오케스트레이터 판정) / 4.9.4 베이스라인 산출물 불변 / 4.9.5 사람 게이트 우회 금지 + PR 도 *통과 = 인수* / 4.9.6 안전 기본값(Kill Switch · 비용 상한 · 시간 윈도우 · 변경 범위 제한) / 4.9.7 권장 구현 + 단계적 도입(파일럿 → 부분 무인화 → 다도메인). ③ **무인화 범위를 PHASE 2 구현 · 자체 검증 · PR 생성까지로 한정** — PHASE 0/1 사람 게이트와 PR 머지는 무인화 비대상. ④ **베이스라인 산출물(SRS·DBML·Swagger·UI·TCL) 불변** — 무인 루프가 변경 필요 발견 시 BLOCKER 정지 → §4.8 변경 관리로 위임. ⑤ §3.5 도입부에 *유인/무인 모드 분기* 1 줄, §3.2 (1) 책임 전환 박스에 *무인 PR 도 우회 불가* 노트, §3.4 GATE 박스에 *무인 모드는 PHASE 1 게이트 우회 X* 노트, §4.7 Review 표 아래 *무인 PR 머지 = 인수* 노트, §4.8.1 표에 *무인 루프 변경 필요 발견* 행, §7 비교 표 *무인 야간 실행 인프라* 행 보강. **핵심 메시지: 무인 실행은 사람 게이트를 우회하지 않는다 — 자동화가 *통과 = 인수* 원칙을 깨면 안 된다.** |
 | 2026-05-22 | **IP 관련 4 종 문서 일관성 점검 — 7 종 불일치 일괄 수정** *(점검 대상: TO-BE / 브리핑 / AS-IS / ip-standard.md / dev-chain-design-update-proposal.md / dev-chain-implementation-plan SKILL.md)* — ① **§4.3 IP-1 의 8 섹션 표 전면 교체** — *Task 분해(4) + Task 카드(5)* 를 **Task Cards(4) 통합**, *의존성 DAG → 5*, *DoD 매핑 → 6*, **Operating Mode(7) 신설** (§4.9 무인 모드와 1:1 매핑), *변경 이력 → 8*. ip-standard.md 의 8 섹션 구성과 완전 일치. ② **§4.3 IP-6 세션 4 기준 수치 구체화** — *적음/많음* → *20 개 이하/21 개 이상*, *1~2 스프린트/김* → *1~2 주/3 주 이상*, *리더 1 인 주도/다수 분담* → *리더 1 인 (Spec~구현 책임)/2 명 이상 + PM 분리*. ③ **§4.3 IP-8 자기점검** *5 항목 (작성 품질 기준) → 7 가지 질문 (기계 점검 가능 기준)* 으로 교체. ip-standard.md / dev-chain-implementation-plan SKILL.md / dev-chain-design-update-proposal.md 모두 *7 가지* 로 통일됨. ④ **변경 이력 오타** *"IP-1 문서 구조(8 필드)"* → *"IP-1 문서 구조(8 섹션)"*. ⑤ ip-standard.md 측 — **PR 크기 임계값** *200~500 줄 → 100~300 줄* (TO-BE §4.3 IP-2 기준에 맞춤). ⑥ ip-standard.md 측 — **§Spec 작성 3 방식** 표에 *디폴트(①)/예외(③)* 표기 추가 (TO-BE §4.3 IP-7 과 동일 정책). ⑦ AS-IS §4.15 마지막 줄의 *(§5.5 참조)* → *(§5.4 참조)* 오타 수정 (§5.4 신설로 인한 재번호 누락). **핵심 점검 결과: 저장 경로 (`munto-dev-assistant/projects/{프로젝트명}.ip.md`) · 서브에이전트 이름 (`ip-writer`/`ip-reviewer`) · 강제 조건 (`T-MIGRATE-SPEC-FINAL`) · 4 요소 표기 규약 · 9 필드 Task 카드는 모두 4 종 문서 사이에 일관됨.** |
+| 2026-05-27 | **§4.7.4 *Spec 작성 세션 저장 정책* 신설 — PHASE 0~1 컨텍스트의 PHASE 2 인계 보장 *(§4.9.7 의 PHASE 2 정책과 대칭 구조)*** *(현 운영의 가장 큰 컨텍스트 유실 지점 해소)* — ① **§4.7.4 신설 — 8 개 하위 절**: (1) 파일 종류 × 작성 주체 매트릭스 — 5 종 (`spec-session-{date}.md`·`spec-review-{date}-{doc}.md`·`spec-handover-{date}-*.md`·**`spec-baseline-handoff.md`**·*(옵션)* `spec-hook-turn-{date}.md`). *spec-session/review = (a) 스킬 호출 자동, handover = 사람 인계 수동, **baseline-handoff = Owner 사람 의무**, hook-turn = (c) Hook 자동·.gitignore 권장.* (2) 최소 양식 — 각 파일별 필수 항목 키워드 고정. baseline-handoff = *문서 4 종 경로·동결 SHA·핵심 결정 3~5·재검토 조건·미해결 TBD·ip-writer 우선 참조 5 컨텍스트* 박힘. (3) Git 커밋·PR 정책 — 4 종 `main` 직접 push (baseline-handoff 만 Owner+분석 아키텍트 ack 의무). hook-turn 은 `.gitignore` 권장. (4) **메타 작업 cwd = 권장** (`munto-dev-assistant/projects/{프로젝트명}/`) — *의무 아님*, 비활성 시 스킬이 경고 1 회 후 작업 계속 (IP-9 와 일관). (5) 자동 생성 책임자 — (a) `munto-spec-writer`/`munto-spec-review` 본 PR 갱신 / (c) Hook 견본 별도 PR 트랙. baseline-handoff 자동 점검은 `munto-spec-review` 가 *마지막 리뷰 PASS 시* 존재 여부 검사 → 없으면 BLOCKER. (6) **ip-writer 측 변경 — PHASE 1 → PHASE 2 컨텍스트 인계** — `dev-chain-implementation-plan` 의 ip-writer 호출 프롬프트에 *★ baseline-handoff 우선 참조 / ★ 최근 spec-session/review 참조 가능* 2 줄 추가. (7) 아카이브 — §4.9.7 (5) 동일. (8) 안티 패턴 5 종. ② **§4.9.7 도입부 cross-link 보강** — *PHASE 0~1 정책은 §4.7.4 참조* 1 줄 추가 + *대칭 구조* 명시. ③ **본 PR 의 적용 대기 본문은 `-report/munto-dev-assistant/skills/munto-spec-{writer,review}/SKILL.md` 와 `-report/munto-dev-assistant/.claude-hooks-proposal.json` 에 박혀 있음** — 운영 레포 (`munto-dev-assistant/.agents/skills/common/docs/`) 미수정. 정책 합의 후 일괄 이관. **핵심 메시지: Spec 작성 중 AI 와 나눈 추론·검토·대안 비교 대화는 *완성된 Spec* 만 남기고 휘발되고 있다 — *왜* 가 다음 사람·다음 AI 세션에 흘러야 PHASE 2 가 IP 를 신뢰할 수 있다.** |
+| 2026-05-27 | **§4.9.7 *세션 파일 저장 정책* 신설 — 자동/수동 매트릭스·BLOCKER 자동화·Git 커밋 정책 정의** *(IP-0 폴더 구조 도입 후 남은 정책 공백 메움)* — ① **기존 §4.9.7 *권장 구현* → §4.9.8 로 번호 밀기** (본문 외부 참조 0 확인). ② **신규 §4.9.7 신설 — 6 개 하위 절**: (1) 파일 종류 × 모드 매트릭스 (4 종: `daily-summary`·`phase-{n}-summary`·`blocker-{id}`·`handover-*`. 무인 모드 = 앞 3 종 자동 의무, 인계용 1 종 사람 수동). (2) 파일 내용 최소 양식 (각 파일별 필수 항목 키워드 고정 — 기계 판독 가능). (3) **Git 커밋·PR 정책 — *append-only 운영 기록* 으로 정의** → PR 없이 `main` 직접 push 허용, 리뷰 불요. ImplementationPlan.md 와의 비대칭 (IP 본문 = §4.8 CCB 의무, sessions/ = 직접 push) 명시. (4) 자동 생성 책임자 (GitHub Actions Cron / 오케스트레이터 이벤트 핸들러 / 자동 정지 핸들러). DEVT-135 완료 전 *현 운영 = 작성 의무 0* 명시. (5) 아카이브·보존 (`_archive/{YYYY}/{프로젝트명}/sessions/` 동행 이동). (6) 안티 패턴 5 종. ③ **§4.9.6 안전 기본값 표에 *세션 파일* 행 1 줄 추가** (Slack 알림 행과 짝, §4.9.7 cross-link). ④ **§4.3 IP-0 폴더 구조 박스의 sessions/ 줄 보강** — `phase-{n}-summary.md` 행 추가 + 정책 cross-link. **핵심 메시지: AI 도구 raw 세션(`~/.claude/` jsonl)은 자동 보존되지만 *팀 공유 영구 기록*은 `sessions/` 마크다운으로 별도 박는다 — 둘은 다른 것이다.** |
+| 2026-05-27 | **§4.3 IP-0 폴더 구조로 전환 + §4.3 IP-9 *동시 프로젝트 운영·세션 관리* 소절 신설** *(멀티 프로젝트 + 무인 모드 + ③ 별도 repo Spec 방식 도입으로 부속 산출물이 누적되는 현실 반영)* — ① **§4.3 IP-0 전면 재작성** — *단일 파일 `{프로젝트명}.ip.md` → 프로젝트 폴더 `{프로젝트명}/`*. IP 본문 파일명은 **`ImplementationPlan.md` (폴더 안 고정명, 프로젝트명 prefix 없음 — 폴더가 식별자 역할)**. 폴더 구조 = *필수 1 (`ImplementationPlan.md`) + 옵션 4* (`README.md`·`sessions/`·`decisions/`·`attachments/`·`spec-stubs/`) — *옵션은 필요할 때만 생성, 빈 폴더 사전 생성 금지*. 메이저 변경(v2.0) = *새 폴더* (`{프로젝트명}-v2/`). 단일 파일 한계 5 가지(무인 모드 세션 로그 위치 모호·③ 별도 repo STUB 위치 모호·Figma 캡처·Decision Log 누적·아카이브 단위) 박스로 명시. ② **§3.4 PHASE 1 IP 작성 박스** — 출력 경로 표기 동기화 (`projects/{프로젝트명}/ImplementationPlan.md`). ③ **§4.3 IP-9 신설** — *동시 프로젝트 운영·세션 관리* 소절. 핵심 사실 *AI 도구의 세션 격리는 cwd / 워크스페이스가 단위* 정리표(Claude Code = cwd 기반, Cursor = 워크스페이스 기반, 저장 위치 명시). **원칙 4 가지** (1 프로젝트 = 1 워크스페이스 = 1 세션 트랙 / 워크스페이스 = 해당 Repo 묶음 + munto-dev-assistant / 메타 작업 cwd = `projects/{프로젝트명}/` · 구현 cwd = 각 Repo / 인계 단일 컨텍스트 = `ImplementationPlan.md`). **6 개 하위 절** — IP-9.1 워크스페이스 구성(`workspace/*.code-workspace` 양식, 이름 = IP 폴더 이름) / IP-9.2 Claude Code cwd 결정 트리 (작업 성격 5 종 × 권장 cwd 표) / IP-9.3 세션 재개·전환 명령 (Claude Code · Cursor · 시나리오 4 종 표) / IP-9.4 세션 인계 6 단계 (IP-6 *세션 분리* 모드의 실행 절차, IP-6 *왜·언제* vs IP-9.4 *어떻게* 책임 분리) / IP-9.5 세션 종료·아카이브 (Task·Phase·v1.x·프로젝트 종료별 4 단계) / IP-9.6 **안티 패턴 5 종** (워크스페이스 전환 / 같은 cwd `--continue` 다른 프로젝트 / 루트에서 메타 작업 / IP 폴더에 코드 보관 / 워크스페이스 미공유). **IP-6 ↔ IP-9 직교 관계 명시** — IP-6 은 *한 프로젝트 안에서* 세션 통합 vs 분리, IP-9 는 *여러 프로젝트 간* 격리. **핵심 메시지: AI 도구의 세션 격리는 *cwd / 워크스페이스 레벨* 에서만 가능 — *한 IDE 윈도우에서 워크스페이스 전환* 같은 사람 행동이 세션 오염의 1 차 원인**. |
 | 2026-05-22 | **Implementation Plan (구현계획서, IP) 도입 — PHASE 1 의 마지막 활동으로** *(Spec → 무인 실행 사이의 누락 고리 해결)* — ① **§4.3 끝에 *PHASE 1 마지막 활동 — Implementation Plan 작성* 소절 신설** (8 개 하위 항목: IP-1 문서 구조(8 섹션 + Task 카드 9 필드) / IP-2 Task 단위 기준(분량·책임·시간·외부 의존·롤백) / IP-3 멀티 Repo Spec 참조 4 요소 `{repo}/{path}#{anchor}@{sha}` / IP-4 의존성 DAG / IP-5 DoD = TCL 케이스 ID 매핑 / IP-6 *디폴트 없음* 세션 통합 vs 분리 판단 기준 4 개(Repo 수·Task 수·기간·인원) / IP-7 Spec 작성 3 방식 매트릭스(① 기존 수정 디폴트 / ② Sub스펙 누적 / ③ 별도 repo 예외 + PHASE 3 후 원본 통합 의무) / IP-8 IP 자체의 사람 리뷰 = 통과=인수). ② **§3.4 PHASE 1 다이어그램 보강** — GATE 통과 후 *베이스라인 v1.0 설정 → IP 작성 → IP 리뷰 → DONE* 흐름 추가. PHASE 2 진입 자격은 *IP 통과 시점*에 확정. ③ **§3.4 본문에 IP 작성 박스 신설** — 위치/입력/출력/게이트/작성 책임 + *왜 별도 활동인가* 메시지. ④ **§2.3 ② Phase→Task→Sub스펙 박스** 끝에 *"IP = ②의 실행 가능한 산출물"* 1 줄 보강. ⑤ **§4.9 무인 실행 모드 보강** — *루프의 유일한 입력 = IP v1.x* 박스 신설, 트리거 4 종에 *IP Task 카드 단위 트리거* 추가, 자동 정지 조건에 *IP DAG 끊김·순환* 추가, **Slack 알림을 *Phase 완료 / BLOCKER / 일일 요약* 3 종 묶음** 정책으로 보강 (Task 1:1 푸시는 노이즈). ⑥ **§4.8.1 변경 관리 표** — *IP 변경* 행 추가 (IP 도 베이스라인 산출물). ⑦ **§7 비교 표에 4 행 추가** — *Task 단위 컨텍스트 전달 / 멀티 Repo Spec 매핑 / 분산 Spec 작성 3 방식 정책 / Spec→구현 세션 운영*. **핵심 메시지: Spec 이 완벽해도 *Task 마다 컨텍스트를 매번 설명해야 하면 무인화는 불가능*. IP 는 Spec 을 *무인 실행 가능한 형태로 변환한 단일 문서*다.** |

@@ -65,7 +65,7 @@ dev-chain-design (기존)
    ↓ 사용자 안내: "Spec 베이스라인 v1.0 통과 후 dev-chain-implementation-plan 호출 권장"
 dev-chain-implementation-plan (신규)
    ↓ 입력: Spec 베이스라인 v1.0 4 종 산출물 + Spec Index 후보
-   ↓ 출력: IP 1 차 초안 (munto-dev-assistant/projects/{프로젝트명}.ip.md)
+   ↓ 출력: IP 1 차 초안 (munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md)
    ↓ 사용자 안내: "IP 사람 리뷰 7 가지 질문 통과 후 무인/유인 PHASE 2 진입"
 ```
 
@@ -102,7 +102,7 @@ dev-chain-implementation-plan (신규)
         prompt="IP 초안=<경로>, ip-standard.md 7 가지 질문 자동 검증")
 
 ### 산출물
-- munto-dev-assistant/projects/{프로젝트명}.ip.md
+- munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md (프로젝트 폴더 안 고정 파일명)
 - ip-reviewer 의 자동 점검 결과 보고
 
 ### 사람 리뷰 게이트
@@ -130,7 +130,7 @@ dev-chain-implementation-plan (신규)
 | **트리거** | "IP 만들어줘", "구현계획서 작성", "Implementation Plan", "dev-chain-implementation-plan" |
 | **위치** | Development Chain 의 *PHASE 1 마지막 활동* (`dev-chain-design` 다음, `dev-chain-backend/mobile/frontend` 이전) |
 | **입력** | Spec 베이스라인 v1.0 4 종 + 참여 Repo 목록 + 프로젝트명 + (선택) 운영 모드 선호도 |
-| **출력** | `munto-dev-assistant/projects/{프로젝트명}.ip.md` (1 차 초안) |
+| **출력** | `munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md` (1 차 초안. 프로젝트 폴더 + 고정 파일명) |
 | **서브에이전트** | `ip-writer` (신규) + `ip-reviewer` (신규) — 아래 [공통 — 신규 서브에이전트 필요성](#공통--신규-서브에이전트-필요성) 참조 |
 | **완료 조건** | ip-reviewer 자동 PASS + 사용자에게 *사람 리뷰 7 가지 질문* 명시적 안내 |
 
@@ -174,7 +174,7 @@ dev-chain-implementation-plan (신규)
 | 역할 | Spec 4 종을 읽고 IP 1 차 초안 생성 |
 | 입력 | Spec 4 종 경로 + 참여 Repo 목록 + 프로젝트명 |
 | 출력 | IP 마크다운 (8 섹션) |
-| 권한 | read-only (Spec 읽기) + 단일 파일 쓰기 (`projects/{프로젝트명}.ip.md`) |
+| 권한 | read-only (Spec 읽기) + 단일 파일 쓰기 (`projects/{프로젝트명}/ImplementationPlan.md`) |
 | 패턴 | 전문가 풀 (단독 호출) |
 
 ### `ip-reviewer` (신규 제안)
@@ -220,3 +220,4 @@ dev-chain-implementation-plan (신규)
 | 일자 | 내용 |
 |------|------|
 | 2026-05-22 | 신규 작성 — 선택지 A·B·C 비교, B 추천, 신규 서브에이전트 제안 |
+| 2026-05-27 | **IP 저장 단위 *단일 파일 → 프로젝트 폴더* 전환 동기화** — 본문 4 곳 경로 갱신 (`{프로젝트명}.ip.md` → `{프로젝트명}/ImplementationPlan.md`): ① §두 스킬의 인터페이스 다이어그램, ② 선택지 A 의 Step 6 산출물 목록, ③ 선택지 B 요약 표의 *출력* 셀, ④ §공통 — 신규 서브에이전트(ip-writer 권한 셀). 표준은 TO-BE §4.3 IP-0 / `ip-standard.md` §저장 위치와 파일명 규약 |
