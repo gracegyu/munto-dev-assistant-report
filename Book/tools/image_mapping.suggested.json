@@ -1,0 +1,1656 @@
+{
+  "_comment": "자동 제안 매핑. 사용자 검증 후 image_mapping.json 으로 promote.",
+  "_threshold_used": 60,
+  "_total": 118,
+  "_above_threshold": 28,
+  "_high_confidence_90plus": 27,
+  "suggestions": [
+    {
+      "label": "1",
+      "line_no": 366,
+      "caption": "프로젝트의 모든 이해관계자가 참조해야 하는 SRS",
+      "top": {
+        "score": 89,
+        "file": "image/MRD_SRS.png",
+        "reasons": [
+          "eng:'srs'"
+        ]
+      },
+      "runner_up": {
+        "score": 87,
+        "file": "image/SRSDoc.png"
+      }
+    },
+    {
+      "label": "2",
+      "line_no": 381,
+      "caption": "프로젝트에서 SRS의 위치",
+      "top": {
+        "score": 95,
+        "file": "image/MRD_SRS.png",
+        "reasons": [
+          "eng:'srs'",
+          "seq:0.38"
+        ]
+      },
+      "runner_up": {
+        "score": 95,
+        "file": "image/SRSDoc.png"
+      }
+    },
+    {
+      "label": "3",
+      "line_no": 404,
+      "caption": "스펙 1:10:100 규칙 그래프",
+      "top": {
+        "score": 18,
+        "file": "image/1_10_100.png",
+        "reasons": [
+          "seq:0.46"
+        ]
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/SRS1.png"
+      }
+    },
+    {
+      "label": "5",
+      "line_no": 452,
+      "caption": "느린 순차적 개발",
+      "top": {
+        "score": 11,
+        "file": "image/통합후개발.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 10,
+        "file": "image/개발속도비교.png"
+      }
+    },
+    {
+      "label": "6",
+      "line_no": 459,
+      "caption": "빠른 병행 개발 \\- 개발 후 통합",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "7",
+      "line_no": 463,
+      "caption": "빠른 병행 개발 \\- 통합 후 개발",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "8",
+      "line_no": 470,
+      "caption": "순차개발과 병행개발의 개발 속도 차이 비교",
+      "top": {
+        "score": 16,
+        "file": "image/개발속도비교.png",
+        "reasons": [
+          "seq:0.41"
+        ]
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "9",
+      "line_no": 562,
+      "caption": "요구사항과 스펙의 차이",
+      "top": {
+        "score": 29,
+        "file": "image/요구사항과스펙.png",
+        "reasons": [
+          "seq:0.74"
+        ]
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/1_10_100.png"
+      }
+    },
+    {
+      "label": "10",
+      "line_no": 656,
+      "caption": "프로젝트 단계별 일정 예측의 불확실성 변화",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "11",
+      "line_no": 679,
+      "caption": "엑셀을 이용한 WBS작성예",
+      "top": {
+        "score": 94,
+        "file": "image/WBS.png",
+        "reasons": [
+          "eng:'wbs'"
+        ]
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Project_A_B.png"
+      }
+    },
+    {
+      "label": "13",
+      "line_no": 751,
+      "caption": "스펙 문서와 설계 문서의 커버리지",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "14",
+      "line_no": 860,
+      "caption": "Waterfall에 익숙한 개발자의 적응 범위",
+      "top": {
+        "score": 101,
+        "file": "image/waterfall.png",
+        "reasons": [
+          "eng:'waterfall'",
+          "seq:0.53"
+        ]
+      },
+      "runner_up": {
+        "score": 13,
+        "file": "image/change_interface2.png"
+      }
+    },
+    {
+      "label": "15",
+      "line_no": 863,
+      "caption": "Agile에 익숙한 개발자의 적응 범위",
+      "top": {
+        "score": 95,
+        "file": "image/agile.png",
+        "reasons": [
+          "eng:'agile'",
+          "seq:0.38"
+        ]
+      },
+      "runner_up": {
+        "score": 93,
+        "file": "image/SRS_Agile.png"
+      }
+    },
+    {
+      "label": "16",
+      "line_no": 1102,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "17",
+      "line_no": 1164,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "18",
+      "line_no": 1223,
+      "caption": "프로젝트 성공 요인을 나타내는 프로젝트 나무 그림",
+      "top": {
+        "score": 5,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "19",
+      "line_no": 1285,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "20",
+      "line_no": 1480,
+      "caption": "사수와 부사수가 M60 사격을 하고 있다",
+      "top": {
+        "score": 8,
+        "file": "image/1_10_100.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/SRS_DupMin.png"
+      }
+    },
+    {
+      "label": "21",
+      "line_no": 1539,
+      "caption": "꾸준히 피드백을 받은 경우",
+      "top": {
+        "score": 8,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "22",
+      "line_no": 1545,
+      "caption": "한달 레슨 받고 혼자 열심히 스펙을 써본 경우",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "23",
+      "line_no": 1550,
+      "caption": "이미 습관이 된 경우 고치는데 오랜 시간이 걸린다",
+      "top": {
+        "score": 5,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "24",
+      "line_no": 1564,
+      "caption": "빅뱅(Big bang",
+      "top": {
+        "score": 193,
+        "file": "image/BigBang.png",
+        "reasons": [
+          "eng:'big'",
+          "eng:'bang'",
+          "seq:0.84"
+        ]
+      },
+      "runner_up": {
+        "score": 15,
+        "file": "image/SRS_Change.png"
+      }
+    },
+    {
+      "label": "25",
+      "line_no": 1576,
+      "caption": "프로젝트 단계",
+      "top": {
+        "score": 7,
+        "file": "image/SRS1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/SRS2.png"
+      }
+    },
+    {
+      "label": "26",
+      "line_no": 1610,
+      "caption": "소프트웨어 릴리즈 단계",
+      "top": {
+        "score": 8,
+        "file": "image/1_10_100.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/2nd_level.png"
+      }
+    },
+    {
+      "label": "27",
+      "line_no": 1637,
+      "caption": "복잡한 테스트 단계 예",
+      "top": {
+        "score": 9,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "28",
+      "line_no": 1642,
+      "caption": "간단한 테스트 단계 예",
+      "top": {
+        "score": 9,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "29",
+      "line_no": 1674,
+      "caption": "스펙 작성 프로세스 예",
+      "top": {
+        "score": 9,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "30",
+      "line_no": 1693,
+      "caption": "일반적인 프로젝트와 애자일 프로젝트의 요구사항 분석 노력 비교",
+      "top": {
+        "score": 7,
+        "file": "image/요구사항과스펙.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "31",
+      "line_no": 1708,
+      "caption": "조직의 성숙도별 개발 기간",
+      "top": {
+        "score": 8,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "32",
+      "line_no": 1729,
+      "caption": "전문 분석 아키텍트를 이용하여 전체 프로젝트 일정/비용 단축",
+      "top": {
+        "score": 11,
+        "file": "image/분석아키텍트재능.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "33",
+      "line_no": 1752,
+      "caption": "집단별 스펙 작성 기간과 설계/코딩 기간 비교",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "34",
+      "line_no": 1761,
+      "caption": "SRS 작성을 종료해야 할 시기",
+      "top": {
+        "score": 94,
+        "file": "image/SRS_DupMin.png",
+        "reasons": [
+          "eng:'srs'"
+        ]
+      },
+      "runner_up": {
+        "score": 94,
+        "file": "image/SRS_LinkOK.png"
+      }
+    },
+    {
+      "label": "35",
+      "line_no": 1786,
+      "caption": "프로젝트 성격에 따른 적절한 SRS의 상세도",
+      "top": {
+        "score": 90,
+        "file": "image/MRD_SRS.png",
+        "reasons": [
+          "eng:'srs'"
+        ]
+      },
+      "runner_up": {
+        "score": 90,
+        "file": "image/SRSDoc.png"
+      }
+    },
+    {
+      "label": "36",
+      "line_no": 1901,
+      "caption": "스펙 변경 프로세스 예",
+      "top": {
+        "score": 9,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "37",
+      "line_no": 1994,
+      "caption": "케이스 A",
+      "top": {
+        "score": 13,
+        "file": "image/인터페이스개선.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 12,
+        "file": "image/BigBang.png"
+      }
+    },
+    {
+      "label": "38",
+      "line_no": 1997,
+      "caption": "케이스 B",
+      "top": {
+        "score": 13,
+        "file": "image/SRS_Sub.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 13,
+        "file": "image/인터페이스개선.png"
+      }
+    },
+    {
+      "label": "39",
+      "line_no": 2000,
+      "caption": "케이스 C",
+      "top": {
+        "score": 13,
+        "file": "image/SRSDoc.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 13,
+        "file": "image/인터페이스개선.png"
+      }
+    },
+    {
+      "label": "40",
+      "line_no": 2033,
+      "caption": "SRS를 나눠서 작성하는 도식",
+      "top": {
+        "score": 94,
+        "file": "image/SRS_Change_1.png",
+        "reasons": [
+          "eng:'srs'"
+        ]
+      },
+      "runner_up": {
+        "score": 94,
+        "file": "image/SRS_Change_2.png"
+      }
+    },
+    {
+      "label": "41",
+      "line_no": 2109,
+      "caption": "분석 아키텍트에게 필요한 재능",
+      "top": {
+        "score": 26,
+        "file": "image/분석아키텍트재능.png",
+        "reasons": [
+          "seq:0.67"
+        ]
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "42",
+      "line_no": 2116,
+      "caption": "분석 아키텍트가 가져야 할 역량을 타 직군과 비교",
+      "top": {
+        "score": 13,
+        "file": "image/분석아키텍트재능.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "43",
+      "line_no": 2121,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "44",
+      "line_no": 2212,
+      "caption": "간단한 시뮬레이션과 복잡한 시뮬레이션 비교",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "45",
+      "line_no": 2271,
+      "caption": "달착륙선",
+      "top": {
+        "score": 7,
+        "file": "image/인터페이스개선.png",
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "46",
+      "line_no": 2284,
+      "caption": "프로젝트의 이해관계자 참고: PMBOK",
+      "top": {
+        "score": 11,
+        "file": "image/SRS_LinkBroken.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 10,
+        "file": "image/SRS_LinkOK.png"
+      }
+    },
+    {
+      "label": "47",
+      "line_no": 2336,
+      "caption": "기획, 스펙, 설계에 포함되는 Why, What, How의 정도",
+      "top": {
+        "score": 261,
+        "file": "image/Why_What_How1.png",
+        "reasons": [
+          "eng:'why'",
+          "eng:'what'",
+          "eng:'how'",
+          "seq:0.53"
+        ]
+      },
+      "runner_up": {
+        "score": 261,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "48",
+      "line_no": 2363,
+      "caption": "SRS에 포함되는 Why, What, How 내용",
+      "top": {
+        "score": 265,
+        "file": "image/Why_What_How1.png",
+        "reasons": [
+          "eng:'why'",
+          "eng:'what'",
+          "eng:'how'",
+          "seq:0.63"
+        ]
+      },
+      "runner_up": {
+        "score": 265,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "49",
+      "line_no": 2380,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "50",
+      "line_no": 2413,
+      "caption": "프로젝트 3중 제약",
+      "top": {
+        "score": 11,
+        "file": "image/SRS3.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 10,
+        "file": "image/Out3.png"
+      }
+    },
+    {
+      "label": "51",
+      "line_no": 2428,
+      "caption": "지연되고 있는 프로젝트의 일정 복구 방법",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "52",
+      "line_no": 2441,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "53",
+      "line_no": 2453,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "54",
+      "line_no": 2459,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "55",
+      "line_no": 2467,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "56",
+      "line_no": 2475,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "57",
+      "line_no": 2538,
+      "caption": "다양한 스펙의 소스",
+      "top": {
+        "score": 9,
+        "file": "image/요구사항과스펙.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/1_10_100.png"
+      }
+    },
+    {
+      "label": "58",
+      "line_no": 2576,
+      "caption": "",
+      "top": {
+        "score": 100,
+        "file": "image/SDK_Down.png",
+        "reasons": [
+          "url:'down'↔'down'"
+        ]
+      },
+      "runner_up": null
+    },
+    {
+      "label": "59",
+      "line_no": 2633,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "60",
+      "line_no": 2680,
+      "caption": "Box and Arrow diagram예",
+      "top": {
+        "score": 105,
+        "file": "image/BlockAndArrow.png",
+        "reasons": [
+          "eng:'arrow'",
+          "seq:0.65"
+        ]
+      },
+      "runner_up": {
+        "score": 99,
+        "file": "image/squence_diagram.png"
+      }
+    },
+    {
+      "label": "61",
+      "line_no": 2763,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "62",
+      "line_no": 2767,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "63",
+      "line_no": 2780,
+      "caption": "",
+      "top": {
+        "score": 200,
+        "file": "image/SRS_LinkBroken.png",
+        "reasons": [
+          "url:'broken\\'↔'broken'",
+          "url:'broken'↔'broken'"
+        ]
+      },
+      "runner_up": null
+    },
+    {
+      "label": "64",
+      "line_no": 2785,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "65",
+      "line_no": 2789,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "66",
+      "line_no": 2801,
+      "caption": "전통적인 개발과 TDD 프로세스 비교",
+      "top": {
+        "score": 90,
+        "file": "image/tdd.png",
+        "reasons": [
+          "eng:'tdd'"
+        ]
+      },
+      "runner_up": {
+        "score": 12,
+        "file": "image/개발속도비교.png"
+      }
+    },
+    {
+      "label": "67",
+      "line_no": 2830,
+      "caption": "SRS 중복을 표현한 그림",
+      "top": {
+        "score": 96,
+        "file": "image/SRS_DupMin.png",
+        "reasons": [
+          "eng:'srs'",
+          "seq:0.40"
+        ]
+      },
+      "runner_up": {
+        "score": 96,
+        "file": "image/SRS_LinkOK.png"
+      }
+    },
+    {
+      "label": "68",
+      "line_no": 2835,
+      "caption": "SRS 기술 방법",
+      "top": {
+        "score": 100,
+        "file": "image/SRSDoc.png",
+        "reasons": [
+          "eng:'srs'",
+          "seq:0.50"
+        ]
+      },
+      "runner_up": {
+        "score": 100,
+        "file": "image/SRS_Dup.png"
+      }
+    },
+    {
+      "label": "69",
+      "line_no": 2871,
+      "caption": "품질특성 간의 트레이드 오프 관계",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "70",
+      "line_no": 2924,
+      "caption": "비즈니스 요구사항이 스펙에 적히는 도식",
+      "top": {
+        "score": 17,
+        "file": "image/요구사항과스펙.png",
+        "reasons": [
+          "seq:0.43"
+        ]
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "71",
+      "line_no": 2943,
+      "caption": "임의로 설계에서 허용되지 않는 참조를 하는 경우",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "72",
+      "line_no": 2946,
+      "caption": "허용되지 않는 내부 모듈을 참조하는 경우",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "73",
+      "line_no": 2954,
+      "caption": "순환 참조의 도식",
+      "top": {
+        "score": 24,
+        "file": "image/순환참조.png",
+        "reasons": [
+          "seq:0.62"
+        ]
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/1_10_100.png"
+      }
+    },
+    {
+      "label": "74",
+      "line_no": 2959,
+      "caption": "공통 모듈 사용으로 인터페이스가 간단 해진다",
+      "top": {
+        "score": 12,
+        "file": "image/인터페이스개선.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 11,
+        "file": "image/공통모듈.png"
+      }
+    },
+    {
+      "label": "75",
+      "line_no": 2971,
+      "caption": "인터페이스 개선 예",
+      "top": {
+        "score": 32,
+        "file": "image/인터페이스개선.png",
+        "reasons": [
+          "seq:0.82"
+        ]
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/1_10_100.png"
+      }
+    },
+    {
+      "label": "76",
+      "line_no": 3275,
+      "caption": "wire frame",
+      "top": {
+        "score": 19,
+        "file": "image/Smart_Frize.png",
+        "reasons": [
+          "seq:0.48"
+        ]
+      },
+      "runner_up": {
+        "score": 18,
+        "file": "image/srs_coverage.png"
+      }
+    },
+    {
+      "label": "77",
+      "line_no": 3283,
+      "caption": "자동차 mock-up",
+      "top": {
+        "score": 207,
+        "file": "image/SRS_DupMin.png",
+        "reasons": [
+          "url:'lumina\\'↔'min'",
+          "url:'lumina'↔'min'"
+        ]
+      },
+      "runner_up": {
+        "score": 65,
+        "file": "image/Mockup1.png"
+      }
+    },
+    {
+      "label": "78",
+      "line_no": 3301,
+      "caption": "Balsamiq의 미리 준비된 컨트롤들",
+      "top": {
+        "score": 102,
+        "file": "image/Balsamiq.jpg",
+        "reasons": [
+          "eng:'balsamiq'",
+          "seq:0.55"
+        ]
+      },
+      "runner_up": {
+        "score": 99,
+        "file": "image/BalsamiqControl.png"
+      }
+    },
+    {
+      "label": "79",
+      "line_no": 3361,
+      "caption": "1장 Introduction의 역할",
+      "top": {
+        "score": 21,
+        "file": "image/DevIntegration.png",
+        "reasons": [
+          "seq:0.53"
+        ]
+      },
+      "runner_up": {
+        "score": 18,
+        "file": "image/aircondition.png"
+      }
+    },
+    {
+      "label": "81",
+      "line_no": 3429,
+      "caption": "삽화: Product Scope의 역할 2\\",
+      "top": {
+        "score": 106,
+        "file": "image/Project_scope2.png",
+        "reasons": [
+          "eng:'scope'",
+          "seq:0.67"
+        ]
+      },
+      "runner_up": {
+        "score": 103,
+        "file": "image/Project_scope.png"
+      }
+    },
+    {
+      "label": "82",
+      "line_no": 3435,
+      "caption": "이번 프로젝트에서 개발할 범위 표시",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "83",
+      "line_no": 3440,
+      "caption": "이번 프로젝트에서 개발할 범위 표시",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "84",
+      "line_no": 3547,
+      "caption": "",
+      "top": {
+        "score": 200,
+        "file": "image/SRSDoc.png",
+        "reasons": [
+          "url:'document'↔'doc'",
+          "url:'document'↔'doc'"
+        ]
+      },
+      "runner_up": null
+    },
+    {
+      "label": "85",
+      "line_no": 3562,
+      "caption": "시간이 흐르면서 연결 문서의 내용이 바뀐 경우",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "86",
+      "line_no": 3575,
+      "caption": "시간이 흘러도 문서의 링크가 변하지 않는다",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "88",
+      "line_no": 3701,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "89",
+      "line_no": 3704,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "90",
+      "line_no": 3712,
+      "caption": "삽화: 시스템의 내부를 살짝 들여다본 모습",
+      "top": {
+        "score": 6,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 6,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "91",
+      "line_no": 3720,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "92",
+      "line_no": 3725,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "93",
+      "line_no": 3740,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "94",
+      "line_no": 3776,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "95",
+      "line_no": 3792,
+      "caption": "잘 작성된 브로셔의 예",
+      "top": {
+        "score": 9,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "96",
+      "line_no": 3912,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "97",
+      "line_no": 3949,
+      "caption": "소프트웨어 환경 구성",
+      "top": {
+        "score": 8,
+        "file": "image/1_10_100.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/2nd_level.png"
+      }
+    },
+    {
+      "label": "98",
+      "line_no": 4101,
+      "caption": "네트워크 성능 분석 장비인 Spirent사의 Smartbit 장비",
+      "top": {
+        "score": 94,
+        "file": "image/smartbit.png",
+        "reasons": [
+          "eng:'smartbit'"
+        ]
+      },
+      "runner_up": {
+        "score": 10,
+        "file": "image/DevIntegration.png"
+      }
+    },
+    {
+      "label": "99",
+      "line_no": 4119,
+      "caption": "제품의 형상(Configuration",
+      "top": {
+        "score": 111,
+        "file": "image/Configuration.png",
+        "reasons": [
+          "eng:'configuration'",
+          "seq:0.79"
+        ]
+      },
+      "runner_up": {
+        "score": 20,
+        "file": "image/DevIntegration.png"
+      }
+    },
+    {
+      "label": "100",
+      "line_no": 4151,
+      "caption": "외부 인터페이스 찾기",
+      "top": {
+        "score": 22,
+        "file": "image/인터페이스개선.png",
+        "reasons": [
+          "seq:0.56"
+        ]
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/1_10_100.png"
+      }
+    },
+    {
+      "label": "101",
+      "line_no": 4156,
+      "caption": "관점에 따라서 내부 인터페이스가 외부 인터페이스 된다.",
+      "top": {
+        "score": 10,
+        "file": "image/인터페이스개선.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "102",
+      "line_no": 4191,
+      "caption": "Top level diagram",
+      "top": {
+        "score": 187,
+        "file": "image/Top_level.png",
+        "reasons": [
+          "eng:'top'",
+          "eng:'level'",
+          "seq:0.69"
+        ]
+      },
+      "runner_up": {
+        "score": 105,
+        "file": "image/squence_diagram.png"
+      }
+    },
+    {
+      "label": "103",
+      "line_no": 4229,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "104",
+      "line_no": 4237,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "105",
+      "line_no": 4243,
+      "caption": "유아용 앱의 시스템 인터페이스 예",
+      "top": {
+        "score": 16,
+        "file": "image/인터페이스개선.png",
+        "reasons": [
+          "seq:0.40"
+        ]
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "106",
+      "line_no": 4258,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "107",
+      "line_no": 4262,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "108",
+      "line_no": 4274,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "110",
+      "line_no": 4314,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "111",
+      "line_no": 4355,
+      "caption": "댐의 방류",
+      "top": {
+        "score": 8,
+        "file": "image/Dev2.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/Out1.png"
+      }
+    },
+    {
+      "label": "112",
+      "line_no": 4373,
+      "caption": "광케이블",
+      "top": {
+        "score": 100,
+        "file": "image/Out1.png",
+        "reasons": [
+          "url:'breakout\\'↔'out'"
+        ]
+      },
+      "runner_up": {
+        "score": 100,
+        "file": "image/Out2.png"
+      }
+    },
+    {
+      "label": "113",
+      "line_no": 4394,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "114",
+      "line_no": 4446,
+      "caption": "원자력 발전소",
+      "top": {
+        "score": 7,
+        "file": "image/SRS1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/SRS2.png"
+      }
+    },
+    {
+      "label": "115",
+      "line_no": 4471,
+      "caption": "구글의 자율주행 시험 자동차",
+      "top": {
+        "score": 8,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 8,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "116",
+      "line_no": 4497,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "117",
+      "line_no": 4504,
+      "caption": "보안과 편리는 트레이드 오프 관계",
+      "top": {
+        "score": 7,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 7,
+        "file": "image/Why_What_How2.png"
+      }
+    },
+    {
+      "label": "118",
+      "line_no": 4570,
+      "caption": "",
+      "top": {
+        "score": 200,
+        "file": "image/SDK_Main.png",
+        "reasons": [
+          "url:'maintainability'↔'main'",
+          "url:'maintainability'↔'main'"
+        ]
+      },
+      "runner_up": null
+    },
+    {
+      "label": "119",
+      "line_no": 4586,
+      "caption": "",
+      "top": {
+        "score": 0,
+        "file": null,
+        "reasons": []
+      },
+      "runner_up": null
+    },
+    {
+      "label": "120",
+      "line_no": 4603,
+      "caption": "MTBF 계산 공식",
+      "top": {
+        "score": 102,
+        "file": "image/MTBF.png",
+        "reasons": [
+          "eng:'mtbf'",
+          "seq:0.57"
+        ]
+      },
+      "runner_up": {
+        "score": 13,
+        "file": "image/smartbit.png"
+      }
+    },
+    {
+      "label": "121",
+      "line_no": 4610,
+      "caption": "제품 신뢰성 결정 요소",
+      "top": {
+        "score": 10,
+        "file": "image/신뢰도.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 9,
+        "file": "image/Why_What_How1.png"
+      }
+    },
+    {
+      "label": "122",
+      "line_no": 4650,
+      "caption": "",
+      "top": {
+        "score": 200,
+        "file": "image/database1.png",
+        "reasons": [
+          "url:'database\\'↔'database'",
+          "url:'database'↔'database'"
+        ]
+      },
+      "runner_up": {
+        "score": 200,
+        "file": "image/database2.png"
+      }
+    },
+    {
+      "label": "123",
+      "line_no": 4879,
+      "caption": "유니코드를 제대로 지원하지 못해서 글자가 깨진 프로그램 예",
+      "top": {
+        "score": 5,
+        "file": "image/Why_What_How1.png",
+        "reasons": []
+      },
+      "runner_up": {
+        "score": 5,
+        "file": "image/Why_What_How2.png"
+      }
+    }
+  ]
+}
