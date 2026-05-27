@@ -48,7 +48,7 @@ projects/{프로젝트명}/
 | 폴더 | 생성 시점 |
 |------|----------|
 | `README.md` | 인계자가 *현재 활성 세션 ID · 다음 작업자 · 다음 Task ID* 를 기록할 필요가 생기면 |
-| `sessions/` | **상위 원리 — TO-BE §2.3 ⑧ *Spec ↔ 구현의 컨텍스트 단절 원칙***: PHASE 0~1 = 컨텍스트 보존, PHASE 2 = 단절. **PHASE 0~1 (Spec 작성) 자동 (a) — 작성자별 파일 분리**: `spec-session-{date}-{slack-handle}.md` 와 `spec-review-{date}-{doc}-{slack-handle}.md` 는 `munto-spec-writer`·`munto-spec-review` 스킬 호출 시 *자동* 박힘 (멀티 작성자 race·merge conflict 0). `spec-handover-{date}-{from}-to-{to}.md` 는 사람 인계 시 *수동*. **`spec-baseline-handoff.md` = PHASE 1 GATE 통과 시 Owner 사람 작성 *의무*** (프로젝트당 1 회, `{slack-handle}` 불요. 없으면 IP 작성 단계가 *컨텍스트 결손* 으로 진입). **PHASE 2 (구현 운영) 자동 의무 3 종 — 대상 독자 = 오케스트레이터·Owner, *구현 개발자 X***: `daily-summary`·`phase-{n}-summary`·`blocker-{id}` 는 무인 모드 진입 시 오케스트레이터가 자동 생성, 유인 모드는 *선택*. 인계용 `handover-*.md` 는 *수동 의무*. 자동/수동 매트릭스·Git 커밋 정책 상세는 [`../../ip-standard.md` §세션 파일 저장 정책](../../ip-standard.md#세션-파일-sessions-저장-정책-요약) 및 *TO-BE §4.7.4 / §4.9.7* 참조 |
+| `sessions/` | **상위 원리 — TO-BE §2.3 ⑧ *Spec ↔ 구현의 컨텍스트 단절 원칙***: PHASE 0~1 = 컨텍스트 보존, PHASE 2 = 단절. **PHASE 0~1 (Spec 작성) 자동 (a) — 작성자별 파일 분리**: `spec-session-{date}-{author-id}.md` 와 `spec-review-{date}-{doc}-{author-id}.md` 는 `munto-spec-writer`·`munto-spec-review` 스킬 호출 시 *자동* 박힘 (멀티 작성자 race·merge conflict 0). `spec-handover-{date}-{from}-to-{to}.md` 는 사람 인계 시 *수동*. **`spec-baseline-handoff.md` = PHASE 1 GATE 통과 시 Owner 사람 작성 *의무*** (프로젝트당 1 회, `{author-id}` 불요. 없으면 IP 작성 단계가 *컨텍스트 결손* 으로 진입). **PHASE 2 (구현 운영) 자동 의무 3 종 — 대상 독자 = 오케스트레이터·Owner, *구현 개발자 X***: `daily-summary`·`phase-{n}-summary`·`blocker-{id}` 는 무인 모드 진입 시 오케스트레이터가 자동 생성, 유인 모드는 *선택*. 인계용 `handover-*.md` 는 *수동 의무*. 자동/수동 매트릭스·Git 커밋 정책 상세는 [`../../ip-standard.md` §세션 파일 저장 정책](../../ip-standard.md#세션-파일-sessions-저장-정책-요약) 및 *TO-BE §4.7.4 / §4.9.7* 참조 |
 | `decisions/` | 큰 대안 검토 (스펙 단계 1 안 vs 2 안)를 *결정 이력* 으로 보존하고 싶을 때 |
 | `attachments/` | Figma 캡처·시퀀스 다이어그램·외부 자료 등 *바이너리 / 비텍스트 자료* 가 생길 때 |
 | `spec-stubs/` | ③ 별도 repo Spec 방식 사용 시 (임시 STUB 보관, `T-MIGRATE-SPEC-FINAL` 완료 시 정리) |
@@ -57,9 +57,9 @@ projects/{프로젝트명}/
 >
 > **구현 개발자는 본 `sessions/` 폴더와 무관하다.** TO-BE §2.3 ⑧ + §4.4 *구현 개발자 운영* 박스 — 구현 개발자의 cwd = 각 제품 Repo, 입력 = IP/Spec 만, 본인 진행 로그 = 로컬 `~/.claude/` + PR description. 본 폴더를 *읽거나 박는 의무·필요 없음*. 유일 예외 = 인계 발생 시 `handover-*.md` 수동.
 >
-> **PHASE 0~1 자동 (a) 트랙**: `munto-spec-writer`·`munto-spec-review` 스킬이 *호출 시점에* `sessions/spec-session-{date}-{slack-handle}.md`·`spec-review-{date}-{doc}-{slack-handle}.md` 를 자동 박는다 (*작성자별 분리 — race condition·merge conflict 0*). `{slack-handle}` 자동 추출 우선순위 = 명시 인자 → `git config user.email` 의 `@` 앞 → `$USER` → 사용자 1 회 질문 (TO-BE §4.7.4 (4)). 운영 레포 적용 대기 본문은 `-report/munto-dev-assistant/skills/munto-spec-{writer,review}/SKILL.md` 참조.
+> **PHASE 0~1 자동 (a) 트랙**: `munto-spec-writer`·`munto-spec-review` 스킬이 *호출 시점에* `sessions/spec-session-{date}-{author-id}.md`·`spec-review-{date}-{doc}-{author-id}.md` 를 자동 박는다 (*작성자별 분리 — race condition·merge conflict 0*). `{author-id}` 입력 정책 = **호출 시 명시 인자 `author=gyuhyeon.jeon` 우선, 미명시 시 세션 첫 호출에 1 회 질문 + 캐싱** (*자동 추출 없음 — git config 가 회사 이메일이 아닌 케이스 다수로 검증 실패*. 상세는 TO-BE §4.7.4 (4)). 운영 레포 적용 대기 본문은 `-report/munto-dev-assistant/skills/munto-spec-{writer,review}/SKILL.md` 참조.
 >
-> **PHASE 0~1 자동 (c) 트랙** *(옵션)*: Claude Code `Stop` Hook 이 *매 turn 자동* 으로 `sessions/spec-hook-turn-{date}-{slack-handle}.md` append. *작성자 본인 디버그용* — `.gitignore` 권장. 견본은 `-report/munto-dev-assistant/.claude-hooks-proposal.json` 참조 (별도 PR 로 적용).
+> **PHASE 0~1 자동 (c) 트랙** *(옵션)*: Claude Code `Stop` Hook 이 *매 turn 자동* 으로 `sessions/spec-hook-turn-{date}-{author-id}.md` append. *작성자 본인 디버그용* — `.gitignore` 권장. 견본은 `-report/munto-dev-assistant/.claude-hooks-proposal.json` 참조 (별도 PR 로 적용).
 
 ---
 
