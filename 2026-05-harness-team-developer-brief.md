@@ -4,7 +4,7 @@
 
 **대상**: 문토 개발자 · 리드 · 코치
 **기준 일자**: 2026-05-20 (TO-BE 3차 보강 반영)
-**상세 가이드**: 본 브리핑은 *요약본*이다. 전체 다이어그램·표·근거는 별도 문서 **`2026-05-harness-TO-BE.md`** (TO-BE 프로세스 가이드) 를 참고한다. AS-IS 의 문제 진단은 **`2026-05-harness-AS-IS.md`** 에서 다룬다. 학습 로드맵은 **`2026-05-harness-learning-guide.md`** 에 있다.
+**상세 가이드**: 본 브리핑은 *요약본*이다. 전체 다이어그램·표·근거는 별도 문서 **`2026-05-harness-TO-BE.md`** (TO-BE 프로세스 가이드) 를 참고한다. AS-IS 의 문제 진단은 **`2026-05-harness-AS-IS.md`** 에서 다룬다.
 
 ---
 
@@ -382,8 +382,8 @@ flowchart TD
 | 12 | **무인 PR 머지 책임자 표기 양식 표준화** + **Kill Switch (Slack 명령 / Workflow Cancel) 운영 문서화** | PM + 인프라 |
 | 13 | **§4.7.5 멀티 Repo Spec 인프라 — 7 종 산출물 작성 트랙 가동** *(가장 시급)* — (1) `repo-inventory.md` (2) `repo-docs-convention.md` (3) `multi-repo-spec-index.md` (4) `baseline-sha-pinning.md` (5) `dev-chain-design/SKILL.md` 입력 정책 4 단계 확장 (6) `spec-anchor-stability.md` (7) Repo 별 `docs/README.md` 3 줄 양식. 1·2·3·5 함께 박혀야 동작 / 4·6 위에 얹기 / 7 Repo PR 트랙 | 분석 아키텍트 + 각 Repo 리드 분담 |
 | 14 | **`MUNTO_AUTHOR_ID` 환경변수 *팀 합의·전파*** — Slack 공지 + 온보딩 체크리스트 + 신규 입사자 셋업 가이드. *Munto 권장 = Slack 멘션 핸들* (예: `gyuhyeon.jeon`). 권장 패턴 `^[a-z0-9._-]+$` *(상세: TO-BE §4.7.4 (4))* | PM + 분석 아키텍트 |
-| 15 | **`munto-spec-writer`·`munto-spec-review` *적용 대기본* 운영 레포 이관** — `munto-dev-assistant-report/munto-dev-assistant/skills/munto-spec-{writer,review}/SKILL.md` → 운영 레포 `munto-dev-assistant/.agents/skills/common/docs/munto-spec-{writer,review}/SKILL.md`. *세션 자동 저장 + baseline-handoff 자동 점검 + `{author-id}` 1 회 질문* 정책 작동 시작 (TO-BE §4.7.4) | 하네스 담당 |
-| 16 | **`.claude-hooks-proposal.json` 적용 *각 개발자 PC* 전파** *(별도 PR 트랙·옵션)* — 견본 = `munto-dev-assistant-report/munto-dev-assistant/.claude-hooks-proposal.json`. 매 turn 자동 캡처가 `sessions/spec-hook-turn-*.md` 에 박힘 (`.gitignore` 권장 — 작성자 본인 디버그용). `MUNTO_AUTHOR_ID` 미설정 시 silent no-op | 하네스 담당 + 각 개발자 |
+| 15 | **`munto-spec-writer`·`munto-spec-review` *적용 대기본* 운영 레포 이관** — 임시 GitHub 레포 `Munto-dev/munto-dev-assistant-tobe-temp` 의 `skills/munto-spec-{writer,review}/SKILL.md` → 운영 레포 `munto-dev-assistant/.agents/skills/common/docs/munto-spec-{writer,review}/SKILL.md`. *세션 자동 저장 + baseline-handoff 자동 점검 + `{author-id}` 1 회 질문* 정책 작동 시작 (TO-BE §4.7.4) | 하네스 담당 |
+| 16 | **`.claude-hooks-proposal.json` 적용 *각 개발자 PC* 전파** *(별도 PR 트랙·옵션)* — 견본 = 임시 GitHub 레포 `Munto-dev/munto-dev-assistant-tobe-temp` 루트의 `.claude-hooks-proposal.json`. 매 turn 자동 캡처가 `sessions/spec-hook-turn-*.md` 에 박힘 (`.gitignore` 권장 — 작성자 본인 디버그용). `MUNTO_AUTHOR_ID` 미설정 시 silent no-op | 하네스 담당 + 각 개발자 |
 
 ### 10.3 보조 스킬 백로그 (개발 프로세스 외)
 
@@ -426,18 +426,18 @@ flowchart TD
 
 ## 12. 함께 보면 좋은 문서·자료
 
-> 본 브리핑은 TO-BE 의 *요약본*이다. 깊이 있는 이해가 필요하면 다음을 본다. 모두 `munto-dev-assistant-report` 레포 안에 있다.
+> 본 브리핑은 TO-BE 의 *요약본*이다. 깊이 있는 이해가 필요하면 다음을 본다. *정책 원문* (TO-BE / AS-IS) 은 *§1 헤더* 의 Notion 페이지, *운영 레포 표준·템플릿* 은 사내 GitHub 의 `Munto-dev/munto-dev-assistant`, *적용 대기본 실물* 은 임시 GitHub 레포 (마지막 행) 에 있다.
 
 | 문서 | 어디서 보나 | 무엇이 들어있나 |
 | --- | --- | --- |
 | **TO-BE 프로세스 가이드** | `reports/2026-05-harness-TO-BE.md` | 전체 다이어그램·단계별 사용법·표 (본 브리핑의 원본) |
 | **AS-IS 분석 노트** | `reports/2026-05-harness-AS-IS.md` | 현재 하네스 구조·비판·문제 인식 |
-| **학습 가이드** | `reports/2026-05-harness-learning-guide.md` | `munto-dev-assistant` 학습 로드맵·준비도 평가 |
 | **SRS 작성 표준** | `munto-dev-assistant/document/spec-standard.md` | 섹션별 작성 지침 (특히 §1.2 Product Scope) |
 | **SRS v3.3 템플릿** | `munto-dev-assistant/document/spec-templates/SRS_v3.3_template.md` | 섹션별 한글·표준 SRS 유도 문 |
 | **One Pager 템플릿** | `munto-dev-assistant/document/spec-templates/OnePager_v1.0_template.md` | 경량 Spec 템플릿 |
 | **AGENTS.md (진입점)** | `munto-dev-assistant/AGENTS.md` | 스킬·규칙 목록과 금지 규칙 |
 | **어댑터 검증** | `munto-dev-assistant/scripts/check-adapters.sh` | 어댑터 정합성 자동 검증 |
+| **적용 대기본 실물 (임시 GitHub 레포)** | <https://github.com/Munto-dev/munto-dev-assistant-tobe-temp> | TO-BE 정책의 *변경 예정 본* — Skill 갱신본·IP 견본·Spec 작성 표준·`.claude-hooks-proposal.json` 등. 본 리뷰 합의 후 운영 레포 `munto-dev-assistant` 로 *일괄 이관* 후 *아카이브/삭제*. 자세한 안내는 해당 레포 `README.md` |
 
 > **Notion 게시 시**: 위 문서들도 Notion 페이지로 옮기는 경우, 이 브리핑 본문의 *경로 표기* 를 *각 페이지 링크* 로 일괄 치환한다. 본 문서는 의도적으로 *상대경로 링크를 쓰지 않고 텍스트로만 표기* 했다 (Notion·구글 docs 어디로 옮겨도 깨지지 않게).
 
@@ -464,7 +464,7 @@ flowchart TD
 | 일자 | 내용 |
 | --- | --- |
 | 2026-05-14 | 통합 분석 원고에서 *팀 공유 브리핑*으로 분리 작성 |
-| 2026-05-14 ~ 05-18 | Spec 정의 (= SRS + 상위설계 + Peer Review) 팀 규약 반영, AS-IS·TO-BE·학습 가이드 3 문서로 분리 |
+| 2026-05-14 ~ 05-18 | Spec 정의 (= SRS + 상위설계 + Peer Review) 팀 규약 반영, AS-IS·TO-BE 2 문서로 분리 |
 | 2026-05-15 | `spec-standard.md` §1.2 예시를 도메인 중립 형식으로 개편, §1.2 Product Scope 교육 메모 반영 |
 | **2026-05-20** | **TO-BE 3 차 보강 (D-1 ~ D-10) 반영 전면 재작성**. ① 본 브리핑 목적을 *TO-BE 요약본*으로 재정의 ② Notion 등 외부 게시 대비 상대경로 링크 모두 제거, 문서명 텍스트 표기로 통일 ③ 새 구조: 한 페이지 요약 / 팀 공용 용어 / 7 개 핵심 원칙 / 전체 흐름 다이어그램 / 사람 필수 체크리스트 / AI 자율 작업 / 4 팁 표기 규약 / 리뷰 5 원칙 + AI 시대 가변 / 베이스라인 변경 관리 / Action Items / AS-IS vs TO-BE 한 장. ④ 분석 아키텍트·베이스라인·CCB·메이저/마이너 버저닝 등 신규 용어 통합 정리 ⑤ 우리 팀이 *오늘부터 다르게 해야 할 일* 3 줄 헤드라인 추가 |
 | **2026-05-20** | **AI 시대 가장 위험한 3 가지 함정과 4 가지 막는 메커니즘 — 브리핑 핵심 강조 반영** *(AS-IS §5 진단 + TO-BE §3.2·§3.4·§4.7.2·§4.7.3 처방 동기화)* — ① **§1 한 페이지 요약 보강**: TO-BE 가 추가한 것 6 가지 → **7 가지** (행 7 *"AI 시대 행동 패턴 차단 4 가지 메커니즘"* 추가), 오늘부터 다르게 해야 할 일 3 줄 → **4 줄** (*"AI 작성물을 통과시켰다면 — 당신이 쓴 것이다"* 메시지 추가). ② **§3 끝에 ⚠️ 별도 강조 박스 신설** — 핵심 절. 3 가지 함정 진단 표 (① "AI 가 썼으니 내 책임 아님" / ② "모르는 용어 그냥 넘기기" / ③ "1 안 통과") + 현장 사례 + 4 가지 메커니즘 처방 표 (① 책임 전환 / ② 자기점검 5 개 / ③ Glossary + 용어 질문 강제 / ④ 대안 검토 강제) + **5 개 자기점검 질문 외우기용** + **"AI 가 골랐겠지" 함정 깨기 — 리뷰어 질문 3 종 세트**. *"이건 도덕 문제가 아니라 설계 문제다"* 메시지. ③ **§5 사람 체크리스트** 표에 2 개 행 추가 — *모든 사람 리뷰 단계 자기점검* / *AI 작성물 통과 시 책임 인수 기록*. ④ **§7 4 팁 끝에 §7.1 Glossary 의무화 + §7.2 대안 검토 강제** 박스 신설 — 대안 검토 박스 양식 포함. ⑤ **§8 리뷰 5 원칙 끝에 AI 시대 추가 3 가지 메커니즘 박스** — *"5 원칙이 운영 방법이라면 +3 메커니즘은 리뷰어 자신의 책임 인수"*. ⑥ **§10 Action Items 보강** — 개인 차원 7 개로 확장 (자기점검·모르는 용어 질문·책임 인식), 팀 차원 10 개로 확장 (Glossary 자동 등록·리뷰 결함 보강·실명 기록 표준화·30 분 워크숍). ⑦ **§11 비교 표에 4 개 행 추가** — *AI 작성물 책임 소재 / Glossary / 대안 검토 강제 / 행동 패턴 인식·차단*. **핵심 메시지: AI 작성 Spec 을 통과시킨 사람은 본인이 작성한 것과 동일한 책임을 진다.** |
@@ -472,3 +472,6 @@ flowchart TD
 | **2026-05-22** | **Implementation Plan (구현계획서, IP) 도입 동기화** *(TO-BE §4.3 끝 신설 — Spec → 무인 실행 사이 누락 고리 해결)* — ① **§1 한 페이지 요약 보강**: TO-BE 8 → **9 가지** (행 9 *Implementation Plan*), 오늘부터 다르게 5 → **6 줄** (줄 6 *베이스라인 v1.0 다음 단계는 IP 작성*). ② **§2 팀 공용 용어**에 *Implementation Plan (구현계획서, IP)* 행 추가 + *베이스라인* 정의에 *멀티 Repo SHA 묶음* 추가. ③ **§3 끝에 함정 ⑤** *"Spec 만 잘 쓰면 AI 가 알아서"* 신드롬 박스 신설 — IP 없이 Task 던지기 / 멀티 Repo Spec 위치 매번 찾기 2 패턴 + 시스템 차원 차단 5 가지. *"Spec 은 What·Why, IP 는 How·Where·Who — IP 가 빠진 Spec 은 AI 한테는 잘 정리된 휴지조각"* 메시지. ④ **§5 사람 체크리스트**에 *PHASE 1 마지막 — IP 작성 + IP 사람 리뷰* 행 추가, *PHASE 2 (목표)* 행에 *IP Task 카드 단위로 진행* 보강. ⑤ **§9 변경 관리 9.1 표**에 *IP 변경* 행 추가, 무인 루프 행에 *IP 도 직접 수정 X* 추가. ⑥ **§11 비교 표에 4 행 추가** — *Task 단위 컨텍스트 전달 / 멀티 Repo Spec 매핑 / 분산 Spec 작성 3 방식 정책 / Spec→구현 세션 운영*. **핵심 메시지: Spec 이 완벽해도 Task 마다 컨텍스트를 매번 설명해야 하면 무인화는 불가능. IP 는 Spec 을 무인 실행 가능한 형태로 변환한 단일 문서다.** |
 | **2026-05-27** | **최근 4 개 TO-BE 변경 일괄 동기화 — *Spec↔구현 컨텍스트 단절 (§2.3 ⑧) / Spec 작성 세션 저장 (§4.7.4) / `{author-id}` 식별자 (§4.7.4 (4)) / 멀티 Repo Spec 인프라 백로그 (§4.7.5)***. ① **§1 요점 표 9 → 12 가지** — 행 10 *Spec↔구현 컨텍스트 단절 원칙* / 행 11 *Spec 작성 세션 저장 + baseline-handoff 의무화* / 행 12 *멀티 Repo Spec 인프라 작성 백로그 (TODO)* 신설. ② **§1 *오늘부터 다르게* 6 → 8 줄** — 줄 7 *Spec 작성 cwd = projects/{프로젝트명}/ + baseline-handoff 사람 작성* / 줄 8 *기존 Repo docs/ 수동 끌어오기 (인덱스 미박힘)*. ③ **§3 7 → 8 개 원칙** — ⑧ Spec↔구현 컨텍스트 단절 신설. ④ **§3 함정 ⑥ 신설** *("기존 Repo docs/ 인프라가 박혀 있을 거야" 환상)* — 2 패턴 + 5 가지 시스템 차단. ⑤ **§5 사람 체크리스트** 행 3 개 추가 — *PHASE 0~1 cwd* / *PHASE 0 입력에 기존 Repo docs/ 수동 식별 보강* / *PHASE 1 GATE 직후 baseline-handoff*. ⑥ **§10.1 개인 액션** 7 → 9 — *MUNTO_AUTHOR_ID 환경변수 1 회 박기* + *Spec 작성 cwd 습관*. ⑦ **§10.2 팀 액션** 12 → 16 — *§4.7.5 7 종 산출물 트랙* / *MUNTO_AUTHOR_ID 팀 합의·전파* / *spec-{writer,review} 적용 대기본 운영 레포 이관* / *.claude-hooks-proposal.json 각 PC 전파 옵션 트랙*. ⑧ **§11 비교 표 4 행 신설** — *Spec↔구현 컨텍스트 관계 / Spec 작성 세션 보존 / 작성자 식별자 표준 / 멀티 Repo docs/ 인프라*. ⑨ **§12.1 향후 산출물 예고 박스 신설** — §4.7.5 7 종 산출물 위치·책임자·트리거. **핵심 메시지: TO-BE 가 박은 *원칙급* 변경 4 종 (컨텍스트 단절·세션 저장·식별자 표준·멀티 Repo 인프라) 을 팀 공유 요약본에 동기화. 모두 *오늘부터 다르게 해야 할 일* + *백로그 7 종 작성 트랙* 으로 행위 지향 박음.** |
 | **2026-05-27** | **IP 저장 단위 *단일 파일 → 프로젝트 폴더* 전환 동기화** *(TO-BE §4.3 IP-0 폴더 구조 전환 + IP-9 *동시 프로젝트 운영·세션 관리* 신설에 대응)* — §2 팀 공용 용어의 *Implementation Plan (구현계획서, IP)* 행 1 곳 갱신: ① 저장 위치 표기 *`munto-dev-assistant/projects/{프로젝트명}.ip.md` → `munto-dev-assistant/projects/{프로젝트명}/ImplementationPlan.md`* (프로젝트 폴더 + 고정 파일명). ② 옵션 서브폴더 4 종 (`sessions/`·`decisions/`·`attachments/`·`spec-stubs/`) 명시 — *필요할 때만*. ③ TO-BE 참조에 *IP-9* 추가. ④ *바른 사용 예* 셀도 동일 표기로 갱신. *멀티 프로젝트 동시 운영 시의 워크스페이스/cwd/세션 규칙 상세는 TO-BE §4.3 IP-9 와 `ip-standard.md` §동시 프로젝트 운영·세션 관리 (요약) 참조.* **핵심 메시지: IP 가 폴더가 된 이유는 무인 모드 세션 로그·Decision Log·③ 별도 repo Spec STUB·Figma 캡처 등 *IP 본문 외 부속 산출물* 이 누적되기 때문이다.** |
+| **2026-05-27** | **§12 표에 *적용 대기본 실물* (임시 GitHub 레포) 행 신설 + 헤더 노트 보강** — 본 리뷰의 *원칙·방향* 3 문서 (AS-IS / TO-BE / 본 브리핑) 는 Notion 게시, *실물 (Skill 갱신본·IP 견본·Spec 작성 표준 등)* 은 별도 임시 GitHub 레포 `Munto-dev/munto-dev-assistant-tobe-temp` 로 분리 공유 결정 반영. ① §12 표 맨 끝에 *적용 대기본 실물* 행 1 줄 추가 (URL + 이관/아카이브 일정 안내). ② §12 헤더 노트 *"모두 ... 안에 있다"* → *"대부분 ... 안에 있으며, *적용 대기본 실물* 만 별도 임시 GitHub 레포 (마지막 행) 에 있다"* 로 수정. *마크다운 본문의 *경로 텍스트* 는 §12 의 L442 노트대로 *Notion 게시 시* 만 페이지 링크로 일괄 치환 — 본 GitHub 본문은 원본 형태 유지.* |
+| **2026-05-27** | **외부 접근 불가 경로 `munto-dev-assistant-report` 일괄 제거** *(사용자 본인 개인 레포 — 외부 리뷰어/팀원 접근 불가, Notion 게시 시 의미 없는 경로 텍스트가 됨)* — ① §10.2 행 15 (`munto-spec-{writer,review}` 적용 대기본 이관) 의 소스 경로 `munto-dev-assistant-report/munto-dev-assistant/skills/...` → *임시 GitHub 레포* `Munto-dev/munto-dev-assistant-tobe-temp` 의 `skills/...`. ② §10.2 행 16 (`.claude-hooks-proposal.json` 견본) 의 위치 표기 동일 패턴 치환 — *임시 GitHub 레포 루트의 `.claude-hooks-proposal.json`*. ③ §12 헤더 노트 — *"대부분 `munto-dev-assistant-report` 레포 안에 있으며"* → *"정책 원문 (TO-BE / AS-IS) 은 *§1 헤더의 Notion 페이지*, 운영 레포 표준·템플릿은 사내 GitHub 의 `Munto-dev/munto-dev-assistant`, 적용 대기본 실물은 임시 GitHub 레포 (마지막 행)"* 3 위치 명시. ④ L7 (§1 헤더 *상세 가이드*) 에서 외부 비공개 참고 문서 언급 1 문장 제거. *본 변경은 §12 표 안의 `reports/...` / `munto-dev-assistant/...` *문서 경로* 행들 (L7 / L357 / L433-434) 은 손대지 않음* — L442 노트의 *Notion 게시 시 페이지 링크 일괄 치환* 정책에 따라 *GitHub 본문은 원본 형태 유지*. **핵심 메시지: 외부 공유 가능 자료는 *Notion 페이지* (정책 원문) + *사내 GitHub 운영 레포 `munto-dev-assistant`* + *임시 GitHub 레포 `munto-dev-assistant-tobe-temp`* 3 곳뿐. *작성자 개인 레포* (`munto-dev-assistant-report`) 는 *외부 본문에 박지 않음*.** |
+| **2026-05-27** | **개인 전용 참고 문서에 대한 교차 참조 전면 제거** — 작성자 개인 전용 문서에 대한 TO-BE §8·TO-BE/AS-IS/brief 변경 이력 내 링크·파일명·문서명 언급 일괄 삭제. 외부 공유 대상 (Notion AS-IS/TO-BE/brief, 임시 GitHub 레포, 운영 레포) 간 참조만 유지. |

@@ -10,9 +10,9 @@
 
 ## 함께 보세요 (Notion)
 
-- **AS-IS — 현재 하네스 진단**: <URL을-여기에-채워주세요>
-- **TO-BE — 프로세스·정책 원천**: <URL을-여기에-채워주세요>
-- **팀 개발자 브리핑 (요약본)**: <URL을-여기에-채워주세요>
+- **AS-IS — 현재 하네스 진단**: <https://www.notion.so/Munto-Dev-Assistant-AS-IS-36de2bc7639d808d9cedd2252484fd92>
+- **TO-BE — 프로세스·정책 원천**: <https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56>
+- **팀 개발자 브리핑 (요약본)**: <https://www.notion.so/Agentic-Dev-Chain-TO-BE-36de2bc7639d8093abbbe41b623252d7>
 
 > 본 레포는 위 brief 의 §12 (함께 보면 좋은 문서) 에서 *적용 대기본 실물* 의 위치로 참조됩니다.
 
@@ -32,6 +32,8 @@
 3. 운영 적용 후 본 레포 *아카이브 (read-only)* 또는 *삭제*
 
 ## 폴더 안내
+
+> **경로 텍스트 해석 안내**: 본 폴더 내 파일들이 본문에서 참조하는 `reports/2026-05-harness-*.md` 경로 텍스트는 위 *함께 보세요 (Notion)* 의 AS-IS / TO-BE 페이지와 *동일 내용*. 본 임시 GitHub 레포에서는 해당 경로가 *클릭되지 않으며*, 운영 레포 `munto-dev-assistant` 적용 후에야 상대경로로 동작합니다. 적용 전에는 위 Notion 링크를 사용하세요.
 
 ### 핵심 표준
 

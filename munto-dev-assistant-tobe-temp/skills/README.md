@@ -1,6 +1,8 @@
-# `-report/munto-dev-assistant/skills/` — *적용 대기 본문* 미러
+# `munto-dev-assistant-tobe-temp/skills/` — *적용 대기 본문* 미러
 
-본 폴더는 **운영 레포 (`/Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/`) 의 스킬 본문 *교체 대기본***을 임시 보관하는 *기획 미러* 입니다.
+본 폴더는 **운영 레포 `Munto-dev/munto-dev-assistant` 의 `.agents/skills/common/docs/` 스킬 본문 *교체 대기본***을 임시 보관하는 *기획 미러* 입니다.
+
+> *외부 공유본* — 본 폴더는 임시 GitHub 레포 [`Munto-dev/munto-dev-assistant-tobe-temp`](https://github.com/Munto-dev/munto-dev-assistant-tobe-temp) 에 게시되어 있습니다. 본 README 의 *경로 표기* 는 모두 *본 임시 레포 clone 후 그 안* 또는 *운영 레포 (사내 GitHub)* 기준 *상대 경로* 입니다.
 
 ## 1. 보관 원칙
 
@@ -18,31 +20,37 @@
 
 ## 3. 운영 이관 절차 (정책 합의 후)
 
+> 사전 준비: 본 임시 GitHub 레포와 운영 레포를 *같은 부모 디렉토리* 에 clone (예: `~/work/munto-dev-assistant-tobe-temp/` + `~/work/munto-dev-assistant/`). 아래 명령은 *임시 레포 clone 디렉토리 내에서* 실행한다고 가정 (변수 `OPS_REPO` 로 운영 레포 절대 경로 1 회 박음).
+
 ```bash
+# 0) 운영 레포 절대 경로를 1 회 박음 (각자 PC 의 운영 레포 clone 위치)
+export OPS_REPO=~/work/munto-dev-assistant   # 본인 환경에 맞게 수정
+
 # 1) 백업 (만일에 대비)
-cp -R /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-writer \
+cp -R "$OPS_REPO/.agents/skills/common/docs/munto-spec-writer" \
       /tmp/munto-spec-writer.bak.$(date +%Y%m%d-%H%M)
-cp -R /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-review \
+cp -R "$OPS_REPO/.agents/skills/common/docs/munto-spec-review" \
       /tmp/munto-spec-review.bak.$(date +%Y%m%d-%H%M)
 
 # 2) 본 폴더의 SKILL.md 를 운영 레포에 덮어쓰기 (상단 <!-- ... --> 주석은 *제거 후* 박을 것)
 #    주석은 *기획 메모* 이므로 운영 본문에는 불필요
-cp /Users/gracegyu/Documents/GitMunto/munto-dev-assistant-report/munto-dev-assistant/skills/munto-spec-writer/SKILL.md \
-   /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-writer/SKILL.md
-cp /Users/gracegyu/Documents/GitMunto/munto-dev-assistant-report/munto-dev-assistant/skills/munto-spec-review/SKILL.md \
-   /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-review/SKILL.md
+#    아래 명령은 본 임시 레포 (munto-dev-assistant-tobe-temp) 의 clone 루트에서 실행
+cp ./skills/munto-spec-writer/SKILL.md \
+   "$OPS_REPO/.agents/skills/common/docs/munto-spec-writer/SKILL.md"
+cp ./skills/munto-spec-review/SKILL.md \
+   "$OPS_REPO/.agents/skills/common/docs/munto-spec-review/SKILL.md"
 
 # 3) 운영 본문의 상단 <!-- ... --> 주석 제거 (sed 또는 수동)
 #    (예시 — 1 회용이므로 검증 후 실행)
-# sed -i.bak '/^<!--$/,/^-->$/d' /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-writer/SKILL.md
+# sed -i.bak '/^<!--$/,/^-->$/d' "$OPS_REPO/.agents/skills/common/docs/munto-spec-writer/SKILL.md"
 
 # 4) 운영 레포 PR 생성 (DEVT-XXX) — 본 폴더 README 변경 이력 링크 첨부
-# 5) 머지 후 본 폴더의 해당 SKILL.md 는 *그대로 둠* (history 참조용). 신규 변경 발생 시 본 폴더 본문 먼저 갱신.
+# 5) 머지 후 본 임시 레포는 *아카이브/삭제*. 신규 변경이 추가로 필요할 경우 운영 레포 본문을 직접 수정 (본 임시 레포는 *1 회성*).
 ```
 
 ## 4. Hook 트랙 (별도 PR)
 
-`-report/munto-dev-assistant/.claude-hooks-proposal.json` 은 *PHASE 0~1 (c) Claude Code Hook 자동 캡처* 견본입니다.
+본 임시 레포 루트의 [`.claude-hooks-proposal.json`](../.claude-hooks-proposal.json) 은 *PHASE 0~1 (c) Claude Code Hook 자동 캡처* 견본입니다.
 
 | 항목 | 값 |
 |------|------|

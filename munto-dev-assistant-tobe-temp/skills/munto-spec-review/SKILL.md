@@ -2,7 +2,7 @@
 ⚠️ 본 파일은 *적용 대기 본문* 입니다.
 
 - 운영 레포 위치 (실제 적용 대상): /Users/gracegyu/Documents/GitMunto/munto-dev-assistant/.agents/skills/common/docs/munto-spec-review/SKILL.md
-- 본 파일 위치 (기획 미러, 적용 대기):    munto-dev-assistant-report/munto-dev-assistant/skills/munto-spec-review/SKILL.md
+- 본 파일 위치 (기획 미러, 적용 대기):    munto-dev-assistant-tobe-temp/skills/munto-spec-review/SKILL.md (임시 GitHub 레포: https://github.com/Munto-dev/munto-dev-assistant-tobe-temp)
 
 원본 대비 *세션 저장 단계 (§"리뷰 결과 세션 저장 — 자동 (a)")* + *baseline-handoff 자동 점검 단계 (§"baseline 동결 점검")* 만 신설했습니다. 그 외 본문은 동일.
 적용 시점은 ip-standard.md / TO-BE §4.7.4 정책이 운영 레포에 일괄 이관되는 시점입니다.
