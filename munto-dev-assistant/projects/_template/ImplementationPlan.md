@@ -174,9 +174,10 @@ graph LR
 | BLOCKER 정의 | 의존 Task 미완료 / TCL 자동 검증 실패 / 외부 API 변경 감지 / 비용 cap 초과 |
 | Kill Switch | {GitHub Action 워크플로명 또는 Slack 슬래시 명령} <!-- *반드시* 명시. 미명시 시 무인 모드 진입 금지 --> |
 | Slack 알림 정책 | Phase 완료 / BLOCKER 발생 / 일일 요약 (09:00 KST) <!-- TO-BE §4.9.6 정책 --> |
-| 세션 파일 저장 정책 (PHASE 2 — 구현 운영) | **무인 모드 = 자동 의무 3 종** (`sessions/YYYY-MM-DD-daily-summary.md` / `…-phase-{n}-summary.md` / `…-blocker-{id}.md`) — 오케스트레이터가 자동 생성·`main` 직접 push. 유인 모드 = 선택. 사람 인계 시 `…-handover-{from}-to-{to}.md` 수동 작성. *상세는 TO-BE §4.9.7 / ip-standard.md §세션 파일 저장 정책 (요약) 참조* |
-| 세션 파일 저장 정책 (PHASE 0~1 — Spec 작성) | **자동 (a) 4 종** (`sessions/spec-session-{date}.md` / `spec-review-{date}-{doc}.md`) = `munto-spec-writer`·`munto-spec-review` 스킬 호출 시 자동 박힘. `spec-handover-{date}-*.md` = Spec 작성 중 사람 인계 시 수동. **`spec-baseline-handoff.md` = PHASE 1 GATE 통과 시 Owner 사람 작성 의무** — *ip-writer 가 IP 초안 생성 시 우선 참조*. 누락 시 `munto-spec-review` 가 🔴 BLOCKER. *상세는 TO-BE §4.7.4 참조* |
+| 세션 파일 저장 정책 (PHASE 2 — 구현 운영) | **대상 독자 = 오케스트레이터·Owner — *구현 개발자 X*** (TO-BE §2.3 ⑧ + §4.4 *구현 개발자 운영* 박스). **무인 모드 = 자동 의무 3 종** (`sessions/YYYY-MM-DD-daily-summary.md` / `…-phase-{n}-summary.md` / `…-blocker-{id}.md`) — 오케스트레이터가 자동 생성·`main` 직접 push. 유인 모드 = 선택. 사람 인계 시 `…-handover-{from}-to-{to}.md` 수동 작성. *상세는 TO-BE §4.9.7 참조* |
+| 세션 파일 저장 정책 (PHASE 0~1 — Spec 작성) | **자동 (a) 2 종 — 작성자별 파일 분리** (`sessions/spec-session-{date}-{slack-handle}.md` / `spec-review-{date}-{doc}-{slack-handle}.md`) = `munto-spec-writer`·`munto-spec-review` 스킬 호출 시 자동 박힘. *멀티 작성자 race·merge conflict 0*. `spec-handover-{date}-{from}-to-{to}.md` = Spec 작성 중 사람 인계 시 수동. **`spec-baseline-handoff.md` = PHASE 1 GATE 통과 시 Owner 사람 작성 의무** (*프로젝트당 1 회, `{slack-handle}` 불요*) — *ip-writer 가 IP 초안 생성 시 우선 참조*. 누락 시 `munto-spec-review` 가 🔴 BLOCKER. *상세는 TO-BE §4.7.4 참조* |
 | 본 IP 의 *Spec baseline 인계 파일* | `projects/{프로젝트명}/sessions/spec-baseline-handoff.md` — *본 IP v0.1 작성 시 ip-writer 가 우선 참조한 컨텍스트 출처*. *없으면 §8 Change History v0.1 행에 "spec-baseline-handoff 없이 작성 — 컨텍스트 신뢰도 낮음" 명시 의무* |
+| 구현 개발자의 sessions/ 관계 | **읽지 않음·박지 않음** (TO-BE §2.3 ⑧ + §4.4). 본인의 진행 로그 = *로컬 `~/.claude/` + PR description*. 본인의 cwd = *각 제품 Repo* (이 IP 가 가리키는 `{repo}` 들), *`projects/{프로젝트명}/` 가 아님*. 유일 예외 = 인계 발생 시 `handover-*.md` 수동 작성 |
 
 ---
 

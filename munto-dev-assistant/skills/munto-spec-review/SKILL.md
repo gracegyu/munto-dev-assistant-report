@@ -14,7 +14,7 @@ name: "munto-spec-review"
 description: "Reviews Munto spec docs (SRS, Engineering One Pager) against the internal standard (spec-standard.md). Supports Notion URL or local markdown. Actual checklist application is delegated to the spec-reviewer subagent (PM mode). Triggers: \"리뷰\", \"검토\", \"review\", \"스펙 리뷰\", \"SRS 리뷰\", \"원페이저 리뷰\", \"문서 리뷰\", \"문서 검토\"."
 metadata:
   last_modified: "2026-05-27"
-  revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장 + baseline-handoff 자동 점검 BLOCKER. PM 모드 도입 (2026-04-30) 위에 추가. cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-review-{date}-{doc}.md 자동 생성. baseline 통과 신호 시 spec-baseline-handoff.md 존재 여부 자동 점검. TO-BE §4.7.4 (1)(2)(5) 정책 반영."
+  revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장 + baseline-handoff 자동 점검 BLOCKER. PM 모드 도입 (2026-04-30) 위에 추가. 작성자별 파일 분리 정책 (옵션 α): cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-review-{date}-{doc}-{slack-handle}.md 자동 생성. {slack-handle} 자동 추출 = 명시 인자 → git config user.email → $USER → 1 회 질문. baseline 통과 신호 시 spec-baseline-handoff.md 존재 여부 자동 점검. TO-BE §2.3 ⑧ + §4.7.4 (1)(2)(4)(5) 정책 반영."
 ---
 
 # 스펙 문서 리뷰
@@ -83,6 +83,8 @@ metadata:
    - 맞으면: *세션 저장 활성* (아래 §"세션 저장" 단계 자동 수행)
    - 아니면: 1 회 경고 출력 후 작업 계속. 메시지:
      > *"세션 저장이 비활성입니다. cwd 가 `munto-dev-assistant/projects/{프로젝트명}/` 일 때만 자동 저장됩니다."*
+
+4. **`{slack-handle}` 추출 (세션 저장 활성 시만)** — `munto-spec-writer` 와 동일 우선순위. 명시 인자 → `git config user.email` 의 `@` 앞 → `$USER` → 사용자 1 회 질문. 결과는 kebab-case slugify. *상세는 `munto-spec-writer` SKILL.md §"시작 전 준비" 4 참조 (TO-BE §4.7.4 (4))*
 
 ## 문서 가져오기
 
@@ -275,18 +277,20 @@ Notion MCP `notion-fetch` 도구를 사용합니다.
 
 ---
 
-## 세션 저장 — 자동 (a) *[2026-05-27 신설 — TO-BE §4.7.4]*
+## 세션 저장 — 자동 (a) *[2026-05-27 신설 — TO-BE §2.3 ⑧ + §4.7.4]*
 
-> `spec-reviewer` 응답 수신 후 메인이 *팀 공유 영구 기록* 으로 `sessions/spec-review-{YYYY-MM-DD}-{문서명}.md` 자동 생성.
+> `spec-reviewer` 응답 수신 후 메인이 *팀 공유 영구 기록* 으로 `sessions/spec-review-{YYYY-MM-DD}-{문서명}-{slack-handle}.md` 자동 생성.
 > *시작 전 준비 3* 에서 *세션 저장 활성* 으로 판정된 경우에만 수행.
+> **작성자별 파일 분리 정책 (옵션 α)** — 같은 문서를 *다른 리뷰어* 가 같은 날 리뷰해도 *다른 파일* 에 박힘. `{slack-handle}` 은 *시작 전 준비 4* 의 추출 결과 사용.
 
 ### 자동 박을 내용 (최소 양식 — TO-BE §4.7.4 (2))
 
 ```markdown
-# Spec 리뷰 — {YYYY-MM-DD} — {문서명}
+# Spec 리뷰 — {YYYY-MM-DD} — {문서명} — @{slack-handle}
 
 | 항목 | 값 |
 |------|------|
+| 리뷰어 Slack 핸들 | {slack-handle} *(파일명과 동일)* |
 | 대상 문서 경로 | {예: munto-backend/docs/specs/{기능명}/SRS.md} |
 | 문서 유형 | SRS \| One Pager |
 | 리뷰 일시 | {YYYY-MM-DD HH:MM} |
@@ -299,9 +303,9 @@ Notion MCP `notion-fetch` 도구를 사용합니다.
 
 ### 박을 위치
 
-- 활성 시: `{cwd}/sessions/spec-review-{YYYY-MM-DD}-{문서명-slug}.md`
-  - 같은 날 같은 문서 리뷰가 *이미 있으면* 파일 끝에 `## 재리뷰 {N}회차` 섹션 *append*
-  - 같은 날 같은 문서가 *없으면* 신규 생성
+- 활성 시: `{cwd}/sessions/spec-review-{YYYY-MM-DD}-{문서명-slug}-{slack-handle}.md`
+  - 같은 사람이 같은 날 같은 문서 *재리뷰* 시 파일 끝에 `## 재리뷰 {N}회차` 섹션 *append*
+  - 같은 날 *다른 리뷰어* 의 같은 문서 리뷰는 *별도 파일* (`spec-review-{date}-{doc}-{다른-handle}.md`) — race condition·merge conflict 0
 - `{문서명-slug}` 은 대상 문서 파일명에서 확장자 제외한 부분 (kebab-case)
 
 ### 자동 박지 *않는* 케이스

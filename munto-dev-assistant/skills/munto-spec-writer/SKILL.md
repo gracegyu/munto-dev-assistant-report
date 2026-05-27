@@ -14,7 +14,7 @@ name: "munto-spec-writer"
 description: "Writes Munto spec docs (SRS, Engineering One Pager) following the internal standard (spec-standard.md). Triggers: \"작성\", \"쓰기\", \"write\", \"스펙 작성\", \"SRS 작성\", \"원페이저 작성\", \"문서 작성\", \"SRS 써줘\", \"원페이저 써줘\", \"스펙 써줘\"."
 metadata:
   last_modified: "2026-05-27"
-  revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장. cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-session-{date}.md 에 자동 append. TO-BE §4.7.4 (1)(2)(5) 정책 반영."
+  revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장. 작성자별 파일 분리 정책 (옵션 α): cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-session-{date}-{slack-handle}.md 에 자동 append. {slack-handle} 자동 추출: 명시 인자 → git config user.email → $USER → 1 회 질문. TO-BE §2.3 ⑧ + §4.7.4 (1)(2)(4)(5) 정책 반영."
 ---
 
 # 스펙 문서 작성
@@ -31,6 +31,13 @@ metadata:
    - 아니면: 사용자에게 1 회 경고 후 작업 계속. 메시지:
      > *"세션 저장이 비활성입니다. cwd 가 `munto-dev-assistant/projects/{프로젝트명}/` 일 때만 자동 저장됩니다. 활성화하려면: (i) cwd 이동 후 재호출 (ii) `프로젝트명=…` 인자 명시 (iii) 그대로 진행 (세션 저장 안 함)"*
    - 사용자가 (ii) 를 선택했고 `projects/{프로젝트명}/` 폴더가 *존재* 하면 절대 경로로 박기 활성
+
+4. **`{slack-handle}` 추출 (세션 저장 활성 시만)** — 다음 우선순위로 시도. 첫 성공 값을 본 세션 동안 유지:
+   - (1) 호출 인자에 `slack=@gracegyu` 같은 명시 → 그대로 사용
+   - (2) `git config user.email` 실행 후 `@` 앞 부분 (예: `gracegyu@munto.kr` → `gracegyu`)
+   - (3) 환경변수 `$USER` 또는 `$LOGNAME`
+   - (4) 위 3 단계 모두 실패 → 사용자에게 *1 회만* 질문: *"파일명에 사용할 Slack 핸들을 입력하세요 (예: gracegyu)"*
+   - 결과 검증: 공백·특수문자(`/`·`\`·`:`) 가 있으면 *kebab-case slugify* (소문자 + 영숫자·하이픈만). 비어 있으면 `unknown` 으로 박고 사용자에게 *경고* (재시도 권장)
 
 ## 문서 유형 판별
 
@@ -335,10 +342,11 @@ Technical Description
 
 ---
 
-## 세션 저장 — 자동 (a) *[2026-05-27 신설 — TO-BE §4.7.4]*
+## 세션 저장 — 자동 (a) *[2026-05-27 신설 — TO-BE §2.3 ⑧ + §4.7.4]*
 
-> 작성 작업이 끝나면 *팀 공유 영구 기록* 으로 `sessions/spec-session-{YYYY-MM-DD}.md` 에 자동 append.
+> 작성 작업이 끝나면 *팀 공유 영구 기록* 으로 `sessions/spec-session-{YYYY-MM-DD}-{slack-handle}.md` 에 자동 append.
 > *시작 전 준비 3* 에서 *세션 저장 활성* 으로 판정된 경우에만 수행. 비활성이면 본 단계 *스킵* (사용자에게 별도 안내 없음).
+> **작성자별 파일 분리 정책 (옵션 α)** — 멀티 작성자 동시 작업 시 race condition·git merge conflict 0. `{slack-handle}` 은 *시작 전 준비 4* 의 추출 결과 사용.
 
 ### 자동 박을 내용 (최소 양식 — TO-BE §4.7.4 (2))
 
@@ -347,6 +355,7 @@ Technical Description
 
 | 항목 | 값 |
 |------|------|
+| 작성자 Slack 핸들 | {slack-handle} *(파일명과 동일 — 메타 헤더에 명시)* |
 | 문서 유형 | SRS \| One Pager |
 | 작업 대상 | {Notion URL or 로컬 파일 경로} |
 | 결과 산출물 경로 | {예: munto-backend/docs/specs/{기능명}/SRS.md} |
@@ -359,14 +368,15 @@ Technical Description
 
 ### 박을 위치
 
-- 활성 시: `{cwd}/sessions/spec-session-{YYYY-MM-DD}.md`
-  - 같은 날 같은 파일이 *이미 있으면* 파일 끝에 새 섹션 *append*
-  - 같은 날 같은 파일이 *없으면* 신규 생성. 파일 헤더:
+- 활성 시: `{cwd}/sessions/spec-session-{YYYY-MM-DD}-{slack-handle}.md`
+  - 같은 날 *같은 사람* 의 같은 파일이 *이미 있으면* 파일 끝에 새 섹션 *append*
+  - 같은 날 *같은 사람* 의 파일이 *없으면* 신규 생성. 파일 헤더:
     ```markdown
-    # Spec 작성 세션 — {YYYY-MM-DD}
+    # Spec 작성 세션 — {YYYY-MM-DD} — @{slack-handle}
 
-    > 본 파일은 `munto-spec-writer` / `munto-spec-review` 가 자동 박은 *팀 공유 영구 기록* 입니다 (TO-BE §4.7.4 (1)(2)).
+    > 본 파일은 `munto-spec-writer` 가 자동 박은 *팀 공유 영구 기록* 입니다 (TO-BE §2.3 ⑧ + §4.7.4 (1)(2)).
     > AI 도구 raw 세션 (`~/.claude/`) 과 다릅니다 — 본 파일은 *팀이 다음 단계에서 참조* 합니다.
+    > **작성자별 분리 정책** — 다른 사람의 같은 날 작업은 `spec-session-{date}-{다른-handle}.md` 에 따로 박힙니다. 시간순 통합이 필요하면 `cat sessions/spec-session-{date}-*.md | sort`.
 
     ```
 - 호출자 (`프로젝트명=` 인자 명시) 가 *절대 경로* 를 지정한 경우: 해당 경로 사용
