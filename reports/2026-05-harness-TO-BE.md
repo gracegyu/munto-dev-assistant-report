@@ -1437,6 +1437,74 @@ ip-writer 는 *baseline-handoff.md 의 핵심 결정 3~5 개* 를 IP 본문 §1 
 - ❌ Hook 으로 생성된 `spec-hook-turn-*.md` 를 *공유 Git 에 push* → 노이즈. `.gitignore` 정책 유지
 - ❌ `spec-baseline-handoff.md` 의 *재검토 조건* 항목을 *공란* 으로 둠 → §4.7.3 대안 검토 박스의 *재검토 조건* 과 일관성 깨짐
 
+#### 4.7.5 멀티 Repo Spec 인프라 — *작성 백로그* (TODO)
+
+> **현 상태**: *비어 있음*. **PHASE 0~1 의 가장 큰 빈자리** — 신규 프로젝트가 *수십 개 기존 Repo 의 `docs/` 폴더에 흩어진 Spec* 을 어떻게 *발견·매핑·참조* 할지 정의된 가이드가 없다. 아래 7 가지 산출물을 별도 트랙으로 박아 본 절을 *작성 백로그* 로 운영한다.
+>
+> **왜 본 §4.7 묶음에 박는가**: §4.7.1 4 팁·§4.7.2 Glossary·§4.7.3 대안 검토·§4.7.4 Spec 세션 저장 모두 *PHASE 0~1 에서 사람·AI 가 따라야 할 가이드 정책 묶음*. *기존 Repo 의 Spec 자산을 끌어다 쓰는 방법* 도 같은 위계의 *입력 정책*. 본 절은 *해야 할 일을 박는* 메타 박스이며, 실제 가이드 본문은 별도 트랙으로 *MUNTO-XXX* (DEVT 또는 별도 이슈 키) 작업.
+
+##### 빈자리의 구체 증상
+
+| 빠진 항목 | 현재 영향 |
+|----------|---------|
+| **Repo 인벤토리** — 어떤 Repo 가 있고 각각이 어떤 도메인을 담당하는지 | 신규 프로젝트가 *어느 Repo 의 docs/ 를 봐야 할지* 매번 사람이 추측 |
+| **각 Repo 의 `docs/` 폴더 구조 표준** | Repo 마다 docs/ 구조가 제각각 → AI·사람 모두 *탐색 비용 폭증* |
+| **베이스라인 SHA 핀 절차** | §IP-3 의 표기 양식 (`{repo}/{path}#{anchor}@{sha}`) 은 박혔으나 *실제로 SHA 어떻게 얻고 박는지* 없음 |
+| **멀티 Repo Spec 인덱스 — *실체 산출물*** | `ip-standard.md §작성 시점과 위치` L69 에 *언급* 만 있고 *어디에·누가* 박는지 정의 0. `ip-standard.md §멀티 Repo Spec 참조 4 요소 *Spec Index 활용*` 도 *원리만* 박힘 |
+| **`dev-chain-design` 의 입력 정책** | `.agents/skills/common/docs/dev-chain-design/SKILL.md` *입력 확인* 절 — *기존 Swagger URL* 한 줄만, *기존 Repo docs/* 탐색·조립 정책 없음 |
+| **anchor 표기 안정성** | 6 개월 후 Spec 헤딩 바뀌면 `{anchor}` 전부 깨짐. *헤딩 ID 변경 시 호환성* 규약 없음 |
+| **Repo 별 `docs/` 작성 컨벤션** | 통일 표준이 없어 *Repo 마다 자유* — 인덱스 자동 생성 불가 |
+
+##### 박을 산출물 7 종 (작성 백로그)
+
+각 산출물의 *최종 위치 / 파일명 / 책임자* 는 별도 PR 에서 사용자 결정. 본 절은 *해야 할 일 + 박을 항목 요약* 만 담는다.
+
+| # | 산출물 (가칭) | 핵심 내용 | 책임자 (예상) | 트리거 |
+|---|--------------|----------|--------------|--------|
+| 1 | **`munto-dev-assistant/repo-inventory.md`** | Munto 가 다루는 *모든 Repo* 의 이름·역할·기본 브랜치·docs/ 존재 여부·Owner 1 인. 신규 Repo 추가 시 본 인벤토리 PR 갱신 의무 | 분석 아키텍트 + 백엔드 리드 | Repo 신설/폐기·도메인 재배치 시 |
+| 2 | **`munto-dev-assistant/repo-docs-convention.md`** | *각 Repo 의 `docs/` 폴더가 따라야 할 구조 표준* — `docs/specs/{도메인}/SRS.md`·`docs/specs/{도메인}/DBML.md` 같은 *권장 트리* + *각 파일 헤더 양식* (도메인·상태·last-baseline). 기존 Repo 는 *마이그레이션 백로그* | 분석 아키텍트 | 표준 합의 시 + 각 Repo PR 시 |
+| 3 | **`munto-dev-assistant/multi-repo-spec-index.md`** | *멀티 Repo Spec 인덱스 실체* — `ip-standard.md` 가 언급한 *인덱스* 의 *진짜 산출물*. 컬럼 = `Spec ID (S-BE-1 등) / Repo / 경로 / 도메인 / 마지막 baseline SHA / 마지막 갱신일 / Owner`. *PHASE 1 Spec 베이스라인 동결 시 자동 1 행 append* | ip-writer + Repo Owner | 새 Spec 베이스라인 동결 시 |
+| 4 | **`munto-dev-assistant/baseline-sha-pinning.md`** | *실제 SHA 얻기·박기 절차* — `git ls-remote {repo} HEAD` / Repo PR 머지 시점 SHA 자동 박는 GitHub Actions 견본 / 사람이 수동으로 박을 때의 명령 | 인프라 + ip-writer 사용자 | IP 작성 시·Spec 변경 시 |
+| 5 | **`dev-chain-design/SKILL.md` *입력 확인* 절 갱신** | 현 본문의 *기존 Swagger URL* 1 줄을 *기존 Repo docs/ 탐색 4 단계* 로 확장 — (i) 인벤토리 조회 (ii) 도메인 매칭 (iii) `docs/specs/` 트리 탐색 (iv) 인덱스 등록 + Owner 확인 | dev-chain-design 운영자 | 1~3 완료 후 |
+| 6 | **`munto-dev-assistant/spec-anchor-stability.md`** | *헤딩 ID 변경 시 호환성 규약* — `<a id="ANCHOR-ID">` 같은 *고정 anchor* 의무화 / *line 범위 anchor 금지* / 헤딩 변경 시 *anchor 유지* 의무. `dbml-reviewer`·`spec-reviewer` 자동 검출 패턴 | 분석 아키텍트 + 스킬 운영자 | 표준 합의 시 |
+| 7 | **Repo 별 `docs/README.md` 양식 (각 Repo PR)** | 각 Repo 의 `docs/README.md` 헤더 *3 줄 의무* — *(i) 본 Repo 의 도메인·범위* *(ii) 본 docs/ 의 구조 (2 번 표준 링크)* *(iii) 멀티 Repo 인덱스 (3 번) 링크*. 신규 Repo PR 머지 게이트로 박힘 | 각 Repo Owner | Repo 신설 시·기존 Repo 마이그레이션 시 |
+
+##### 운영 흐름 (산출물 1~3 완성 후)
+
+```
+신규 프로젝트 PHASE 0 입력 단계
+  ↓
+[분석 아키텍트] repo-inventory.md (1) 조회 → 관여 Repo 도출
+  ↓
+[ip-writer 또는 사람] multi-repo-spec-index.md (3) 조회 → Spec ID 목록 추출
+  ↓
+[ip-writer] IP Task 카드 spec_refs[] 에 *S-BE-1 §4.2.3* 줄임 표기로 박음 (ip-standard.md §멀티 Repo Spec 참조 4 요소 *Spec Index 활용*)
+  ↓
+[자동] baseline-sha-pinning.md (4) 절차로 SHA 자동 핀
+  ↓
+[PHASE 2 무인 루프] spec_refs[] 의 4 요소로 *정확한 baseline 컨텍스트* 만 읽음
+```
+
+##### 본 백로그의 *현실적 우선순위*
+
+- **1·2·3·5** = *함께* 박혀야 동작 (인벤토리 없으면 인덱스 무의미, 인덱스 없으면 design 입력 정책 갱신 불가)
+- **4·6** = 1~3 위에 *얹는* 자동화·안정화
+- **7** = 각 Repo PR 트랙 (가장 느리게 채워짐)
+
+##### 본 절 제거 조건 (PR 머지로 닫는 조건)
+
+> 본 §4.7.5 는 *백로그* 이므로, 위 7 종 산출물이 *모두 박혀 운영에 진입* 하면 본 절을 *§4.7.5 멀티 Repo Spec 인프라 — 운영* 으로 *전면 재작성* (백로그 → 운영 가이드). 그 시점에 변경 이력 1 행 추가.
+
+##### 안티 패턴
+
+- ❌ 본 백로그 7 종 중 *1·2·3 없이* 다른 산출물부터 박음 → 의존 깨짐, 일관성 0
+- ❌ Repo 인벤토리 (1) 을 *Notion 페이지* 로 운영 → AI 가 매번 fetch 비용 + 베이스라인 SHA 비호환. *반드시 Git 트래킹 파일*
+- ❌ `multi-repo-spec-index.md` (3) 자동 append 트리거를 *사람 수동* 으로 박음 → 누락·지연 → IP 작성 단계가 *최신 Spec 모름*
+- ❌ Repo 별 `docs/README.md` (7) *없이* `docs/specs/` 트리만 박음 → 신규 진입자가 *어디부터 봐야 할지* 모름. 표준화 무력화
+- ❌ baseline SHA 핀 (4) 을 *대략의 날짜* 로 대체 → §IP-3 의 4 요소 표기 무력화
+
+---
+
 ### 4.8 스펙 변경 관리 (모든 PHASE 공통)
 
 §3.4 베이스라인 설정 이후 발생하는 *모든 변경* 은 본 절차를 따른다. **베이스라인이 있다는 것 ≠ 변경 금지** — *변경하되, 영향을 통제해서 변경* 한다는 의미다. (§2.4 변경 원칙 적용)
@@ -1839,6 +1907,7 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | 2026-05-27 | **§2.3 ⑧ *Spec ↔ 구현의 컨텍스트 단절 원칙* 신설 + 5 군데 정합성 정비 — 사용자 철학 *"Spec 작성 중 = 컨텍스트 보존 / Spec 완료 후 = IP·Spec 단일 진실"* 의 시스템 박음** *(§2.3 ⑦ 24 시간 무인 실행 인프라의 *전제* 로 박힘)* — ① **§2.3 제목 *7 개 → 8 개*** + ⑧ *Spec ↔ 구현의 컨텍스트 단절 원칙* 신설 — *두 단계 컨텍스트 보존 정책* 표 (PHASE 0~1 = 보존 / PHASE 2~3 = 단절) + *행위자별 의무·금지 매트릭스* (Spec 작성자·ip-writer·구현 개발자·무인 오케스트레이터·Owner 5 종 행위자의 cwd·읽을 입력·sessions/ 관계 명시) + *원칙의 결과 5 가지* (구현 개발자 cwd 분리 / sessions/ 박지 않음 / 인계 단일 컨텍스트 = IP or baseline-handoff / 멀티 작성자 = 파일 분리 정책 / PHASE 2 sessions/ = 모니터링 데이터). ⑦ 끝줄 *"①~⑥ 의 자연스러운 귀결"* 에 *"⑧ 단절 원칙의 시스템 구현"* cross-link 추가. ② **§4.7.4 도입부** — §2.3 ⑧ *PHASE 0~1 운영형* 임을 명시. (1) 파일 종류 매트릭스 — 작성자별 분리 정책 (옵션 α) 적용: `spec-session-{date}.md` → `spec-session-{date}-{author-id}.md`, `spec-review-{date}-{doc}.md` → `spec-review-{date}-{doc}-{author-id}.md`, `spec-hook-turn-{date}.md` → `spec-hook-turn-{date}-{author-id}.md`. baseline-handoff 와 handover 는 변경 없음 (전자 = 프로젝트당 1 회 Owner 단독, 후자 = from/to 가 이미 자명). (2) 최소 양식 — 각 파일에 *작성자/리뷰어 Slack 핸들* 메타 항목 추가. baseline-handoff 에 *Owner 사인·분석 아키텍트 사인* 항목 명시. (4) 신설 — `{author-id}` 자동 추출 4 단 우선순위 + slugify·fallback 정책. 끝 박스에 *시간순 통합이 필요하면 `cat sessions/*-*.md \| sort` 후처리* 안내 + *작성자별 분리가 시간순 통합을 기각한 3 가지 이유* 명시. ③ **§4.9.7 도입부 — *대상 독자* 명시 박스 신설**: ✅ 오케스트레이터·Owner·인계자 / ❌ 구현 개발자. 구현 개발자가 본 폴더를 *읽어야 일이 되면 IP 가 불완전* 한 것 (IP-9.4 로 위임) 명시. §2.3 ⑧ 의 *PHASE 2 운영형* 임을 명시. ④ **§4.4 PHASE 2 도입부 — *구현 개발자 운영* 박스 신설**: 3 행 표 (cwd / 입력 / 본인 진행 로그) + 위반 시 결과 명시. 유일 예외 = `handover-*.md` 인계 시 수동. 무인 오케스트레이터와의 *주체·목적 분리* 명시. ⑤ **IP-9.6 안티 패턴 6 번째 행 추가**: *구현 개발자가 sessions/ 에 본인의 일일/Task 진행 로그를 박음* → §2.3 ⑧ 위반. 대응 = 본인 로컬 + PR description 으로만, 팀 공유 sessions/ 는 오케스트레이터·Spec 작성자·인계자만 작성. **핵심 메시지: Spec 작성 중에는 *세션 컨텍스트가 흘러야* 하고, Spec 완료 후에는 *IP·Spec 만으로 닫혀야* 한다. 이 비대칭이 무인 실행을 가능하게 한다.** |
 | 2026-05-27 | **§4.7.4 *Spec 작성 세션 저장 정책* 신설 — PHASE 0~1 컨텍스트의 PHASE 2 인계 보장 *(§4.9.7 의 PHASE 2 정책과 대칭 구조)*** *(현 운영의 가장 큰 컨텍스트 유실 지점 해소)* — ① **§4.7.4 신설 — 8 개 하위 절**: (1) 파일 종류 × 작성 주체 매트릭스 — 5 종 (`spec-session-{date}.md`·`spec-review-{date}-{doc}.md`·`spec-handover-{date}-*.md`·**`spec-baseline-handoff.md`**·*(옵션)* `spec-hook-turn-{date}.md`). *spec-session/review = (a) 스킬 호출 자동, handover = 사람 인계 수동, **baseline-handoff = Owner 사람 의무**, hook-turn = (c) Hook 자동·.gitignore 권장.* (2) 최소 양식 — 각 파일별 필수 항목 키워드 고정. baseline-handoff = *문서 4 종 경로·동결 SHA·핵심 결정 3~5·재검토 조건·미해결 TBD·ip-writer 우선 참조 5 컨텍스트* 박힘. (3) Git 커밋·PR 정책 — 4 종 `main` 직접 push (baseline-handoff 만 Owner+분석 아키텍트 ack 의무). hook-turn 은 `.gitignore` 권장. (4) **메타 작업 cwd = 권장** (`munto-dev-assistant/projects/{프로젝트명}/`) — *의무 아님*, 비활성 시 스킬이 경고 1 회 후 작업 계속 (IP-9 와 일관). (5) 자동 생성 책임자 — (a) `munto-spec-writer`/`munto-spec-review` 본 PR 갱신 / (c) Hook 견본 별도 PR 트랙. baseline-handoff 자동 점검은 `munto-spec-review` 가 *마지막 리뷰 PASS 시* 존재 여부 검사 → 없으면 BLOCKER. (6) **ip-writer 측 변경 — PHASE 1 → PHASE 2 컨텍스트 인계** — `dev-chain-implementation-plan` 의 ip-writer 호출 프롬프트에 *★ baseline-handoff 우선 참조 / ★ 최근 spec-session/review 참조 가능* 2 줄 추가. (7) 아카이브 — §4.9.7 (5) 동일. (8) 안티 패턴 5 종. ② **§4.9.7 도입부 cross-link 보강** — *PHASE 0~1 정책은 §4.7.4 참조* 1 줄 추가 + *대칭 구조* 명시. ③ **본 PR 의 적용 대기 본문은 `-report/munto-dev-assistant/skills/munto-spec-{writer,review}/SKILL.md` 와 `-report/munto-dev-assistant/.claude-hooks-proposal.json` 에 박혀 있음** — 운영 레포 (`munto-dev-assistant/.agents/skills/common/docs/`) 미수정. 정책 합의 후 일괄 이관. **핵심 메시지: Spec 작성 중 AI 와 나눈 추론·검토·대안 비교 대화는 *완성된 Spec* 만 남기고 휘발되고 있다 — *왜* 가 다음 사람·다음 AI 세션에 흘러야 PHASE 2 가 IP 를 신뢰할 수 있다.** |
 | 2026-05-27 | **§4.9.7 *세션 파일 저장 정책* 신설 — 자동/수동 매트릭스·BLOCKER 자동화·Git 커밋 정책 정의** *(IP-0 폴더 구조 도입 후 남은 정책 공백 메움)* — ① **기존 §4.9.7 *권장 구현* → §4.9.8 로 번호 밀기** (본문 외부 참조 0 확인). ② **신규 §4.9.7 신설 — 6 개 하위 절**: (1) 파일 종류 × 모드 매트릭스 (4 종: `daily-summary`·`phase-{n}-summary`·`blocker-{id}`·`handover-*`. 무인 모드 = 앞 3 종 자동 의무, 인계용 1 종 사람 수동). (2) 파일 내용 최소 양식 (각 파일별 필수 항목 키워드 고정 — 기계 판독 가능). (3) **Git 커밋·PR 정책 — *append-only 운영 기록* 으로 정의** → PR 없이 `main` 직접 push 허용, 리뷰 불요. ImplementationPlan.md 와의 비대칭 (IP 본문 = §4.8 CCB 의무, sessions/ = 직접 push) 명시. (4) 자동 생성 책임자 (GitHub Actions Cron / 오케스트레이터 이벤트 핸들러 / 자동 정지 핸들러). DEVT-135 완료 전 *현 운영 = 작성 의무 0* 명시. (5) 아카이브·보존 (`_archive/{YYYY}/{프로젝트명}/sessions/` 동행 이동). (6) 안티 패턴 5 종. ③ **§4.9.6 안전 기본값 표에 *세션 파일* 행 1 줄 추가** (Slack 알림 행과 짝, §4.9.7 cross-link). ④ **§4.3 IP-0 폴더 구조 박스의 sessions/ 줄 보강** — `phase-{n}-summary.md` 행 추가 + 정책 cross-link. **핵심 메시지: AI 도구 raw 세션(`~/.claude/` jsonl)은 자동 보존되지만 *팀 공유 영구 기록*은 `sessions/` 마크다운으로 별도 박는다 — 둘은 다른 것이다.** |
+| 2026-05-27 | **§4.7.5 *멀티 Repo Spec 인프라 — 작성 백로그* 신설 (TODO 박스)** *(사용자 지적: 수십 개 Repo 의 docs/ 에 분산된 기존 Spec 을 신규 프로젝트가 어떻게 발견·매핑·참조할지 가이드 0)* — ① **분석 결과**: 이미 박힌 자산 = `ip-standard.md §멀티 Repo Spec 참조 4 요소` 의 *표기 양식* (`{repo}/{path}#{anchor}@{sha}`) + Spec Index *원리* + 운영 레포 `document/` 21 개 자체 도메인 문서. 비어 있는 자산 = Repo 인벤토리·docs/ 구조 표준·SHA 핀 절차·인덱스 실체·dev-chain-design 입력 정책·anchor 안정성·Repo 별 docs/ 컨벤션 7 종 전체. ② **§4.7.4 끝에 §4.7.5 신설** — *작성 백로그* 메타 박스. 본 절은 *해야 할 일* 만 박고 실제 가이드 본문은 별도 PR 트랙. ③ **빈자리의 구체 증상 7 행 표**. ④ **박을 산출물 7 종 표** — (1) `repo-inventory.md` (2) `repo-docs-convention.md` (3) `multi-repo-spec-index.md` *(ip-standard.md L69 가 *언급만* 한 인덱스의 실체 산출물)* (4) `baseline-sha-pinning.md` (5) `dev-chain-design/SKILL.md` 입력 확인 절 4 단계로 확장 (6) `spec-anchor-stability.md` (7) Repo 별 `docs/README.md` 양식 3 줄 의무. 각 산출물에 *책임자·트리거* 박음. ⑤ **운영 흐름 mermaid 텍스트** — 신규 프로젝트 PHASE 0 → 인벤토리 조회 → 인덱스 조회 → IP Task 카드 줄임 표기 → SHA 자동 핀 → PHASE 2 무인 루프. ⑥ **현실적 우선순위** — 1·2·3·5 함께 박혀야 동작 / 4·6 위에 얹기 / 7 Repo PR 트랙. ⑦ **제거 조건** — 7 종 모두 운영 진입 시 본 절을 *운영 가이드* 로 전면 재작성. ⑧ **안티 패턴 5 종**. **핵심 메시지: *Spec 의 표기 양식은 박혔으나 *발견·매핑·동기화 인프라* 가 통째로 비어 있다 — IP 작성·dev-chain-design 입력의 가장 큰 빈자리* — 본 절이 그 빈자리를 *어떻게 메울지* 를 백로그로 박는다.** |
 | 2026-05-27 | **§4.7.4 (4) *Spec 작성 세션 식별자* 재정의 — 토큰 `{slack-handle}` → `{author-id}` 일괄 변경 + 자동 추출 정책 폐기** *(사용자 본인 환경에서 자동 추출 3 단계 검증 실패 — `git config user.email` = 전 회사 이메일 잔존, `$USER` = PC 계정명, 모두 Munto Slack 핸들과 무관)* — ① **용어 변경 사유**: `{slack-handle}` 이 *Slack 만 강조* 해서 *Slack 미사용·다른 식별자 (이메일 ID·GitHub username)* 사용자에게 *오해* 발생. *역할 명확한* `{author-id}` 로 변경 (= 팀이 합의한 작성자 식별 문자열, *어느 표기든 팀이 한 형태로 통일* 한 것). Munto 권장 = Slack 멘션 핸들 (`@gyuhyeon.jeon` → `gyuhyeon.jeon`). ② **자동 추출 폐기 사유**: 다중 회사 이메일 잔존·오픈소스용 별도 계정·PC 계정명 불일치 등으로 사용자 의도와 어긋날 확률 높음 — 공식 정책에서 제거. ③ **신정책 = 2 단계** — (1) 호출 시 명시 인자 `author=gyuhyeon.jeon` *(권장 디폴트)*, (2) 미명시 시 *세션 첫 호출에 1 회만* 질문 + 세션 캐싱. ④ **빈 값 입력 시** *세션 저장 자체 스킵 + 경고* — `unknown` 으로 박지 않음 (익명 산출물 추적 가치 0). ⑤ **팀 인덱스 (선택·미래)** — `munto-dev-assistant/team/members.yml` 같은 *팀 멤버 식별자 인덱스* 별도 PR 트랙으로 박으면 *드롭다운 선택지·오타 검출* 가능. 본 PR 범위 외. ⑥ **본 PR 동기화 범위** — TO-BE §4.7.4 (1)(2)(4) 본문 + 토큰 11 곳 일괄 치환 / ip-standard.md PHASE 0~1 표 6 곳 / `_template/ImplementationPlan.md` §1 헤더·§7 셀·§8 Change History 5 곳 + 헤더 주석 보강 / `_template/README.md` 7 곳 + 자동 추출 우선순위 박스 갱신 / `skills/munto-spec-{writer,review}/SKILL.md` 적용 대기본 — 시작 전 준비 §4 재작성 (4 단 → 2 단), `revision` 갱신, 헤더 항목명 변경 / `.claude-hooks-proposal.json` — Hook 은 *비대화형* 이라 *환경변수 `MUNTO_AUTHOR_ID` 만* 사용, 미설정 시 *silent no-op* (사용자가 `~/.zshrc` 에 1 회 박음), git config·`unknown` fallback 모두 제거, `_comment_author_id` 신설. **핵심 메시지: 자동 추출은 *환경 의존적 가정* 으로 실패율 높음 — *사용자 명시 입력* 이 더 명확하다. 식별자 이름은 *Slack 한정* 이 아니라 *팀 합의 식별자* 다.** |
 | 2026-05-27 | **§4.3 IP-0 폴더 구조로 전환 + §4.3 IP-9 *동시 프로젝트 운영·세션 관리* 소절 신설** *(멀티 프로젝트 + 무인 모드 + ③ 별도 repo Spec 방식 도입으로 부속 산출물이 누적되는 현실 반영)* — ① **§4.3 IP-0 전면 재작성** — *단일 파일 `{프로젝트명}.ip.md` → 프로젝트 폴더 `{프로젝트명}/`*. IP 본문 파일명은 **`ImplementationPlan.md` (폴더 안 고정명, 프로젝트명 prefix 없음 — 폴더가 식별자 역할)**. 폴더 구조 = *필수 1 (`ImplementationPlan.md`) + 옵션 4* (`README.md`·`sessions/`·`decisions/`·`attachments/`·`spec-stubs/`) — *옵션은 필요할 때만 생성, 빈 폴더 사전 생성 금지*. 메이저 변경(v2.0) = *새 폴더* (`{프로젝트명}-v2/`). 단일 파일 한계 5 가지(무인 모드 세션 로그 위치 모호·③ 별도 repo STUB 위치 모호·Figma 캡처·Decision Log 누적·아카이브 단위) 박스로 명시. ② **§3.4 PHASE 1 IP 작성 박스** — 출력 경로 표기 동기화 (`projects/{프로젝트명}/ImplementationPlan.md`). ③ **§4.3 IP-9 신설** — *동시 프로젝트 운영·세션 관리* 소절. 핵심 사실 *AI 도구의 세션 격리는 cwd / 워크스페이스가 단위* 정리표(Claude Code = cwd 기반, Cursor = 워크스페이스 기반, 저장 위치 명시). **원칙 4 가지** (1 프로젝트 = 1 워크스페이스 = 1 세션 트랙 / 워크스페이스 = 해당 Repo 묶음 + munto-dev-assistant / 메타 작업 cwd = `projects/{프로젝트명}/` · 구현 cwd = 각 Repo / 인계 단일 컨텍스트 = `ImplementationPlan.md`). **6 개 하위 절** — IP-9.1 워크스페이스 구성(`workspace/*.code-workspace` 양식, 이름 = IP 폴더 이름) / IP-9.2 Claude Code cwd 결정 트리 (작업 성격 5 종 × 권장 cwd 표) / IP-9.3 세션 재개·전환 명령 (Claude Code · Cursor · 시나리오 4 종 표) / IP-9.4 세션 인계 6 단계 (IP-6 *세션 분리* 모드의 실행 절차, IP-6 *왜·언제* vs IP-9.4 *어떻게* 책임 분리) / IP-9.5 세션 종료·아카이브 (Task·Phase·v1.x·프로젝트 종료별 4 단계) / IP-9.6 **안티 패턴 5 종** (워크스페이스 전환 / 같은 cwd `--continue` 다른 프로젝트 / 루트에서 메타 작업 / IP 폴더에 코드 보관 / 워크스페이스 미공유). **IP-6 ↔ IP-9 직교 관계 명시** — IP-6 은 *한 프로젝트 안에서* 세션 통합 vs 분리, IP-9 는 *여러 프로젝트 간* 격리. **핵심 메시지: AI 도구의 세션 격리는 *cwd / 워크스페이스 레벨* 에서만 가능 — *한 IDE 윈도우에서 워크스페이스 전환* 같은 사람 행동이 세션 오염의 1 차 원인**. |
 | 2026-05-22 | **Implementation Plan (구현계획서, IP) 도입 — PHASE 1 의 마지막 활동으로** *(Spec → 무인 실행 사이의 누락 고리 해결)* — ① **§4.3 끝에 *PHASE 1 마지막 활동 — Implementation Plan 작성* 소절 신설** (8 개 하위 항목: IP-1 문서 구조(8 섹션 + Task 카드 9 필드) / IP-2 Task 단위 기준(분량·책임·시간·외부 의존·롤백) / IP-3 멀티 Repo Spec 참조 4 요소 `{repo}/{path}#{anchor}@{sha}` / IP-4 의존성 DAG / IP-5 DoD = TCL 케이스 ID 매핑 / IP-6 *디폴트 없음* 세션 통합 vs 분리 판단 기준 4 개(Repo 수·Task 수·기간·인원) / IP-7 Spec 작성 3 방식 매트릭스(① 기존 수정 디폴트 / ② Sub스펙 누적 / ③ 별도 repo 예외 + PHASE 3 후 원본 통합 의무) / IP-8 IP 자체의 사람 리뷰 = 통과=인수). ② **§3.4 PHASE 1 다이어그램 보강** — GATE 통과 후 *베이스라인 v1.0 설정 → IP 작성 → IP 리뷰 → DONE* 흐름 추가. PHASE 2 진입 자격은 *IP 통과 시점*에 확정. ③ **§3.4 본문에 IP 작성 박스 신설** — 위치/입력/출력/게이트/작성 책임 + *왜 별도 활동인가* 메시지. ④ **§2.3 ② Phase→Task→Sub스펙 박스** 끝에 *"IP = ②의 실행 가능한 산출물"* 1 줄 보강. ⑤ **§4.9 무인 실행 모드 보강** — *루프의 유일한 입력 = IP v1.x* 박스 신설, 트리거 4 종에 *IP Task 카드 단위 트리거* 추가, 자동 정지 조건에 *IP DAG 끊김·순환* 추가, **Slack 알림을 *Phase 완료 / BLOCKER / 일일 요약* 3 종 묶음** 정책으로 보강 (Task 1:1 푸시는 노이즈). ⑥ **§4.8.1 변경 관리 표** — *IP 변경* 행 추가 (IP 도 베이스라인 산출물). ⑦ **§7 비교 표에 4 행 추가** — *Task 단위 컨텍스트 전달 / 멀티 Repo Spec 매핑 / 분산 Spec 작성 3 방식 정책 / Spec→구현 세션 운영*. **핵심 메시지: Spec 이 완벽해도 *Task 마다 컨텍스트를 매번 설명해야 하면 무인화는 불가능*. IP 는 Spec 을 *무인 실행 가능한 형태로 변환한 단일 문서*다.** |
