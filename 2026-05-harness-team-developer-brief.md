@@ -4,7 +4,7 @@
 
 **대상**: 문토 개발자 · 리드 · 코치
 **기준 일자**: 2026-05-20 (TO-BE 3차 보강 반영)
-**상세 가이드**: 본 브리핑은 *요약본*이다. 전체 다이어그램·표·근거는 별도 문서 **`2026-05-harness-TO-BE.md`** (TO-BE 프로세스 가이드) 를 참고한다. AS-IS 의 문제 진단은 **`2026-05-harness-AS-IS.md`** 에서 다룬다.
+**상세 가이드**: 본 브리핑은 *요약본*이다. 전체 다이어그램·표·근거는 [TO-BE 프로세스 가이드 (Notion)](https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56) 를 참고한다. AS-IS 의 문제 진단은 [AS-IS 분석 (Notion)](https://www.notion.so/Munto-Dev-Assistant-AS-IS-36de2bc7639d808d9cedd2252484fd92) 에서 다룬다.
 
 ---
 
@@ -354,7 +354,7 @@ flowchart TD
 
 | # | 액션 | 언제까지 |
 | --- | --- | --- |
-| 1 | TO-BE 가이드 `2026-05-harness-TO-BE.md` 의 §1·§2·§3.1 (한 페이지) **정독** | 이번 주 |
+| 1 | [TO-BE 프로세스 가이드 (Notion)](https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56) §1·§2·§3.1 (한 페이지) **정독** | 이번 주 |
 | 2 | 본인이 *분석 아키텍트* 역할을 할 가능성이 있는 프로젝트가 있는지 확인 | 이번 주 |
 | 3 | 진행 중인 SRS 가 있다면 §1.2·§2.1·§2.2 가 **사람이 직접 쓴 부분인지** 자기점검 | 즉시 |
 | 4 | Swagger 리뷰 요청 시 *FE/App 소비자도 같이 호출*하는 습관 들이기 | 즉시 |
@@ -430,8 +430,8 @@ flowchart TD
 
 | 문서 | 어디서 보나 | 무엇이 들어있나 |
 | --- | --- | --- |
-| **TO-BE 프로세스 가이드** | `reports/2026-05-harness-TO-BE.md` | 전체 다이어그램·단계별 사용법·표 (본 브리핑의 원본) |
-| **AS-IS 분석 노트** | `reports/2026-05-harness-AS-IS.md` | 현재 하네스 구조·비판·문제 인식 |
+| **TO-BE 프로세스 가이드** | <https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56> | 전체 다이어그램·단계별 사용법·표 (본 브리핑의 원본) |
+| **AS-IS 분석 노트** | <https://www.notion.so/Munto-Dev-Assistant-AS-IS-36de2bc7639d808d9cedd2252484fd92> | 현재 하네스 구조·비판·문제 인식 |
 | **SRS 작성 표준** | `munto-dev-assistant/document/spec-standard.md` | 섹션별 작성 지침 (특히 §1.2 Product Scope) |
 | **SRS v3.3 템플릿** | `munto-dev-assistant/document/spec-templates/SRS_v3.3_template.md` | 섹션별 한글·표준 SRS 유도 문 |
 | **One Pager 템플릿** | `munto-dev-assistant/document/spec-templates/OnePager_v1.0_template.md` | 경량 Spec 템플릿 |
@@ -439,7 +439,7 @@ flowchart TD
 | **어댑터 검증** | `munto-dev-assistant/scripts/check-adapters.sh` | 어댑터 정합성 자동 검증 |
 | **적용 대기본 실물 (임시 GitHub 레포)** | <https://github.com/Munto-dev/munto-dev-assistant-tobe-temp> | TO-BE 정책의 *변경 예정 본* — Skill 갱신본·IP 견본·Spec 작성 표준·`.claude-hooks-proposal.json` 등. 본 리뷰 합의 후 운영 레포 `munto-dev-assistant` 로 *일괄 이관* 후 *아카이브/삭제*. 자세한 안내는 해당 레포 `README.md` |
 
-> **Notion 게시 시**: 위 문서들도 Notion 페이지로 옮기는 경우, 이 브리핑 본문의 *경로 표기* 를 *각 페이지 링크* 로 일괄 치환한다. 본 문서는 의도적으로 *상대경로 링크를 쓰지 않고 텍스트로만 표기* 했다 (Notion·구글 docs 어디로 옮겨도 깨지지 않게).
+> **운영 레포 경로 표기**: `munto-dev-assistant/...` 행은 *사내 GitHub 운영 레포* 내 위치를 가리킨다. TO-BE·AS-IS 는 위 표의 Notion URL 을 사용한다.
 
 ### 12.1 향후 박힐 산출물 — 예고 (TO-BE §4.7.5 작성 백로그)
 
@@ -475,3 +475,4 @@ flowchart TD
 | **2026-05-27** | **§12 표에 *적용 대기본 실물* (임시 GitHub 레포) 행 신설 + 헤더 노트 보강** — 본 리뷰의 *원칙·방향* 3 문서 (AS-IS / TO-BE / 본 브리핑) 는 Notion 게시, *실물 (Skill 갱신본·IP 견본·Spec 작성 표준 등)* 은 별도 임시 GitHub 레포 `Munto-dev/munto-dev-assistant-tobe-temp` 로 분리 공유 결정 반영. ① §12 표 맨 끝에 *적용 대기본 실물* 행 1 줄 추가 (URL + 이관/아카이브 일정 안내). ② §12 헤더 노트 *"모두 ... 안에 있다"* → *"대부분 ... 안에 있으며, *적용 대기본 실물* 만 별도 임시 GitHub 레포 (마지막 행) 에 있다"* 로 수정. *마크다운 본문의 *경로 텍스트* 는 §12 의 L442 노트대로 *Notion 게시 시* 만 페이지 링크로 일괄 치환 — 본 GitHub 본문은 원본 형태 유지.* |
 | **2026-05-27** | **외부 접근 불가 경로 `munto-dev-assistant-report` 일괄 제거** *(사용자 본인 개인 레포 — 외부 리뷰어/팀원 접근 불가, Notion 게시 시 의미 없는 경로 텍스트가 됨)* — ① §10.2 행 15 (`munto-spec-{writer,review}` 적용 대기본 이관) 의 소스 경로 `munto-dev-assistant-report/munto-dev-assistant/skills/...` → *임시 GitHub 레포* `Munto-dev/munto-dev-assistant-tobe-temp` 의 `skills/...`. ② §10.2 행 16 (`.claude-hooks-proposal.json` 견본) 의 위치 표기 동일 패턴 치환 — *임시 GitHub 레포 루트의 `.claude-hooks-proposal.json`*. ③ §12 헤더 노트 — *"대부분 `munto-dev-assistant-report` 레포 안에 있으며"* → *"정책 원문 (TO-BE / AS-IS) 은 *§1 헤더의 Notion 페이지*, 운영 레포 표준·템플릿은 사내 GitHub 의 `Munto-dev/munto-dev-assistant`, 적용 대기본 실물은 임시 GitHub 레포 (마지막 행)"* 3 위치 명시. ④ L7 (§1 헤더 *상세 가이드*) 에서 외부 비공개 참고 문서 언급 1 문장 제거. *본 변경은 §12 표 안의 `reports/...` / `munto-dev-assistant/...` *문서 경로* 행들 (L7 / L357 / L433-434) 은 손대지 않음* — L442 노트의 *Notion 게시 시 페이지 링크 일괄 치환* 정책에 따라 *GitHub 본문은 원본 형태 유지*. **핵심 메시지: 외부 공유 가능 자료는 *Notion 페이지* (정책 원문) + *사내 GitHub 운영 레포 `munto-dev-assistant`* + *임시 GitHub 레포 `munto-dev-assistant-tobe-temp`* 3 곳뿐. *작성자 개인 레포* (`munto-dev-assistant-report`) 는 *외부 본문에 박지 않음*.** |
 | **2026-05-27** | **개인 전용 참고 문서에 대한 교차 참조 전면 제거** — 작성자 개인 전용 문서에 대한 TO-BE §8·TO-BE/AS-IS/brief 변경 이력 내 링크·파일명·문서명 언급 일괄 삭제. 외부 공유 대상 (Notion AS-IS/TO-BE/brief, 임시 GitHub 레포, 운영 레포) 간 참조만 유지. |
+| **2026-05-27** | **`reports/2026-05-harness-*.md` 경로 → Notion URL 일괄 치환** — §1 헤더(L7)·§10.1(L357)·§12 표(TO-BE·AS-IS 2행) 및 임시 GitHub 레포 본문(`ip-standard.md`·`projects/`·`_template/`·`dev-chain-design-update-proposal.md`·`dev-chain-implementation-plan/SKILL.md`·`README.md`) 의 TO-BE/AS-IS 참조를 Notion URL 로 통일. §12 하단 노트를 *운영 레포 경로 표기* 안내로 교체. `jira.md` 고려요소도 동기화. **`munto-dev-assistant/...` 운영 레포 경로·변경 이력의 파일명 기록은 유지** (아래 *URL 치환 보류* 참고). |

@@ -11,7 +11,7 @@
 표준 문서:
 - `../../ip-standard.md` — 8 섹션 / 9 필드 / 5 기준 / 4 요소 / DoD 3 요건 상세
 - `../../skills/dev-chain-implementation-plan/SKILL.md` — ip-writer/ip-reviewer 자동 생성 절차
-- `../../../reports/2026-05-harness-TO-BE.md` §4.3 IP-0 ~ IP-9 — 정책 원본
+- [TO-BE 프로세스 가이드 (Notion)](https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56) §4.3 IP-0 ~ IP-9 — 정책 원본
 
 본 견본의 모든 `<!-- ... -->` 주석은 *작성 가이드* 이므로 실제 IP 작성 후 *모두 삭제* 합니다.
 

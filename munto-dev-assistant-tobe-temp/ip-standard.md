@@ -9,7 +9,7 @@
 - 상위 표준: [`spec-standard.md`](./spec-standard.md) — SRS·Engineering One Pager 작성 표준
 - 보강 검토안: [`dev-chain-design-update-proposal.md`](./dev-chain-design-update-proposal.md) — 기존 `dev-chain-design` 스킬에 IP 자동 초안 생성 단계 신설 검토안
 - 신규 스킬 초안: [`skills/dev-chain-implementation-plan/SKILL.md`](./skills/dev-chain-implementation-plan/SKILL.md)
-- TO-BE 참조: `reports/2026-05-harness-TO-BE.md` §4.3 (IP-0 ~ IP-9)
+- TO-BE 참조: [TO-BE 프로세스 가이드 (Notion)](https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56) §4.3 (IP-0 ~ IP-9)
 
 ---
 

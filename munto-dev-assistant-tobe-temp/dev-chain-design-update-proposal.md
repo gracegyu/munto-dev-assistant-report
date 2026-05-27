@@ -8,7 +8,7 @@
 - 상위 표준: [`ip-standard.md`](./ip-standard.md) — IP 작성 표준
 - 신규 스킬 초안: [`skills/dev-chain-implementation-plan/SKILL.md`](./skills/dev-chain-implementation-plan/SKILL.md) — 본 검토안과 대안 관계
 - 기존 스킬: 본 레포 `.agents/skills/common/docs/dev-chain-design/SKILL.md` (검토 시점 그대로 두고, 본 문서는 *제안만* 함)
-- TO-BE: `reports/2026-05-harness-TO-BE.md` §4.3 (IP-0 ~ IP-8) / §4.9 (PHASE 2 무인 모드)
+- TO-BE: [TO-BE 프로세스 가이드 (Notion)](https://www.notion.so/Agentic-Dev-Chain-Munto-TO-BE-36de2bc7639d8052b13fc49575c10e56) §4.3 (IP-0 ~ IP-8) / §4.9 (PHASE 2 무인 모드)
 
 ---
 
