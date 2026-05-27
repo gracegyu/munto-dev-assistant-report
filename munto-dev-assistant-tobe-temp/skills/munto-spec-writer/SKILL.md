@@ -10,11 +10,9 @@
 -->
 
 ---
-name: "munto-spec-writer"
-description: "Writes Munto spec docs (SRS, Engineering One Pager) following the internal standard (spec-standard.md). Triggers: \"작성\", \"쓰기\", \"write\", \"스펙 작성\", \"SRS 작성\", \"원페이저 작성\", \"문서 작성\", \"SRS 써줘\", \"원페이저 써줘\", \"스펙 써줘\"."
-metadata:
-  last_modified: "2026-05-27"
-  revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장. 작성자별 파일 분리 정책 (옵션 α): cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-session-{date}-{author-id}.md 에 자동 append. {author-id} 입력 = 호출 시 명시 인자 우선, 미명시 시 세션 첫 호출에 1 회 질문 + 캐싱 (자동 추출 폐기 — git config 가 회사 이메일이 아닌 케이스 다수로 검증 실패). TO-BE §2.3 ⑧ + §4.7.4 (1)(2)(4)(5) 정책 반영."
+
+name: "munto-spec-writer" description: "Writes Munto spec docs (SRS, Engineering One Pager) following the internal standard (spec-standard.md). Triggers: \"작성\", \"쓰기\", \"write\", \"스펙 작성\", \"SRS 작성\", \"원페이저 작성\", \"문서 작성\", \"SRS 써줘\", \"원페이저 써줘\", \"스펙 써줘\"." metadata: last_modified: "2026-05-27" revision: "세션 저장 단계 신설 — (a) 스킬 호출 자동 저장. 작성자별 파일 분리 정책 (옵션 α): cwd 가 projects/{프로젝트명}/ 이면 sessions/spec-session-{date}-{author-id}.md 에 자동 append. {author-id} 입력 = 호출 시 명시 인자 우선, 미명시 시 세션 첫 호출에 1 회 질문 + 캐싱 (자동 추출 폐기 — git config 가 회사 이메일이 아닌 케이스 다수로 검증 실패). TO-BE §2.3 ⑧ + §4.7.4 (1)(2)(4)(5) 정책 반영."
+
 ---
 
 # 스펙 문서 작성
@@ -27,17 +25,17 @@ metadata:
    - One Pager → `document/spec-templates/OnePager_v1.0_template.md`
 3. **cwd 점검 (세션 저장 활성 여부 결정)**:
    - cwd 가 `munto-dev-assistant/projects/{프로젝트명}/` 인지 검사
-   - 맞으면: `sessions/` 폴더 자동 생성, *세션 저장 활성* (이후 §"세션 저장" 단계 자동 수행)
+   - 맞으면: `sessions/` 폴더 자동 생성, _세션 저장 활성_ (이후 §"세션 저장" 단계 자동 수행)
    - 아니면: 사용자에게 1 회 경고 후 작업 계속. 메시지:
-     > *"세션 저장이 비활성입니다. cwd 가 `munto-dev-assistant/projects/{프로젝트명}/` 일 때만 자동 저장됩니다. 활성화하려면: (i) cwd 이동 후 재호출 (ii) `프로젝트명=…` 인자 명시 (iii) 그대로 진행 (세션 저장 안 함)"*
-   - 사용자가 (ii) 를 선택했고 `projects/{프로젝트명}/` 폴더가 *존재* 하면 절대 경로로 박기 활성
+     > _"세션 저장이 비활성입니다. cwd 가 `munto-dev-assistant/projects/{프로젝트명}/` 일 때만 자동 저장됩니다. 활성화하려면: (i) cwd 이동 후 재호출 (ii) `프로젝트명=…` 인자 명시 (iii) 그대로 진행 (세션 저장 안 함)"_
+   - 사용자가 (ii) 를 선택했고 `projects/{프로젝트명}/` 폴더가 _존재_ 하면 절대 경로로 박기 활성
 
-4. **`{author-id}` 입력 (세션 저장 활성 시만)** — *팀이 합의한 작성자 식별 문자열*. Munto 권장 = Slack 멘션 핸들 (`@gyuhyeon.jeon` 의 `gyuhyeon.jeon`). 입력 정책 2 단계:
+4. **`{author-id}` 입력 (세션 저장 활성 시만)** — _팀이 합의한 작성자 식별 문자열_. Munto 권장 = Slack 멘션 핸들 (`@gyuhyeon.jeon` 의 `gyuhyeon.jeon`). 입력 정책 2 단계:
    - (1) **호출 인자에 `author=gyuhyeon.jeon` 명시** → 그대로 사용. **권장 디폴트**
-   - (2) (미명시 시) 세션 첫 호출에 *1 회만* 질문: *"본 세션의 `{author-id}` 를 입력하세요 (예: `gyuhyeon.jeon`). 팀 합의 포맷은 Munto Slack 핸들"*. **답한 값을 본 세션 동안 캐싱** — 같은 세션 내 재질문 금지
-   - **자동 추출 (`git config user.email`·`$USER`) 폐기 사유**: 다중 회사 이메일 잔존·오픈소스용 별도 계정·PC 계정명 불일치 등으로 *사용자 의도와 어긋날 확률이 높음* (TO-BE §4.7.4 (4))
-   - 결과 검증: *사용자 입력 그대로 박음 — slugify 안 함* (팀 합의 포맷 보존). 권장 패턴 `^[a-z0-9._-]+$`
-   - 빈 값 입력 시 *세션 저장 자체 스킵 + 경고 1 회* (익명 산출물은 인계 가치 0). `unknown` 으로 박지 않음
+   - (2) (미명시 시) 세션 첫 호출에 _1 회만_ 질문: _"본 세션의 `{author-id}` 를 입력하세요 (예: `gyuhyeon.jeon`). 팀 합의 포맷은 Munto Slack 핸들"_. **답한 값을 본 세션 동안 캐싱** — 같은 세션 내 재질문 금지
+   - **자동 추출 (`git config user.email`·`$USER`) 폐기 사유**: 다중 회사 이메일 잔존·오픈소스용 별도 계정·PC 계정명 불일치 등으로 _사용자 의도와 어긋날 확률이 높음_ (TO-BE §4.7.4 (4))
+   - 결과 검증: _사용자 입력 그대로 박음 — slugify 안 함_ (팀 합의 포맷 보존). 권장 패턴 `^[a-z0-9._-]+$`
+   - 빈 값 입력 시 _세션 저장 자체 스킵 + 경고 1 회_ (익명 산출물은 인계 가치 0). `unknown` 으로 박지 않음
 
 ## 문서 유형 판별
 
@@ -51,15 +49,19 @@ metadata:
 ## 정보 수집
 
 ### Notion URL이 제공된 경우
+
 Notion MCP `notion-fetch`로 내용을 가져와 정보를 추출합니다.
 
 ### 로컬 파일이 제공된 경우
+
 해당 파일을 읽어 정보를 추출합니다.
 
 ### 텍스트 설명이 제공된 경우
+
 설명에서 필요한 정보를 추출하고, 부족한 부분을 질문합니다.
 
 ### 입력이 부족한 경우
+
 필수 정보를 대화형으로 수집합니다.
 
 ## 작성 실행
@@ -203,16 +205,16 @@ Technical Description
 
 #### 항목별 작성 규칙
 
-| 항목 | 작성 규칙 |
-|------|-----------|
-| **Project Name** | 프로젝트 공식 명칭 (가칭 포함 가능) |
-| **Date** | 문서 작성일 (YYYY-MM-DD) |
-| **Submitter Info** | 작성자 이름, 소속 팀, 연락처 |
-| **Project Description** | 2~3문장 요약. 기술적 상세 없이 비즈니스 언어로 작성 |
-| **Business and Marketing Justification** | 비즈니스 목표, 기대 효과, 시장 기회를 구체적으로 |
-| **Risk Assessment** | 기술적·일정·외부 의존 리스크와 각 대응 방안 |
-| **Resource and Scheduling Details** | 필요 인력(역할/인원), 예상 일정(시작~종료), 마일스톤 |
-| **Technical Description** | 기술 스택, 아키텍처 개요, 주요 기술적 결정. **API(Swagger 형식)와 ERD(PostgreSQL 형식) 링크 필수** |
+| 항목                                     | 작성 규칙                                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Project Name**                         | 프로젝트 공식 명칭 (가칭 포함 가능)                                                                |
+| **Date**                                 | 문서 작성일 (YYYY-MM-DD)                                                                           |
+| **Submitter Info**                       | 작성자 이름, 소속 팀, 연락처                                                                       |
+| **Project Description**                  | 2~3문장 요약. 기술적 상세 없이 비즈니스 언어로 작성                                                |
+| **Business and Marketing Justification** | 비즈니스 목표, 기대 효과, 시장 기회를 구체적으로                                                   |
+| **Risk Assessment**                      | 기술적·일정·외부 의존 리스크와 각 대응 방안                                                        |
+| **Resource and Scheduling Details**      | 필요 인력(역할/인원), 예상 일정(시작~종료), 마일스톤                                               |
+| **Technical Description**                | 기술 스택, 아키텍처 개요, 주요 기술적 결정. **API(Swagger 형식)와 ERD(PostgreSQL 형식) 링크 필수** |
 
 #### One Pager 출력 형식
 
@@ -221,14 +223,7 @@ Technical Description
 
 create by: 전규현
 
-Project Name : [프로젝트명]
-Date : YYYY-MM-DD
-Submitter Info : [작성자 정보]
-Project Description : [2~3문장 요약]
-Business and Marketing Justification : [비즈니스 정당성]
-Risk Assessment : [리스크 및 대응 방안]
-Resource and Scheduling Details : [인력/일정/마일스톤]
-Technical Description : [기술 스택, 아키텍처, API/ERD 링크]
+Project Name : [프로젝트명] Date : YYYY-MM-DD Submitter Info : [작성자 정보] Project Description : [2~3문장 요약] Business and Marketing Justification : [비즈니스 정당성] Risk Assessment : [리스크 및 대응 방안] Resource and Scheduling Details : [인력/일정/마일스톤] Technical Description : [기술 스택, 아키텍처, API/ERD 링크]
 ```
 
 #### One Pager 자체 검증 체크리스트
@@ -243,11 +238,13 @@ Technical Description : [기술 스택, 아키텍처, API/ERD 링크]
 ## 절대 불변 규칙
 
 ### 항목 구조 보존
+
 - 템플릿의 항목 구조는 **절대 변경 불가**
 - 항목 추가, 삭제, 이름 변경, 번호 변경 금지
 - 해당 없는 항목은 삭제하지 않고 `None`, `N/A`, `N/A(기존과 동일)` 처리
 
 ### One Pager 고정 항목 (8개)
+
 ```
 Project Name
 Date
@@ -260,6 +257,7 @@ Technical Description
 ```
 
 ### SRS 고정 항목 (1장~7장)
+
 ```
 1. Introduction (개요)
    1.1 ~ 1.7 (1.7.1 ~ 1.7.3 포함)
@@ -280,54 +278,58 @@ Technical Description
 ## 작성 품질 기준
 
 ### 금지 표현
-| 금지 표현 | 대체 방법 |
-|-----------|-----------|
-| 빠르게 | 300ms 이내에 |
-| 적절히, 충분히 | 구체적 수치 명시 |
-| 효율적으로 | CPU 사용률 N% 이하로 |
-| 안정적으로 | 가용성 99.9%로 |
-| 처리된다 | 서버에서 처리한다 |
-| 저장된다 | PostgreSQL에 저장한다 |
+
+| 금지 표현      | 대체 방법             |
+| -------------- | --------------------- |
+| 빠르게         | 300ms 이내에          |
+| 적절히, 충분히 | 구체적 수치 명시      |
+| 효율적으로     | CPU 사용률 N% 이하로  |
+| 안정적으로     | 가용성 99.9%로        |
+| 처리된다       | 서버에서 처리한다     |
+| 저장된다       | PostgreSQL에 저장한다 |
 
 ### DB 스키마
+
 신규 테이블은 Prisma 모델 수준으로 정의합니다 (컬럼명, 타입, 기본값, nullable, 인덱스, relation).
 
 ### API 스키마
+
 모든 API는 Swagger/OpenAPI 수준으로 정의합니다 (HTTP Method+URL, Request/Response, 상태 코드, 에러 코드).
 
 **날짜/시간 타입 컨벤션**:
 
-| 규칙 | 설명 |
-|------|------|
-| 모든 datetime 필드 | ISO 8601 문자열 ❌ → **Unix Timestamp milliseconds** (`number`) 사용 |
-| Swagger 타입 정의 | `type: integer`, `format: unixTimestamp`, example: `1737354000000` |
-| nullable 시간 필드 | `nullable: true`, `type: integer` |
-| **초 단위 금지** | `Math.floor(date.getTime() / 1000)` ❌ — 반드시 ms (`date.getTime()`) 사용 |
+| 규칙               | 설명                                                                       |
+| ------------------ | -------------------------------------------------------------------------- |
+| 모든 datetime 필드 | ISO 8601 문자열 ❌ → **Unix Timestamp milliseconds** (`number`) 사용       |
+| Swagger 타입 정의  | `type: integer`, `format: unixTimestamp`, example: `1737354000000`         |
+| nullable 시간 필드 | `nullable: true`, `type: integer`                                          |
+| **초 단위 금지**   | `Math.floor(date.getTime() / 1000)` ❌ — 반드시 ms (`date.getTime()`) 사용 |
 
 **커서 기반 페이지네이션 컨벤션**:
 
 목록 API는 오프셋이 아닌 커서 기반 페이지네이션을 사용합니다.
 
-| 구분 | 필드 | 타입 | 설명 |
-|------|------|------|------|
-| Query | `count` | `integer` | 조회 개수, 기본값 20 |
-| Query | `after` | `string` (optional) | 다음 페이지 커서 (`nextCursor` 값) |
-| Query | `before` | `string` (optional) | 이전 페이지 커서 (`prevCursor` 값) |
-| Response | `data` | `T[]` | 데이터 배열 (없으면 빈 배열 `[]`) |
-| Response | `meta.nextCursor` | `string \| null` | 마지막 페이지면 `null` |
-| Response | `meta.prevCursor` | `string \| null` | 데이터 없으면 `null` |
+| 구분     | 필드              | 타입                | 설명                               |
+| -------- | ----------------- | ------------------- | ---------------------------------- |
+| Query    | `count`           | `integer`           | 조회 개수, 기본값 20               |
+| Query    | `after`           | `string` (optional) | 다음 페이지 커서 (`nextCursor` 값) |
+| Query    | `before`          | `string` (optional) | 이전 페이지 커서 (`prevCursor` 값) |
+| Response | `data`            | `T[]`               | 데이터 배열 (없으면 빈 배열 `[]`)  |
+| Response | `meta.nextCursor` | `string \| null`    | 마지막 페이지면 `null`             |
+| Response | `meta.prevCursor` | `string \| null`    | 데이터 없으면 `null`               |
 
 **HTTP 상태 코드 컨벤션** (munto-backend / dating-backend 공통):
 
-| 상황 | 상태 코드 |
-|------|----------|
-| 본인 리소스가 없음 (미설정) | `404` — 예: 인증 정보 미설정, 프로필 미작성 |
-| 타인 리소스를 조회했는데 없음 | `404` — 예: 존재하지 않는 소셜링 ID |
-| soft delete된 리소스 조회 | `404` |
-| 존재하지만 비어있는 목록 | `200` + 빈 배열 |
-| 리소스 존재 여부 표현 | `404` 사용, `200 + boolean` 플래그 금지 |
+| 상황                          | 상태 코드                                   |
+| ----------------------------- | ------------------------------------------- |
+| 본인 리소스가 없음 (미설정)   | `404` — 예: 인증 정보 미설정, 프로필 미작성 |
+| 타인 리소스를 조회했는데 없음 | `404` — 예: 존재하지 않는 소셜링 ID         |
+| soft delete된 리소스 조회     | `404`                                       |
+| 존재하지만 비어있는 목록      | `200` + 빈 배열                             |
+| 리소스 존재 여부 표현         | `404` 사용, `200 + boolean` 플래그 금지     |
 
 ### TBD
+
 담당자 + 결정 시점 + 이슈 링크가 모두 있어야 허용합니다.
 
 ## 자체 검증
@@ -342,54 +344,51 @@ Technical Description
 
 ---
 
-## 세션 저장 — 자동 (a) *[2026-05-27 신설 — TO-BE §2.3 ⑧ + §4.7.4]*
+## 세션 저장 — 자동 (a) _[2026-05-27 신설 — TO-BE §2.3 ⑧ + §4.7.4]_
 
-> 작성 작업이 끝나면 *팀 공유 영구 기록* 으로 `sessions/spec-session-{YYYY-MM-DD}-{author-id}.md` 에 자동 append.
-> *시작 전 준비 3* 에서 *세션 저장 활성* 으로 판정된 경우에만 수행. 비활성이면 본 단계 *스킵* (사용자에게 별도 안내 없음).
-> **작성자별 파일 분리 정책 (옵션 α)** — 멀티 작성자 동시 작업 시 race condition·git merge conflict 0. `{author-id}` 은 *시작 전 준비 4* 의 추출 결과 사용.
+> 작성 작업이 끝나면 _팀 공유 영구 기록_ 으로 `sessions/spec-session-{YYYY-MM-DD}-{author-id}.md` 에 자동 append. _시작 전 준비 3_ 에서 _세션 저장 활성_ 으로 판정된 경우에만 수행. 비활성이면 본 단계 _스킵_ (사용자에게 별도 안내 없음). **작성자별 파일 분리 정책 (옵션 α)** — 멀티 작성자 동시 작업 시 race condition·git merge conflict 0. `{author-id}` 은 _시작 전 준비 4_ 의 추출 결과 사용.
 
 ### 자동 박을 내용 (최소 양식 — TO-BE §4.7.4 (2))
 
 ```markdown
 ## {HH:MM} — munto-spec-writer 호출 {N}회차
 
-| 항목 | 값 |
-|------|------|
-| 작성자 ID (`{author-id}`) | {author-id} *(파일명과 동일 — 메타 헤더에 명시. Munto 권장 = Slack 멘션 핸들)* |
-| 문서 유형 | SRS \| One Pager |
-| 작업 대상 | {Notion URL or 로컬 파일 경로} |
-| 결과 산출물 경로 | {예: munto-backend/docs/specs/{기능명}/SRS.md} |
-| 이번 세션 *추가·수정한 섹션 ID* | {예: 1.2, 2.4, 7.1.1 — 변경된 섹션만} |
-| 제기된 의문·미해결 TBD | {목록 — 없으면 "없음"} |
-| 다음 세션 첫 질문 | {다음 세션 시작 시 사용자에게 물을 1 문장} |
-| 자체 검증 결과 | {SRS 9 가지 또는 One Pager 6 가지 통과 N개 / 미통과 N개} |
-| (선택) 대안 검토 발생 | {§4.7.3 대안 검토 박스를 추가한 항목 ID — 없으면 생략} |
+| 항목                            | 값                                                                             |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| 작성자 ID (`{author-id}`)       | {author-id} _(파일명과 동일 — 메타 헤더에 명시. Munto 권장 = Slack 멘션 핸들)_ |
+| 문서 유형                       | SRS \| One Pager                                                               |
+| 작업 대상                       | {Notion URL or 로컬 파일 경로}                                                 |
+| 결과 산출물 경로                | {예: munto-backend/docs/specs/{기능명}/SRS.md}                                 |
+| 이번 세션 _추가·수정한 섹션 ID_ | {예: 1.2, 2.4, 7.1.1 — 변경된 섹션만}                                          |
+| 제기된 의문·미해결 TBD          | {목록 — 없으면 "없음"}                                                         |
+| 다음 세션 첫 질문               | {다음 세션 시작 시 사용자에게 물을 1 문장}                                     |
+| 자체 검증 결과                  | {SRS 9 가지 또는 One Pager 6 가지 통과 N개 / 미통과 N개}                       |
+| (선택) 대안 검토 발생           | {§4.7.3 대안 검토 박스를 추가한 항목 ID — 없으면 생략}                         |
 ```
 
 ### 박을 위치
 
 - 활성 시: `{cwd}/sessions/spec-session-{YYYY-MM-DD}-{author-id}.md`
-  - 같은 날 *같은 사람* 의 같은 파일이 *이미 있으면* 파일 끝에 새 섹션 *append*
-  - 같은 날 *같은 사람* 의 파일이 *없으면* 신규 생성. 파일 헤더:
+  - 같은 날 _같은 사람_ 의 같은 파일이 _이미 있으면_ 파일 끝에 새 섹션 _append_
+  - 같은 날 _같은 사람_ 의 파일이 _없으면_ 신규 생성. 파일 헤더:
+
     ```markdown
     # Spec 작성 세션 — {YYYY-MM-DD} — @{author-id}
 
-    > 본 파일은 `munto-spec-writer` 가 자동 박은 *팀 공유 영구 기록* 입니다 (TO-BE §2.3 ⑧ + §4.7.4 (1)(2)).
-    > AI 도구 raw 세션 (`~/.claude/`) 과 다릅니다 — 본 파일은 *팀이 다음 단계에서 참조* 합니다.
-    > **작성자별 분리 정책** — 다른 사람의 같은 날 작업은 `spec-session-{date}-{다른-handle}.md` 에 따로 박힙니다. 시간순 통합이 필요하면 `cat sessions/spec-session-{date}-*.md | sort`.
-
+    > 본 파일은 `munto-spec-writer` 가 자동 박은 _팀 공유 영구 기록_ 입니다 (TO-BE §2.3 ⑧ + §4.7.4 (1)(2)). AI 도구 raw 세션 (`~/.claude/`) 과 다릅니다 — 본 파일은 _팀이 다음 단계에서 참조_ 합니다. **작성자별 분리 정책** — 다른 사람의 같은 날 작업은 `spec-session-{date}-{다른-handle}.md` 에 따로 박힙니다. 시간순 통합이 필요하면 `cat sessions/spec-session-{date}-*.md | sort`.
     ```
-- 호출자 (`프로젝트명=` 인자 명시) 가 *절대 경로* 를 지정한 경우: 해당 경로 사용
 
-### 자동 박지 *않는* 케이스 (안티 패턴 차단)
+- 호출자 (`프로젝트명=` 인자 명시) 가 _절대 경로_ 를 지정한 경우: 해당 경로 사용
 
-- ❌ 문서 작성을 *시작만* 하고 *작성 결과* 가 없는 경우 (사용자가 입력만 주고 작성 미실행) → 박지 않음 (노이즈)
-- ❌ 사용자가 *명시적으로* "이번 호출 세션 저장 스킵" 요청 → 박지 않음
-- ❌ cwd 가 *프로젝트 폴더가 아니고* 사용자가 `프로젝트명=` 인자도 안 준 경우 → 박지 않음 (이미 *시작 전 준비 3* 에서 경고했음)
+### 자동 박지 _않는_ 케이스 (안티 패턴 차단)
 
-### baseline 동결 시점의 *별도 산출물 안내*
+- ❌ 문서 작성을 _시작만_ 하고 _작성 결과_ 가 없는 경우 (사용자가 입력만 주고 작성 미실행) → 박지 않음 (노이즈)
+- ❌ 사용자가 _명시적으로_ "이번 호출 세션 저장 스킵" 요청 → 박지 않음
+- ❌ cwd 가 _프로젝트 폴더가 아니고_ 사용자가 `프로젝트명=` 인자도 안 준 경우 → 박지 않음 (이미 _시작 전 준비 3_ 에서 경고했음)
 
-작성 완료 후 *Spec baseline v1.0 동결이 임박했다고 판단되면* (= 사용자가 "이제 baseline 잡자" / "v1.0 동결" / "PHASE 1 GATE 통과" 같은 의사 표현) 다음 메시지를 *반드시* 출력:
+### baseline 동결 시점의 _별도 산출물 안내_
+
+작성 완료 후 _Spec baseline v1.0 동결이 임박했다고 판단되면_ (= 사용자가 "이제 baseline 잡자" / "v1.0 동결" / "PHASE 1 GATE 통과" 같은 의사 표현) 다음 메시지를 _반드시_ 출력:
 
 ```
 ⚠️ Spec baseline v1.0 동결 직전입니다.
@@ -400,7 +399,7 @@ Technical Description
 최소 양식: TO-BE §4.7.4 (2) 의 spec-baseline-handoff.md 행 참조.
 ```
 
-> **이 파일은 자동 생성하지 않는다** — TO-BE §4.7.4 (1) 매트릭스에서 *유일하게 수동 의무* 인 산출물. *Owner 의 사람 책임* 으로 박혀 있어야 다음 단계 ip-writer 가 신뢰할 수 있다.
+> **이 파일은 자동 생성하지 않는다** — TO-BE §4.7.4 (1) 매트릭스에서 _유일하게 수동 의무_ 인 산출물. _Owner 의 사람 책임_ 으로 박혀 있어야 다음 단계 ip-writer 가 신뢰할 수 있다.
 
 ## 주의사항
 
@@ -408,4 +407,4 @@ Technical Description
 - 템플릿의 가이드 텍스트(영어 설명문)는 최종 문서에 포함하지 않습니다
 - 상위 항목이 `N/A`이면 하위 항목 전체를 해당 없음으로 처리합니다
 - 6.3.5 Remaining Attributes 아래에 Testability 등 서브섹션 추가는 허용합니다
-- **세션 저장은 *자동 동작* 입니다** — 사용자가 별도 요청하지 않아도 *시작 전 준비 3* 에서 활성 판정 시 수행. 비활성 시 *경고 1 회만* 출력하고 작업 계속.
+- **세션 저장은 _자동 동작_ 입니다** — 사용자가 별도 요청하지 않아도 _시작 전 준비 3_ 에서 활성 판정 시 수행. 비활성 시 _경고 1 회만_ 출력하고 작업 계속.
