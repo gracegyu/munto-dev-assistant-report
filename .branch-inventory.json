@@ -1,0 +1,1034 @@
+{
+  "org": "Munto-dev",
+  "count": 45,
+  "method": "git/ref/heads for existence (no API alias)",
+  "repos": [
+    {
+      "name": "ai_generation_shuffling",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "15514b6",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "aws-cdk-infra",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "84b9e76",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "845707a",
+          "protected": false,
+          "behind": 1,
+          "ahead": 9
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "aws-iam",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "46e3872",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "backoffice-backend",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "0b412b7",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "backoffice-document",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "41e6a56",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "bigquery-sync",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "544e520",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "544e520",
+          "protected": false,
+          "behind": 0,
+          "ahead": 0
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "chat-document",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "585ad19",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "dating-backend",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "4b29540",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "9bc26c9",
+          "protected": false,
+          "behind": 3,
+          "ahead": 3
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "dating-document",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "b260c27",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "dating-mobile",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "ff5e851",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "8619556",
+          "protected": false,
+          "behind": 49,
+          "ahead": 0
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "management",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "19d0654",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-assets-picker",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "30db7d4",
+          "protected": true
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-backend",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "22d067d",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "1d8ef67",
+          "protected": false,
+          "behind": 1,
+          "ahead": 14
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-backoffice-v1",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "1c8c9a3",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": true,
+          "sha": "e941888",
+          "protected": false,
+          "behind": 0,
+          "ahead": 1
+        }
+      }
+    },
+    {
+      "name": "munto-backoffice-v2",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "f9aa9a4",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "94e5390",
+          "protected": false,
+          "behind": 2,
+          "ahead": 4
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-chat-backend",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "eae65e6",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-chat-frontend",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-chat-mobile",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "a7db509",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-dev-assistant",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "7aa7fe9",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-dev-assistant-tobe-temp",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "aa05cd8",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-frontend",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "31ad430",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "d7c2df8",
+          "protected": false,
+          "behind": 0,
+          "ahead": 21
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-fullstack-docker-starter",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "ebb0ffb",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-grafana-sql-query",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "e4df9d3",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-log-streaming",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "cd32e28",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "c8502b7",
+          "protected": false,
+          "behind": 2,
+          "ahead": 1
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-mobile",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "5d8eddd",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "952947c",
+          "protected": false,
+          "behind": 0,
+          "ahead": 10
+        },
+        "main": {
+          "exists": true,
+          "sha": "23dec1d",
+          "protected": false,
+          "behind": 149,
+          "ahead": 7
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-mobile-core",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "e7aca85",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "de0027a",
+          "protected": false,
+          "behind": 19,
+          "ahead": 0
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-model-serving",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "3086cde",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "1262854",
+          "protected": false,
+          "behind": 23,
+          "ahead": 0
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-notification",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "f51c172",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "c2346fd",
+          "protected": false,
+          "behind": 0,
+          "ahead": 6
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-slack-bot",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "7171999",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto-social-share",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "44d585d",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_admin_flutter",
+      "default": "master",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": true,
+          "sha": "9b056ab",
+          "protected": true
+        }
+      }
+    },
+    {
+      "name": "munto_be_lambda_action_history",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "8f1e9a9",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "ceadeaa",
+          "protected": false,
+          "behind": 1,
+          "ahead": 0
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_be_lambda_image_resizer",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "b733c85",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "7b0a511",
+          "protected": false,
+          "behind": 46,
+          "ahead": 0
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_be_scheduler",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "8892f0d",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "5834623",
+          "protected": false,
+          "behind": 3,
+          "ahead": 6
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_bird",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "a266d11",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "850c51b",
+          "protected": false,
+          "behind": 5,
+          "ahead": 1
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_front",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "6d38133",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": true,
+          "sha": "6d38133",
+          "protected": false,
+          "behind": 0,
+          "ahead": 0
+        }
+      }
+    },
+    {
+      "name": "munto_jenkins",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "0a065df",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_scheduler",
+      "default": "master",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": true,
+          "sha": "6f89828",
+          "protected": false
+        }
+      }
+    },
+    {
+      "name": "munto_server",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "26c562a",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "d2874c6",
+          "protected": false,
+          "behind": 13,
+          "ahead": 11
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_server_boilerplate",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "ea9f59d",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "munto_serverless",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "ad993e2",
+          "protected": false
+        },
+        "production": {
+          "exists": true,
+          "sha": "ad993e2",
+          "protected": false,
+          "behind": 0,
+          "ahead": 0
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "muntorial",
+      "default": "master",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": true,
+          "sha": "e3bc4e8",
+          "protected": false
+        }
+      }
+    },
+    {
+      "name": "muntorial-web",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "a9109f1",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "tips-bert-model",
+      "default": "development",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": true,
+          "sha": "f3d39e7",
+          "protected": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    },
+    {
+      "name": "zulip-flutter",
+      "default": "main",
+      "archived": false,
+      "branches": {
+        "development": {
+          "exists": false
+        },
+        "production": {
+          "exists": false
+        },
+        "main": {
+          "exists": true,
+          "sha": "69ac00c",
+          "protected": false
+        },
+        "master": {
+          "exists": false
+        }
+      }
+    }
+  ]
+}
