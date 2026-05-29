@@ -183,10 +183,12 @@ bash scripts/check-adapters.sh
 - [x] **(리뷰)** `munto-spec-review`·`spec-reviewer` 는 *검출 가능한 것만*: TBD 잔존·회피문구("추후 결정" 등) → 결함(하드), 빈칸·`-`·"없음" → 권고(소프트). **비목표·Decision Log 부재는 자동 검출 대상 아님** — `H. TBD 및 미정 표기 처리`로 보강 + `spec-reviewer` 자체검증에 부재 오검출 방지 가드 추가 (2026-05-29)
 - [x] `bash scripts/check-adapters.sh` 통과(137개, 깨진 링크 0)
 
-### Task 7-3 (권장, TO-BE §4.7.2) — Glossary(용어집) 의무화
+### Task 7-3 (권장, TO-BE §4.7.2) — 용어·약어 정의 의무화 (SRS §1.4 Terms and Abbreviations)
 
-- [ ] `munto-spec-writer` 가 SRS 작성 시 *비표준 용어* 를 Glossary 부록에 자동 등록
-- [ ] `munto-spec-review` 가 **Glossary 누락 용어** 를 결함으로 검출
+- [x] `munto-spec-writer` 가 SRS 작성 시 *비표준 용어 중 등록 판정 통과분* 을 **§1.4 Terms and Abbreviations** 에 자동 등록 (별도 §10 Glossary 부록 신설 X) — SRS 핵심 규칙·자체검증 체크리스트 + 신규 `### 용어·약어(§1.4) 등록` 절 추가 (등록 판정은 `spec-standard.md §"용어·약어(1.4) 작성 원칙"` 5질문 참조) (2026-05-29)
+- [x] `munto-spec-review` 가 **§1.4 누락 용어** 를 검출 — `B. 기호·수식·용어 선행 정의(§1.4)` 로 확장, 누락 의심 용어 🟡(소프트, 모두 아는 용어·사내 용어집 링크 제외) (2026-05-29)
+- [x] One Pager 템플릿에 *Terms and Abbreviations* 항목 신설 → writer/review 스킬의 OnePager 고정 항목 **8개→9개** 동기화 (구조·작성규칙·출력형식·자체검증 모두 반영) (2026-05-29)
+- [x] `bash scripts/check-adapters.sh` 통과(137개)
 
 ### Task 7-4 (권장, TO-BE §4.7.3) — 대안 검토 박스 의무화
 
@@ -318,7 +320,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 >
 > 우선순위: **P1** = Spec 품질 직결(빠를수록 좋음) / **P2** = IP·검증 강화 / **P3** = 신규 영역·대형 개편.
 >
-> **본 PR로 승격/완료되어 정리된 항목**: Spec 작성 4팁·Glossary·대안 검토 박스 → **Phase 7-2~7-4**, IP 입력 확인 → **Phase 7-1**(승격). ip-writer/ip-reviewer는 **Phase 4**, Hook 견본·`.gitignore` 등록은 **Phase 6**에 이미 기록되어 백로그 중복분 제거. 남은 항목을 아래 **B-1~B-7**로 순차 재번호함.
+> **본 PR로 승격/완료되어 정리된 항목**: Spec 작성 4팁·용어·약어 정의(§1.4)·대안 검토 박스 → **Phase 7-2~7-4**, IP 입력 확인 → **Phase 7-1**(승격). ip-writer/ip-reviewer는 **Phase 4**, Hook 견본·`.gitignore` 등록은 **Phase 6**에 이미 기록되어 백로그 중복분 제거. 남은 항목을 아래 **B-1~B-7**로 순차 재번호함.
 
 ### B-1. TO-BE 문서 경로 동기화 — ip-standard.md 위치 결정 반영 (P2) ✅ 완료
 
@@ -379,5 +381,8 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **tobe-temp 폐기 방침 반영** — tobe-temp는 운영 레포 이관 완료 후 *삭제(폐기)* 결정(아카이브 아님). `PR 이후`의 아카이브 줄을 삭제 절차로 변경 + B-1의 "tobe-temp 잔여 표기 정리"(321)는 *삭제 대상이라 불요*로 종결 → B-1 ✅ 완료 처리 |
 | 2026-05-29 | **Phase 7-2 완료** — 레이어 분리 확정(작성=4팁 전부 / 리뷰=TBD만 검출). `munto-spec-writer`에 `### 비결정·미정 항목 4팁`(TBD·N/A vs None·Will Not Do·Decision Log) 작성 지침 + `spec-writing-tips.md` 로드 추가. `munto-spec-review` `H. TBD 및 미정 표기 처리` 보강(TBD 잔존 하드/빈칸 소프트), 비목표·Decision Log *부재*는 비검출 명시. `spec-reviewer` 자체검증에 부재 오검출 방지 가드. check-adapters 137개 통과 |
 | 2026-05-29 | **Phase 7-1 완료** — `dev-chain-backend·mobile·frontend` 3종에 `## 권장 입력 — IP(구현계획서) 확인` 섹션 + PM 역할표·`입력 확인`·위임 prompt(`(선택) ip=`)에 IP 연결. `backend/mobile/frontend-expert` 입력부에 IP 소비 정의 추가(체인이 IP를 실입력으로 소비). IP는 비블로커 명시(TO-BE §4.4). check-adapters 137개 통과 |
+| 2026-05-29 | **Glossary → SRS §1.4 Terms and Abbreviations 로 정정** — Munto SRS 표준은 별도 §10 Glossary가 아니라 §1.4에 용어를 적음. Task 7-3 제목·항목을 §1.4 기준으로 수정(별도 부록 신설 X) + One Pager용 항목 안내 추가. TO-BE §4.7.2 본문·자기점검·질문강제 절차 §1.4로 일괄 동기화. `OnePager_v1.0_template.md`에 *Terms and Abbreviations* 항목 신설. `spec-standard.md §1.4`는 이미 정확하여 유지 |
+| 2026-05-29 | **Task 7-3 완료** — `munto-spec-writer`에 §1.4 용어·약어 등록 지침(SRS 핵심규칙·자체검증·전용 절) + OnePager 8→9개 항목 동기화. `munto-spec-review` `B. 기호·수식·용어 선행 정의(§1.4)` 확장(누락 의심 용어 🟡) + OnePager 9개 검증. `spec-standard.md §"용어·약어(1.4) 작성 원칙"` 5질문 재사용(중복 정의 회피). check-adapters 137개 통과. **brief(team-developer-brief.md)도 Glossary→§1.4 + N/A·None 표현 동기화** |
+| 2026-05-29 | **Task 7-3 보강 — §1.4 선별 원칙 명시** — "모든 용어·약어 나열 X, 문서 성격·독자(신입 개발자·직원·타 직군) 기준 모르거나 혼동·애매할 만한 것만 선별, 다 적으면 낭비"를 `munto-spec-writer` 전용 절 맨 앞 *선별 원칙* 박스 + SRS 핵심규칙·자체검증(누락/과잉 양방향)에 반영. `munto-spec-review` §B에 *과잉 나열 정리 제안(🟢)* 소프트 체크 추가. (Book SRS §1.4·`spec-standard.md §1.4` 원칙과 일치) |
 | 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
