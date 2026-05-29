@@ -107,20 +107,20 @@ git checkout -b feat/agentic-dev-chain-tobe
 - [x] `skills/dev-chain-implementation-plan/SKILL.md` → `.agents/skills/common/docs/dev-chain-implementation-plan/SKILL.md` (2026-05-29)
 - [x] 스킬 내부 `ip-standard.md`·`dev-chain-design-update-proposal.md` 참조를 운영 기준(`document/...`, 루트 상대)으로 수정 (26·40·210번)
 - [x] 프론트매터 `metadata`/`status: "PROPOSAL …"` 제거 → `name`/`description`만 유지
-- [ ] (선택·보류) `dev-chain-design` Step 5 마지막에 "다음: `dev-chain-implementation-plan`" 한 줄 안내 추가 — **선택지 B 팀 결정 전제라 보류**(B-6 백로그와 연동)
+- [x] `dev-chain-design` Step 5 `### 다음 단계`에 IP 단계(`dev-chain-implementation-plan`)를 개발 스킬 *앞에* 추가 — Phase 3/4에서 IP를 별도 스킬+서브에이전트로 만든 것 자체가 선택지 B 채택이므로 본 PR에서 체인 연결 완료 (B-6의 본문 대개편과 분리)
 
 > **위치 결정**: tobe README는 `backend/docs` 후보도 제시하나, `dev-chain-design`·`dev-chain-wbs`와 일관되게 **`common/docs`** 권장.
 
 ---
 
-## Phase 4 — 서브에이전트 (권장: Phase 3과 같은 PR)
+## Phase 4 — 서브에이전트 
 
 `dev-chain-implementation-plan` 이 `Task(subagent_type=ip-writer)` 를 호출하므로, 없으면 스킬이 반쪽이 된다.
 
-- [ ] `spec-reviewer.md` 패턴 복사 → `.agents/agents/ip-writer.md` 작성
-- [ ] `.agents/agents/ip-reviewer.md` 작성 (생성-검증 페어)
-- [ ] `.claude/agents/ip-writer.md` / `ip-reviewer.md` 래퍼 생성
-- [ ] (Codex 사용 시) `.codex/agents/` 어댑터 생성
+- [x] `spec-reviewer.md`/`swagger-writer.md` 패턴 기반 → `.agents/agents/ip-writer.md` 작성 (writer, Read/Write/Glob/Grep)
+- [x] `.agents/agents/ip-reviewer.md` 작성 (생성-검증 페어, read-only Read/Grep, IP-8 7가지 질문 점검)
+- [x] `.claude/agents/ip-writer.md` / `ip-reviewer.md` 래퍼 생성
+- [x] `.codex/agents/ip-writer.md`(worker) / `ip-reviewer.md`(explorer) 어댑터 생성
 
 **커밋 예시:** `feat(agents): ip-writer·ip-reviewer 서브에이전트 추가`
 
@@ -225,14 +225,14 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 - [ ] `munto-spec-review` · `dbml-reviewer` · `design-consistency-reviewer` 가 *핵심 결정에 박스 없으면 결함* 으로 잡기
 - 완료 PR: ____
 
-### B-4. ip-writer / ip-reviewer 서브에이전트 — IP §IP-8 / §4.7.4 (6) (P2)
+### B-4. ip-writer / ip-reviewer 서브에이전트 — IP §IP-8 / §4.7.4 (6) (P2) ✅ 본 PR 완료
 
-> **주의**: 1차 PR(Phase 4)에서 이미 저작하기로 했다면 본 항목은 *완료 처리*. 1차 PR 에서 미뤘다면(스킬도 함께 2차 PR) 여기서 추적.
+> **1차 PR(Phase 4)에서 완료됨.** 아래는 산출물 기록.
 
-- [ ] `.agents/agents/ip-writer.md` (Spec 4종 → IP 8섹션 초안, `spec-baseline-handoff.md` 우선 참조)
-- [ ] `.agents/agents/ip-reviewer.md` (`ip-standard.md` 7가지 질문 + 완료 체크리스트 자동 점검)
-- [ ] `.claude/agents/` · (필요 시) `.codex/agents/` 어댑터
-- 완료 PR: ____
+- [x] `.agents/agents/ip-writer.md` (Spec 4종 → IP 8섹션 초안, `spec-baseline-handoff.md` 우선 참조)
+- [x] `.agents/agents/ip-reviewer.md` (`ip-standard.md` 7가지 질문 + 완료 체크리스트 자동 점검, read-only)
+- [x] `.claude/agents/ip-writer.md`·`ip-reviewer.md` · `.codex/agents/ip-writer.md`(worker)·`ip-reviewer.md`(explorer) 어댑터
+- 완료 PR: (본 PR)
 
 ### B-5. TO-BE 문서 경로 동기화 — ip-standard.md 위치 결정 반영 (P2)
 
@@ -240,10 +240,11 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 - [ ] tobe-temp 측 잔여 표기(README·skills·proposal)도 동일 정리(아카이브 전 1회)
 - 완료 PR: ____
 
-### B-6. dev-chain-design 본문 보강 — IP 단계 연결 + 2-Track 재구성 (P3)
+### B-6. dev-chain-design 본문 보강 — 2-Track 재구성 (P3)
 
-- [ ] `dev-chain-design-update-proposal.md` 의 **결정(선택지 A/B/C)** 을 팀이 확정
-- [ ] 확정안에 따라 `dev-chain-design` 본문에 *IP 단계 연결* 반영 (선택지 B = 완료 보고 끝에 `dev-chain-implementation-plan` 안내)
+> IP 단계 연결(선택지 B의 "최소 변경" = Step 5 다음 단계 안내)은 **본 PR에서 완료**됐다(Phase 3 항목 참조). 남은 것은 아래 본문 대개편뿐.
+
+- [ ] `dev-chain-design-update-proposal.md` 의 **결정(선택지 A/B/C)** 을 팀이 공식 확정 (현재는 별도 스킬 구현으로 *사실상 B 채택* 상태 — 문서상 추인 필요)
 - [ ] (해당 시) §3.4 **2-Track 병렬 + Unit TCL 후속** 구조를 `dev-chain-design` 본문에 반영 (DBML 확정 → Swagger, BE+FE 입회 리뷰)
 - 완료 PR: ____
 
@@ -286,3 +287,4 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | --- | --- |
 | 2026-05-29 | 신규 작성 — TO-BE 운영 적용 단계별 계획(Phase 0~7) + 체크박스 |
 | 2026-05-29 | 적용 범위 (A)이관/(B)전체 구분 박스 추가 · `ip-standard.md` 위치 `document/` 결정 명시(TO-BE 경로 수정 필요 표시) · **후속 PR 백로그(B-1~B-12)** 섹션 신설 |
+| 2026-05-29 | Phase 4 완료(`ip-writer`·`ip-reviewer` + Claude/Codex 어댑터) → **B-4 완료 처리** · `dev-chain-design` Step 5에 IP 단계 연결(선택지 B 최소 변경)을 본 PR에서 처리 → **B-6을 2-Track 재구성만 남기도록 축소** |
