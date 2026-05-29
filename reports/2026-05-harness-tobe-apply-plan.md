@@ -69,11 +69,12 @@ git checkout -b feat/agentic-dev-chain-tobe
 
 **커밋 예시:** `docs: IP·Spec 표준 및 작성 가이드 추가`
 
-- [ ] `ip-standard.md` → `document/ip-standard.md` **(위치 결정: `document/`)**
-- [ ] `spec-standard.md` → `document/spec-standard.md` (**덮어쓰기** — diff 크므로 PR 설명에 강조)
-- [ ] `spec-philosophy.md` → `document/spec-philosophy.md`
-- [ ] `spec-writing-tips.md` → `document/spec-writing-tips.md`
-- [ ] `munto-spec-*` 스킬이 참조하는 `document/spec-standard.md` 경로가 유효한지 확인
+- [x] `ip-standard.md` → `document/ip-standard.md` **(위치 결정: `document/`)** (2026-05-29)
+- [x] `spec-standard.md` → `document/spec-standard.md` (**덮어쓰기** — 540줄 → 2065줄, PR 설명에 강조) (2026-05-29)
+- [x] `spec-philosophy.md` → `document/spec-philosophy.md` (2026-05-29)
+- [x] `spec-writing-tips.md` → `document/spec-writing-tips.md` (2026-05-29)
+- [x] `munto-spec-*` 스킬이 참조하는 `document/spec-standard.md` 경로가 유효한지 확인 (spec-writer·spec-review 모두 유효)
+- [x] `ip-standard.md` 내부 상대링크를 `document/` 기준으로 수정 — 11번 `../.agents/skills/common/docs/dev-chain-implementation-plan/SKILL.md`, 553번 `../projects/...` 3개 (2026-05-29)
 
 > **결정 — `ip-standard.md` 는 `document/` 에 둔다.** TO-BE §IP-1 등은 단일 진실 공급원을 **`munto-dev-assistant/ip-standard.md`(레포 루트)** 로 표기하므로, 이 결정에 맞춰 **TO-BE 문서·tobe-temp IP 스킬·projects 템플릿의 경로 표기를 모두 `document/ip-standard.md` 로 수정**해야 한다.
 > - TO-BE 문서 수정은 (B) 백로그 항목으로 추적 (하단 § 후속 PR 백로그).
