@@ -44,8 +44,7 @@
 ### 이번 PR에서 제외 (별도 트랙)
 
 - `.claude-hooks-proposal.json` **실제 활성화** → 개인 PC 로컬 (견본·가이드·`.gitignore`는 Phase 6에서 포함, 백로그 B-5)
-- `dev-chain-design` 본문 **대규모 2-Track 재구성** → 팀 결정 후 (백로그 B-2. 검토안 문서·IP 단계 연결은 본 PR 포함)
-- 백로그 B-1/B-3/B-4/B-6/B-7 → 별도 PR
+- 백로그 B-4/B-6/B-7 → 별도 PR. ※ **B-2(2-Track 재구성)·B-3(CCB 변경관리 문서화+`munto-spec-change` 스킬)는 본 PR로 완료** (백로그 참조)
 
 > 개발자 가이드(교과서)는 **본 PR 포함**(Phase 9)으로 변경됨 — 집필 착수 전 목차·범위만 사용자와 확정.
 
@@ -198,7 +197,19 @@ bash scripts/check-adapters.sh
 - [x] **설계 결정**: `design-consistency-reviewer`는 *산출물 간 정합성 전용*이라 단일 산출물 결정-근거 검출은 범위 밖 → 제외 (TO-BE §4.7.3 강제 문구도 동기화)
 - 변경: `munto-spec-writer/SKILL.md`(대안 박스 작성 지침 §) · `munto-spec-review/SKILL.md`(§J + A~J 갱신) · `dbml-writer.md` · `swagger-writer.md` · `dbml-reviewer.md`(S5) · `spec-reviewer.md`(A~J + 가드) · TO-BE §4.7.3(선별 원칙·강제 문구)
 
-> **범위 판단**: 7-1은 *체인 작동 필수*. 7-2~7-4는 *Spec 품질 직결(P1)* 이라 실전 적용 시 처음부터 높이는 게 유리해 권장 포함. 작업량이 크면 7-2~7-4만 분리 PR 가능 — **실행 시 사용자와 의논**.
+### Task 7-5 (필수, TO-BE §4.9 / 가이드 ch.3) — IP 번호 기반 구현 지시(디스패치) 가이드 ✅ 완료
+
+> 사용자가 `"Task 1.2 구현"`, `"Phase 1 구현"`, `"Phase 1-3 구현"`, `"IP 기준으로 구현"` 처럼 *IP 번호로* 지시하는 경로가 가이드·스킬 어디에도 없었다. 이를 **PHASE 2 오케스트레이션의 유인(수동) 디스패치**로 정의해 메인이 IP를 읽어 책임 도메인·DAG 순서로 분배하도록 박았다.
+
+- [x] `document/dev-process-guide.md` ch.3 PHASE 2에 **「IP 기준 구현 지시(디스패치)」** 서브섹션 추가 — Task/Phase/범위별 매핑 표 + DAG 위상 순서 + 도메인 책임 원칙 + IP 부재 안내
+- [x] ch.8 치트시트에 IP 번호 지시 행 추가
+- [x] `dev-chain-backend·mobile·frontend` 3개 스킬 IP 섹션에 **「IP Task/Phase 번호로 호출된 경우(디스패치)」** 4단계 처리 추가 (IP 조회 → 대상 Task 선별[자기 도메인만, 타 도메인은 안내] → DAG 위상 순서 → expert 위임). 다중 도메인·다중 Phase는 메인 오케스트레이션 위임 명시
+- [x] `AGENTS.md` 에이전트 행동 원칙 6번 **「IP 번호 지시 = 메인이 디스패치」** 신설 (라우팅 발견성 확보)
+- [x] `bash scripts/check-adapters.sh` 통과(139개)
+
+> **왜 필수인가**: 7-1이 *IP를 입력으로 소비*하게 만든 연결이라면, 7-5는 *IP의 Task/Phase 번호로 직접 지시*하는 진입점을 연다. 이게 없으면 사용자는 매번 도메인명으로만 호출해야 하고 IP의 DAG·Task 단위 실행이 사람 머릿속에만 남는다. (전체 자동 순회 무인 모드는 TO-BE §4.9, 본 PR은 유인 디스패치까지)
+
+> **범위 판단**: 7-1·7-5는 *체인 작동 필수*. 7-2~7-4는 *Spec 품질 직결(P1)* 이라 실전 적용 시 처음부터 높이는 게 유리해 권장 포함. 작업량이 크면 7-2~7-4만 분리 PR 가능 — **실행 시 사용자와 의논**.
 
 ---
 
@@ -282,11 +293,11 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 ### PR 본문 체크
 
 - [ ] Notion TO-BE / brief 링크 첨부
-- [ ] 변경 요약 (표준 / projects / 스킬 / 서브에이전트 / IP 입력 확인 / 문서 정합화)
+- [ ] 변경 요약 (표준 / projects / 스킬 / 서브에이전트 / IP 입력 확인 + 번호 디스패치 / dev-chain-design 2-Track / munto-spec-change / 개발자 가이드 / 문서 정합화)
 - [ ] `bash scripts/check-adapters.sh` 통과 명시
 - [ ] 리뷰어 체크 포인트: `{author-id}` 1회 질문 / `MUNTO_AUTHOR_ID`(Hook 별도) / `spec-baseline-handoff` BLOCKER
 - [ ] 변경 요약에 **개발자 프로세스 가이드(Phase 9)** 포함
-- [ ] 의도적 제외 명시: Hook 실제 활성화(견본만 포함), design 본문 2-Track 재구성(B-2)
+- [ ] 의도적 제외 명시: Hook 실제 활성화(견본만 포함), 무인 자동 순회(B-5/§4.9 — 본 PR은 유인 디스패치까지), 백로그 B-4/B-6/B-7
 
 ---
 
@@ -301,7 +312,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 5 | `feat(agents): ip-writer, ip-reviewer` | Phase 4 (4와 합쳐도 됨) |
 | 6 | `chore: adapters + AGENTS.md` | Phase 5 |
 | 7 | `docs: design-update-proposal 이관 + Hook 견본 보존` | Phase 6 |
-| 8 | `feat: dev 스킬 IP 입력 확인 + Spec 품질 강제` | Phase 7 (7-2~7-4는 분리 가능) |
+| 8 | `feat: dev 스킬 IP 입력 확인·번호 디스패치 + Spec 품질 강제` | Phase 7 (7-2~7-4는 분리 가능, 7-5 디스패치 포함) |
 | 9 | `docs: README·AGENTS 신규 구조 갱신` | Phase 8 |
 | 10 | `docs: 개발자 프로세스 가이드(교과서) 신설` | Phase 9 |
 
@@ -398,3 +409,5 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
 | 2026-05-29 | **B-2 완료 — dev-chain-design 2-Track 재구성(본 PR 편입)** — 사용자 결정에 따라 `dev-chain-design/SKILL.md` 본문을 TO-BE §3.4 2-Track으로 전면 재작성. 기존 "3종 동시 팬아웃(순차 호출 금지)" 폐기 → Step 2(Track1 DBML 작성·AI리뷰·👤BE 확정)/Step 3(Track1 Swagger·정합성·👤BE+FE/App 입회)/Step 4(Track2 UI 확인+Track3 Unit TCL·👤도메인)/Step 5(종합 게이트→베이스라인 v1.0). 헤더 도식·PM표(5종, 트랙 칼럼)·금지사항(순차/후속/게이트 자동통과 금지)·metadata 동기화. **필수 부수**: `design-consistency-reviewer`에 *모드 A(DBML↔Swagger, TCL 미작성 단계)* 추가(기존 3종 필수 거부가 1A-5를 막음) + Claude/Codex 어댑터 거부 문구 동기화. *방금 작성한 가이드 ch.3·AGENTS 다이어그램(2-Track) ↔ 실제 스킬(3종 병렬)의 드리프트 해소.* check-adapters 137개 통과 |
 | 2026-05-29 | **B-3 종결 — CCB 변경관리 문서화 충족(본 PR)** — `document/dev-process-guide.md` ch.6에 CCB(규모별 가변)·AI 1차 영향도·베이스라인 버저닝(v1.x/v2.0)·Decision Log를 self-contained로 문서화 완료. 별도 표준 파일/규칙 강제력은 필요 시 후속 PR(선택). |
+| 2026-05-29 | **B-3 보강 — `munto-spec-change` 운영 스킬 신설(본 PR)** — 사용자 제공 *책 변경관리* 내용을 정제해 영향 평가 운영 스킬을 신설. 5대 원칙(신속함>완벽함·설득 도구·기록 보존)·절차(CCB 미강제)·영향 체크리스트(비즈니스 8 + 기술 9)·변경 요청서 템플릿·AI 1차 영향도 보고서 템플릿·버저닝. Claude/Codex 어댑터 + AGENTS/README/munto-skills 등록 + TO-BE §4.8·가이드 ch.6/ch.8 링크. check-adapters 139개. |
+| 2026-05-29 | **Task 7-5 추가·완료 — IP 번호 기반 구현 지시(디스패치)** — `"Task 1.2/Phase 1/Phase 1-3/IP 기준 구현"` 진입점 부재 해소. PHASE 2 오케스트레이션의 *유인 디스패치*로 정의: `dev-process-guide` ch.3 디스패치 절 + ch.8 치트시트, `dev-chain-backend·mobile·frontend` 3종 IP 섹션에 *Task/Phase 번호 호출 시 IP 조회→자기 도메인 Task 선별→DAG 위상 순서→expert 위임* 4단계, `AGENTS.md` 행동 원칙 6번(메인 디스패치 라우팅) 신설. 상단 *이번 PR 제외* 박스의 B-2 잔여 표기 정정(B-2 완료 반영) + Phase 10 변경요약·의도적 제외·커밋표(행 8) 동기화. check-adapters 139개. |
