@@ -202,30 +202,35 @@ bash scripts/check-adapters.sh
 
 ---
 
-## Phase 8 — 기존 문서 정합화 [본 PR · 마지막 작업]
+## Phase 8 — 기존 문서 정합화 [본 PR · 마지막 작업] ✅ 완료
 
 > 새 구조(dev-chain 스킬군, IP, `projects/`, `document/` 표준, 서브에이전트, `.codex/` 어댑터)와 기존 안내 문서가 어긋나 있다. **모든 변경을 마친 뒤** 문서를 새 구조에 맞춘다.
 
 **커밋 예시:** `docs: README·AGENTS 등 기존 문서를 신규 구조에 맞게 갱신`
 
-### Task 8-1 — `README.md` 전면 갱신
+### Task 8-1 — `README.md` 전면 갱신 ✅ 완료
 
-- [ ] 구조 개요 도식에 `.codex/`, `document/`, `projects/`, `.agents/agents/`(서브에이전트) 추가
-- [ ] common/docs 스킬표에 `dev-chain-wbs`·`dev-chain-design`·`dev-chain-implementation-plan`·`dev-chain-verify` 추가
-- [ ] backend/mobile/frontend `dev-chain-*` 개발 스킬군 추가
-- [ ] 잘못 분류된 "### frontend" 헤더의 `spec-writing`(규칙) 정정 + 프론트엔드 규칙(`nextjs`, `dev-chain-frontend`) 정리
-- [ ] **Development Chain 프로세스 섹션 신설** (AGENTS.md와 동기화 — 5 PHASE + IP 단계)
-- [ ] `document/` 표준 문서(`ip-standard`·`spec-standard`·`spec-philosophy`·`spec-writing-tips`) 안내 추가
+- [x] 구조 개요 도식에 `.codex/`, `document/`, `projects/`, `.agents/agents/`(서브에이전트), `scripts/` 추가
+- [x] common/docs 스킬표에 `dev-chain-wbs`·`dev-chain-design`·`dev-chain-implementation-plan`·`dev-chain-verify`·`munto-humanize` 추가 + ops에 `munto-create-pr`·`munto-read-db`·`qa-tcl-writer` 추가
+- [x] backend/mobile/frontend `dev-chain-*` 개발 스킬군 + `muntorial-mobile` 추가
+- [x] 잘못 분류된 "### frontend" 헤더의 `spec-writing`(규칙) 정정 → `dev-chain-frontend`는 스킬, 규칙은 `nextjs`만으로 통합 규칙표 재구성
+- [x] **Development Chain 프로세스 섹션 신설** (AGENTS.md와 동기화 — 5 PHASE + IP 단계)
+- [x] `document/` 표준 문서(`ip-standard`·`spec-standard`·`spec-philosophy`·`spec-writing-tips`·`spec-templates`) + `projects/` 안내 추가
+- [x] (추가) 어댑터 예시 경로를 `SKILL.md` 폴더 컨벤션으로 정정 · "시작하기 #2"의 옛 슬래시 커맨드 예시를 자연어 스킬 호출로 정정 · 기여 가이드 스킬 추가 예시 갱신 · spec-review 체크리스트 A~I→A~J
 
-### Task 8-2 — `AGENTS.md` 최종 점검
+### Task 8-2 — `AGENTS.md` 최종 점검 ✅ 완료
 
-- [ ] 서브에이전트 안내에 `ip-writer`/`ip-reviewer` 반영 (Phase 5에서 스킬 목록·다이어그램은 반영됨 — 누락분만)
-- [ ] `projects/`·`document/` 표준 목록, 활성 스킬/규칙 목록 최신화
+- [x] **서브에이전트 목록 섹션 신설** (13종: 설계 5 / 구현 3 / 문서·계획 3[`ip-writer`·`ip-reviewer` 포함] / 분석 2)
+- [x] 디렉토리 구조에 `projects/` 추가 · common/ops 스킬에 `qa-tcl-writer` · common/docs에 `munto-humanize` 추가
+- [x] frontend 스킬 섹션 신설(`dev-chain-frontend` 규칙→스킬 정정) · common/ops 규칙에 `jira` 추가
+- [x] **표준 문서(`document/`) 섹션 신설** (ip/spec 표준 + `projects/README.md`)
 
-### Task 8-3 — 기타 문서 상호참조 점검
+### Task 8-3 — 기타 문서 상호참조 점검 ✅ 완료
 
-- [ ] `document/` 내 표준 문서 간 링크 정합성
-- [ ] `projects/README.md` 인덱스 + `munto-skills` 목록 (design/verify/wbs 미등재분 백필 여부 결정)
+- [x] `document/` 표준 문서·`projects/README.md` 링크 정합성 확인 (이미 최신 — 변경 불요)
+- [x] **`munto-skills` 목록 백필** — stale `*-acli`(NEW)/`Deprecated: MCP` 항목 제거, 실제 폴더 기준 재작성 + design/verify/wbs/humanize/qa-tcl-writer/create-pr/read-db/dev-chain-backend·frontend·mobile/muntorial 등 누락분 전부 추가 + 서브에이전트 안내 추가
+- [x] `.claude/agents/spec-reviewer.md` 래퍼의 A~I→A~J 동기화 (Codex 래퍼는 source 참조형이라 불요)
+- [x] check-adapters 137개 참조 통과
 
 ---
 
@@ -387,6 +392,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **Glossary → SRS §1.4 Terms and Abbreviations 로 정정** — Munto SRS 표준은 별도 §10 Glossary가 아니라 §1.4에 용어를 적음. Task 7-3 제목·항목을 §1.4 기준으로 수정(별도 부록 신설 X) + One Pager용 항목 안내 추가. TO-BE §4.7.2 본문·자기점검·질문강제 절차 §1.4로 일괄 동기화. `OnePager_v1.0_template.md`에 *Terms and Abbreviations* 항목 신설. `spec-standard.md §1.4`는 이미 정확하여 유지 |
 | 2026-05-29 | **Task 7-3 완료** — `munto-spec-writer`에 §1.4 용어·약어 등록 지침(SRS 핵심규칙·자체검증·전용 절) + OnePager 8→9개 항목 동기화. `munto-spec-review` `B. 기호·수식·용어 선행 정의(§1.4)` 확장(누락 의심 용어 🟡) + OnePager 9개 검증. `spec-standard.md §"용어·약어(1.4) 작성 원칙"` 5질문 재사용(중복 정의 회피). check-adapters 137개 통과. **brief(team-developer-brief.md)도 Glossary→§1.4 + N/A·None 표현 동기화** |
 | 2026-05-29 | **Task 7-3 보강 — §1.4 선별 원칙 명시** — "모든 용어·약어 나열 X, 문서 성격·독자(신입 개발자·직원·타 직군) 기준 모르거나 혼동·애매할 만한 것만 선별, 다 적으면 낭비"를 `munto-spec-writer` 전용 절 맨 앞 *선별 원칙* 박스 + SRS 핵심규칙·자체검증(누락/과잉 양방향)에 반영. `munto-spec-review` §B에 *과잉 나열 정리 제안(🟢)* 소프트 체크 추가. (Book SRS §1.4·`spec-standard.md §1.4` 원칙과 일치) |
+| 2026-05-29 | **Phase 8 완료 — 기존 문서 정합화** — `AGENTS.md`(서브에이전트 13종 목록·`document/` 표준 섹션·`projects/` 구조·`qa-tcl-writer`·`munto-humanize`·frontend 스킬·`jira` 규칙 신설/정정), `README.md`(구조 도식·통합 스킬/규칙표·Development Chain·표준 문서·서브에이전트·옛 커맨드/경로 예시 정정·A~J), `munto-skills/SKILL.md`(stale `*-acli`/Deprecated 제거 후 실제 인벤토리로 전면 백필 + 서브에이전트 안내), `.claude/agents/spec-reviewer.md`(A~I→A~J). check-adapters 137개 통과 |
 | 2026-05-29 | **Task 7-4 완료 — 대안 검토 박스(선별 적용)** — 목적=AI 아키텍처 무지성 수용 차단. `munto-spec-writer`(§2.2 핵심 결정)·`dbml-writer`(핵심 엔티티 구조)·`swagger-writer`(핵심 계약 패턴)에 *선별 원칙 박스*+작성 지침 추가(**모든 결정 X, 핵심 아키텍처만, 버그수정·소규모·기존 표준 답습 면제, 박스 0개도 정상**). 리뷰는 `munto-spec-review`(§J 신설, A~J 갱신)·`dbml-reviewer`(S5)에 *소프트 질문*으로만(부재 자동결함 금지), `spec-reviewer`에 A~J·부재 오검출 방지 가드. **`design-consistency-reviewer`는 정합성 전용이라 제외**(단일 책임 보존). TO-BE §4.7.3 강제 문구도 선별 원칙으로 동기화. check-adapters 137개 통과 |
 | 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
