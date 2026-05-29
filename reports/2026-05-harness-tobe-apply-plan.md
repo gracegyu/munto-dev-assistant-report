@@ -341,11 +341,12 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 - [x] **필수 부수 변경**: `design-consistency-reviewer` 에 *모드 A(DBML↔Swagger 부분 정합성, TCL 미작성 단계)* 추가 — 기존 "3종 필수, 누락 시 거부"가 1A-5 단계(TCL 전)를 막았기 때문. Claude/Codex 어댑터의 거부 문구도 동기화.
 - 완료 PR: (본 PR)
 
-### B-3. 변경 관리(CCB) 절차 — §4.8 (P3) ✅ 문서화 충족 (본 PR)
+### B-3. 변경 관리(CCB) 절차 — §4.8 (P3) ✅ 문서화 + 운영 스킬 (본 PR)
 
-- [x] CCB(규모별 가변 의사결정) · AI 1차 영향도 분석 · 베이스라인 버저닝(v1.x / v2.0) 을 **`document/dev-process-guide.md` ch.6**에 self-contained 문서화 (CCB 흐름도 Mermaid + 규모별 구성 + 버저닝 규칙 + Decision Log). → *문서화 충족으로 종결.*
-- [ ] (선택·후속) 별도 표준 파일(`document/change-management.md`) 또는 규칙으로 *강제력* 부여가 필요하면 별도 PR. 현재는 가이드 문서로 충분 판단.
-- 완료 PR: (본 PR — 가이드 ch.6)
+- [x] CCB(규모별 가변 의사결정) · AI 1차 영향도 분석 · 베이스라인 버저닝(v1.x / v2.0) 을 **`document/dev-process-guide.md` ch.6**에 self-contained 문서화 (CCB 흐름도 Mermaid + 규모별 구성 + 버저닝 규칙 + Decision Log).
+- [x] **운영 스킬 신설 `munto-spec-change`** (common/docs, self-contained) — 베이스라인 이후 Spec/요구사항 변경의 *영향 평가*를 운영. 변경 5대 원칙(신속함>완벽함·설득 도구·기록 보존 등) + 절차(CCB 미강제) + 영향 체크리스트(비즈니스·기술) + 변경 요청서 템플릿 + AI 1차 영향도 보고서 템플릿 + 버저닝. **CCB 미강제, 영향 평가 의무.** Claude/Codex 어댑터 + AGENTS/README/munto-skills 등록 + TO-BE §4.8·가이드 ch.6·ch.8 치트시트 링크.
+- [ ] (선택·후속) CCB *의사결정 강제*·별도 규칙화가 필요하면 별도 PR. 현재는 영향 평가 의무 + 결정은 사람(분석 아키텍트/리드) 권한으로 운영.
+- 완료 PR: (본 PR — 가이드 ch.6 + `munto-spec-change` 스킬)
 
 ### B-4. `munto-doc-review-helper` 신규 스킬 — §5.1 (P3)
 
