@@ -144,12 +144,13 @@ bash scripts/check-adapters.sh
 
 ---
 
-## Phase 6 — 검토안·제외물 (선택)
+## Phase 6 — 검토안 이관 & Hook 견본 보존
 
-**커밋 예시:** `docs: dev-chain-design IP 단계 검토안 추가`
+**커밋 예시:** `docs: dev-chain-design 검토안 이관 + Claude Hook 견본 보존`
 
-- [ ] (선택) `dev-chain-design-update-proposal.md` → `document/dev-chain-design-update-proposal.md` (참고용)
-- [ ] `.claude-hooks-proposal.json` 은 PR에 **포함하지 않음** 확인
+- [x] `dev-chain-design-update-proposal.md` → `document/dev-chain-design-update-proposal.md` 이관 (**필수**: ip-standard.md·IP 스킬이 이 경로를 참조 → 미이관 시 깨진 링크). 깨진 상대경로 운영 기준 수정 + "제안만/별도 PR" 문구를 구현 완료 상태로 갱신 + 결정 1~3 해소 표기
+- [x] `.claude-hooks-proposal.json` 처리 — **B+ 채택**: 견본을 레포 루트에 커밋용으로 이관(참고 템플릿, 자동 로드 안 됨) + 잘못된 적용 위치(`hooks.json`→실제 `settings.json`) 운영 기준 수정 + 루트 `.gitignore`에 출력물(`projects/**/sessions/spec-hook-turn-*.md`) 등록 + `_template/README.md` (c) 트랙 가이드 정정. 실제 활성화는 개발자별 로컬 `~/.claude/settings.json`(백로그 B-10)
+  - 근거: Claude Code는 standalone `.claude/hooks.json` 미로드(플러그인 전용), `.claude/settings.json`은 본 레포 `.gitignore`가 무시(팀 정책) → 공유 커밋형 활성화는 정책 변경 전까지 불가
 
 ---
 
@@ -265,9 +266,12 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 
 ### B-10. Claude Code Hook 트랙 — §4.7.4 (5)(c) (P3, 개인 PC)
 
-- [ ] `.claude-hooks-proposal.json` 기반 Stop Hook 적용(매 turn `spec-hook-turn-*.md` 캡처, `.gitignore`)
-- [ ] `MUNTO_AUTHOR_ID` 환경변수 안내
-- 완료 PR: ____
+> 견본 커밋 + 출력물 `.gitignore` + 적용 가이드는 **본 PR에서 완료**(Phase 6). 남은 것은 *개발자별 로컬 실제 활성화*뿐.
+
+- [x] `.claude-hooks-proposal.json` 견본 레포 보존 + 출력물(`projects/**/sessions/spec-hook-turn-*.md`) `.gitignore` 등록 (본 PR)
+- [ ] (개발자별) 견본 `hooks` 객체를 `~/.claude/settings.json` 또는 `.claude/settings.local.json`에 병합 + `MUNTO_AUTHOR_ID` 환경변수 설정 (로컬 작업, PR 아님)
+- [ ] (팀 결정 시) `.gitignore`의 `.claude/settings.json` 무시 해제 → 공유 커밋형 활성화 여부
+- 완료 PR: (견본/가이드는 본 PR)
 
 ### B-11. 팀 멤버 식별자 인덱스 — §4.7.4 (4) (P3, 선택)
 
@@ -288,3 +292,4 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | 신규 작성 — TO-BE 운영 적용 단계별 계획(Phase 0~7) + 체크박스 |
 | 2026-05-29 | 적용 범위 (A)이관/(B)전체 구분 박스 추가 · `ip-standard.md` 위치 `document/` 결정 명시(TO-BE 경로 수정 필요 표시) · **후속 PR 백로그(B-1~B-12)** 섹션 신설 |
 | 2026-05-29 | Phase 4 완료(`ip-writer`·`ip-reviewer` + Claude/Codex 어댑터) → **B-4 완료 처리** · `dev-chain-design` Step 5에 IP 단계 연결(선택지 B 최소 변경)을 본 PR에서 처리 → **B-6을 2-Track 재구성만 남기도록 축소** |
+| 2026-05-29 | Phase 5 완료(IP 스킬 Claude/Codex 어댑터 + AGENTS.md + munto-skills, check-adapters 통과) · Phase 6 완료(`dev-chain-design-update-proposal.md`→`document/` 이관[필수: 참조 깨짐 방지] · Hook 견본 B+ 처리: 커밋용 견본+출력물 .gitignore+가이드 정정, 실제 활성화는 B-10 로컬 트랙) |
