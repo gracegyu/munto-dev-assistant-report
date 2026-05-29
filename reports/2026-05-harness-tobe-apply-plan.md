@@ -132,11 +132,11 @@ git checkout -b feat/agentic-dev-chain-tobe
 
 **커밋 예시:** `chore: Claude·Codex 스킬 어댑터 및 AGENTS.md 갱신`
 
-- [ ] `.claude/skills/dev-chain-implementation-plan/SKILL.md` 얇은 래퍼 생성
-- [ ] `.codex/skills/dev-chain-implementation-plan/SKILL.md` (`source:` 선언) 생성
-- [ ] `AGENTS.md` 활성 스킬 목록에 `dev-chain-implementation-plan` 추가
-- [ ] (선택) `munto-skills` SKILL 목록 동기화
-- [ ] `bash scripts/check-adapters.sh` 실행 → 깨진 참조 0건 확인
+- [x] `.claude/skills/dev-chain-implementation-plan/SKILL.md` 얇은 래퍼 생성
+- [x] `.codex/skills/dev-chain-implementation-plan/SKILL.md` (`source:` + `codex_type: skill` 선언) 생성
+- [x] `AGENTS.md` 활성 스킬 목록 + Development Chain 다이어그램(1-1 단계)에 `dev-chain-implementation-plan` 추가
+- [x] (선택) `munto-skills` SKILL 목록 common/docs 표에 IP 행 추가 (※ design/verify/wbs는 기존부터 미등재 — 본 PR 범위 밖이라 유지)
+- [x] `bash scripts/check-adapters.sh` 실행 → 137개 참조 검증, 깨진 링크 0건
 
 ```bash
 bash scripts/check-adapters.sh
