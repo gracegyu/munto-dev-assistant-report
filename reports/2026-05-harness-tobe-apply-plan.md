@@ -49,8 +49,12 @@
 
 - [x] `main` 최신화 (`git fetch origin` → `git checkout main` → `git pull origin main`)
 - [x] feature 브랜치 생성 (`git checkout -b feat/agentic-dev-chain-tobe`)
-- [ ] 이관 소스 위치 확인: `munto-dev-assistant-report/munto-dev-assistant-tobe-temp/`
-- [ ] tobe-temp SKILL 상단 `<!-- ... -->` 기획 주석 제거 방침 확인 (skills/README §3)
+- [x] 이관 소스 위치 확인: `munto-dev-assistant-report/munto-dev-assistant-tobe-temp/` (2026-05-29 확인 — 14개 파일)
+- [x] tobe-temp SKILL 상단 `<!-- ... -->` 기획 주석 제거 방침 확인 (skills/README §3 — 제거 맞음)
+
+> **확인 결과 — Phase 3에서 처리할 것**:
+> - `munto-spec-writer` · `munto-spec-review`: 상단 `<!-- -->` 블록(1~10줄) 제거 + **프론트매터 정규화 필요**. 주석만 지우면 프론트매터가 한 줄로 뭉친 무효 형태로 남음 → 운영 형식(여러 줄 YAML, `name`/`description`만)으로 복원. `metadata`/`revision` 포함 여부는 결정 필요(기존 운영 본문엔 없음).
+> - `dev-chain-implementation-plan`: `<!-- -->` 주석은 없으나 `status: "PROPOSAL …"` 프론트매터 필드 제거 + `revision`의 "검토안 선택지 B 전제" 문구 정리.
 
 ```bash
 cd /Users/gracegyu/Documents/GitMunto/munto-dev-assistant
@@ -94,11 +98,13 @@ git checkout -b feat/agentic-dev-chain-tobe
 
 - [ ] `skills/munto-spec-writer/SKILL.md` → `.agents/skills/common/docs/munto-spec-writer/SKILL.md`
 - [ ] `skills/munto-spec-review/SKILL.md` → `.agents/skills/common/docs/munto-spec-review/SKILL.md`
+- [ ] 위 2개: 상단 `<!-- -->` 기획 주석 제거 + **프론트매터를 운영 형식(여러 줄 YAML, `name`/`description`)으로 복원** (주석만 제거 시 무효 프론트매터로 남음 — Phase 0 확인 결과)
 
 **커밋 예시 ②:** `feat(skills): dev-chain-implementation-plan 신규`
 
 - [ ] `skills/dev-chain-implementation-plan/SKILL.md` → `.agents/skills/common/docs/dev-chain-implementation-plan/SKILL.md`
 - [ ] 스킬 내부 `ip-standard.md` 참조를 **`document/ip-standard.md`** 로 수정 (tobe-temp 의 `../../../ip-standard.md` → 운영 경로)
+- [ ] 프론트매터 `status: "PROPOSAL …"` 필드 제거 + `revision`의 "검토안 선택지 B 전제" 문구 정리
 - [ ] (선택) `dev-chain-design` Step 5 마지막에 "다음: `dev-chain-implementation-plan`" 한 줄 안내 추가
 
 > **위치 결정**: tobe README는 `backend/docs` 후보도 제시하나, `dev-chain-design`·`dev-chain-wbs`와 일관되게 **`common/docs`** 권장.
