@@ -98,16 +98,16 @@ git checkout -b feat/agentic-dev-chain-tobe
 
 **커밋 예시 ①:** `feat(skills): spec-writer·spec-review TO-BE 세션·baseline 반영`
 
-- [ ] `skills/munto-spec-writer/SKILL.md` → `.agents/skills/common/docs/munto-spec-writer/SKILL.md`
-- [ ] `skills/munto-spec-review/SKILL.md` → `.agents/skills/common/docs/munto-spec-review/SKILL.md`
-- [ ] 위 2개: 상단 `<!-- -->` 기획 주석 제거 + **프론트매터를 운영 형식(여러 줄 YAML, `name`/`description`)으로 복원** (주석만 제거 시 무효 프론트매터로 남음 — Phase 0 확인 결과)
+- [x] `skills/munto-spec-writer/SKILL.md` → `.agents/skills/common/docs/munto-spec-writer/SKILL.md` (2026-05-29)
+- [x] `skills/munto-spec-review/SKILL.md` → `.agents/skills/common/docs/munto-spec-review/SKILL.md` (2026-05-29)
+- [x] 위 2개: 상단 `<!-- -->` 기획 주석 제거 + **프론트매터를 운영 형식(여러 줄 YAML, `name`/`description`)으로 복원** 완료 (metadata/revision은 기존 운영 컨벤션대로 미포함)
 
 **커밋 예시 ②:** `feat(skills): dev-chain-implementation-plan 신규`
 
-- [ ] `skills/dev-chain-implementation-plan/SKILL.md` → `.agents/skills/common/docs/dev-chain-implementation-plan/SKILL.md`
-- [ ] 스킬 내부 `ip-standard.md` 참조를 **`document/ip-standard.md`** 로 수정 (tobe-temp 의 `../../../ip-standard.md` → 운영 경로)
-- [ ] 프론트매터 `status: "PROPOSAL …"` 필드 제거 + `revision`의 "검토안 선택지 B 전제" 문구 정리
-- [ ] (선택) `dev-chain-design` Step 5 마지막에 "다음: `dev-chain-implementation-plan`" 한 줄 안내 추가
+- [x] `skills/dev-chain-implementation-plan/SKILL.md` → `.agents/skills/common/docs/dev-chain-implementation-plan/SKILL.md` (2026-05-29)
+- [x] 스킬 내부 `ip-standard.md`·`dev-chain-design-update-proposal.md` 참조를 운영 기준(`document/...`, 루트 상대)으로 수정 (26·40·210번)
+- [x] 프론트매터 `metadata`/`status: "PROPOSAL …"` 제거 → `name`/`description`만 유지
+- [ ] (선택·보류) `dev-chain-design` Step 5 마지막에 "다음: `dev-chain-implementation-plan`" 한 줄 안내 추가 — **선택지 B 팀 결정 전제라 보류**(B-6 백로그와 연동)
 
 > **위치 결정**: tobe README는 `backend/docs` 후보도 제시하나, `dev-chain-design`·`dev-chain-wbs`와 일관되게 **`common/docs`** 권장.
 
