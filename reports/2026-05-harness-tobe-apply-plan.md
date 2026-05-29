@@ -314,7 +314,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 - [ ] 리뷰·CI·`check-adapters.sh` 통과 → merge
 - [ ] 팀에 brief / Notion 안내
 - [ ] `munto-dev-assistant-tobe-temp` **삭제(폐기)** — 모든 콘텐츠가 운영 레포로 이관 완료된 임시 스테이징이므로 머지 후 폐기 (이관 누락 0건 최종 확인 후)
-- [ ] 후속(별도 PR): design 본문 2-Track 재구성(B-2), Hook 로컬 활성화(B-5), 나머지 백로그(B-1/3/4/6/7)
+- [ ] 후속(별도 PR): Hook 로컬 활성화(B-5), 나머지 백로그(B-4/6/7). ※ B-2(2-Track 재구성)·B-3(CCB 문서화)는 **본 PR로 완료**
 
 ---
 
@@ -324,7 +324,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 >
 > 우선순위: **P1** = Spec 품질 직결(빠를수록 좋음) / **P2** = IP·검증 강화 / **P3** = 신규 영역·대형 개편.
 >
-> **본 PR로 승격/완료되어 정리된 항목**: Spec 작성 4팁·용어·약어 정의(§1.4)·대안 검토 박스 → **Phase 7-2~7-4**, IP 입력 확인 → **Phase 7-1**(승격). ip-writer/ip-reviewer는 **Phase 4**, Hook 견본·`.gitignore` 등록은 **Phase 6**에 이미 기록되어 백로그 중복분 제거. 남은 항목을 아래 **B-1~B-7**로 순차 재번호함.
+> **본 PR로 승격/완료되어 정리된 항목**: Spec 작성 4팁·용어·약어 정의(§1.4)·대안 검토 박스 → **Phase 7-2~7-4**, IP 입력 확인 → **Phase 7-1**(승격). ip-writer/ip-reviewer는 **Phase 4**, Hook 견본·`.gitignore` 등록은 **Phase 6**에 이미 기록되어 백로그 중복분 제거. 남은 항목을 아래 **B-1~B-7**로 순차 재번호함. **추가 편입(2026-05-29)**: B-2(dev-chain-design 2-Track 재구성)·B-3(CCB 변경관리 문서화)도 본 PR로 완료 — 가이드 ch.3/ch.6와의 정합을 위해 함께 처리. **남은 순수 후속 PR = B-4·B-5·B-6·B-7.**
 
 ### B-1. TO-BE 문서 경로 동기화 — ip-standard.md 위치 결정 반영 (P2) ✅ 완료
 
@@ -332,18 +332,20 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 - ~~tobe-temp 측 잔여 표기 정리~~ → **불요**: tobe-temp 는 머지 후 **삭제(폐기)** 예정이라 내부 경로 정리 가치 없음 (`PR 이후` 참조)
 - 완료 PR: (본 PR)
 
-### B-2. dev-chain-design 본문 보강 — 2-Track 재구성 (P3)
+### B-2. dev-chain-design 본문 보강 — 2-Track 재구성 (P3) ✅ 완료
 
-> IP 단계 연결(선택지 B의 "최소 변경" = Step 5 다음 단계 안내)은 **본 PR에서 완료**됐다(Phase 3 항목 참조). 남은 것은 아래 본문 대개편뿐.
+> IP 단계 연결(선택지 B의 "최소 변경" = Step 5 다음 단계 안내)은 **본 PR에서 완료**됐다(Phase 3 항목 참조). 남은 본문 대개편도 **본 PR에서 완료**.
 
-- [ ] `dev-chain-design-update-proposal.md` 의 **결정(선택지 A/B/C)** 을 팀이 공식 확정 (현재는 별도 스킬 구현으로 *사실상 B 채택* 상태 — 문서상 추인 필요)
-- [ ] (해당 시) §3.4 **2-Track 병렬 + Unit TCL 후속** 구조를 `dev-chain-design` 본문에 반영 (DBML 확정 → Swagger, BE+FE 입회 리뷰)
-- 완료 PR: ____
+- [x] `dev-chain-design-update-proposal.md` 의 **결정(선택지 A/B/C)** — *B 채택* 상태로 본 PR에서 본문 반영(추인). (의사결정 기록 문서는 보존)
+- [x] §3.4 **2-Track 병렬 + Unit TCL 후속** 구조를 `dev-chain-design` 본문에 반영 — 기존 "3종 동시 팬아웃" 폐기. Track 1(DBML 확정→Swagger, 순차) / Track 2(UI, 사람 주도) / Track 3(Unit TCL, 두 트랙 후속) + 트랙별 👤 사람 리뷰 게이트(D3·S3·U2·T5) + 종합 Peer Review 게이트(베이스라인 v1.0)로 재작성. Swagger 사람 리뷰에 **BE 생산자 + FE/App 소비자 입회** 명시.
+- [x] **필수 부수 변경**: `design-consistency-reviewer` 에 *모드 A(DBML↔Swagger 부분 정합성, TCL 미작성 단계)* 추가 — 기존 "3종 필수, 누락 시 거부"가 1A-5 단계(TCL 전)를 막았기 때문. Claude/Codex 어댑터의 거부 문구도 동기화.
+- 완료 PR: (본 PR)
 
-### B-3. 변경 관리(CCB) 절차 — §4.8 (P3)
+### B-3. 변경 관리(CCB) 절차 — §4.8 (P3) ✅ 문서화 충족 (본 PR)
 
-- [ ] CCB(규모별 가변 의사결정) · AI 1차 영향도 분석 템플릿 · 베이스라인 버저닝(v1.x / v2.0) 을 문서 또는 규칙으로 박기
-- 완료 PR: ____
+- [x] CCB(규모별 가변 의사결정) · AI 1차 영향도 분석 · 베이스라인 버저닝(v1.x / v2.0) 을 **`document/dev-process-guide.md` ch.6**에 self-contained 문서화 (CCB 흐름도 Mermaid + 규모별 구성 + 버저닝 규칙 + Decision Log). → *문서화 충족으로 종결.*
+- [ ] (선택·후속) 별도 표준 파일(`document/change-management.md`) 또는 규칙으로 *강제력* 부여가 필요하면 별도 PR. 현재는 가이드 문서로 충분 판단.
+- 완료 PR: (본 PR — 가이드 ch.6)
 
 ### B-4. `munto-doc-review-helper` 신규 스킬 — §5.1 (P3)
 
@@ -393,3 +395,5 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **Task 7-4 완료 — 대안 검토 박스(선별 적용)** — 목적=AI 아키텍처 무지성 수용 차단. `munto-spec-writer`(§2.2 핵심 결정)·`dbml-writer`(핵심 엔티티 구조)·`swagger-writer`(핵심 계약 패턴)에 *선별 원칙 박스*+작성 지침 추가(**모든 결정 X, 핵심 아키텍처만, 버그수정·소규모·기존 표준 답습 면제, 박스 0개도 정상**). 리뷰는 `munto-spec-review`(§J 신설, A~J 갱신)·`dbml-reviewer`(S5)에 *소프트 질문*으로만(부재 자동결함 금지), `spec-reviewer`에 A~J·부재 오검출 방지 가드. **`design-consistency-reviewer`는 정합성 전용이라 제외**(단일 책임 보존). TO-BE §4.7.3 강제 문구도 선별 원칙으로 동기화. check-adapters 137개 통과 |
 | 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
+| 2026-05-29 | **B-2 완료 — dev-chain-design 2-Track 재구성(본 PR 편입)** — 사용자 결정에 따라 `dev-chain-design/SKILL.md` 본문을 TO-BE §3.4 2-Track으로 전면 재작성. 기존 "3종 동시 팬아웃(순차 호출 금지)" 폐기 → Step 2(Track1 DBML 작성·AI리뷰·👤BE 확정)/Step 3(Track1 Swagger·정합성·👤BE+FE/App 입회)/Step 4(Track2 UI 확인+Track3 Unit TCL·👤도메인)/Step 5(종합 게이트→베이스라인 v1.0). 헤더 도식·PM표(5종, 트랙 칼럼)·금지사항(순차/후속/게이트 자동통과 금지)·metadata 동기화. **필수 부수**: `design-consistency-reviewer`에 *모드 A(DBML↔Swagger, TCL 미작성 단계)* 추가(기존 3종 필수 거부가 1A-5를 막음) + Claude/Codex 어댑터 거부 문구 동기화. *방금 작성한 가이드 ch.3·AGENTS 다이어그램(2-Track) ↔ 실제 스킬(3종 병렬)의 드리프트 해소.* check-adapters 137개 통과 |
+| 2026-05-29 | **B-3 종결 — CCB 변경관리 문서화 충족(본 PR)** — `document/dev-process-guide.md` ch.6에 CCB(규모별 가변)·AI 1차 영향도·베이스라인 버저닝(v1.x/v2.0)·Decision Log를 self-contained로 문서화 완료. 별도 표준 파일/규칙 강제력은 필요 시 후속 PR(선택). |
