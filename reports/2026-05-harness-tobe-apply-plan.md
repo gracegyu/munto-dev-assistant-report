@@ -16,10 +16,10 @@
 | **(A) 1차 PR — 이관** | tobe-temp 에 *파일로 존재하는 것* 을 운영 경로로 옮기고 경로만 수정 | **Phase 0~6** (아래) |
 | **(A+) 1차 PR — 실전 적용 보강** | 본인이 *이번 PR로 실제 개발에 적용*하므로, (B) 중 *체인 작동에 꼭 필요한 항목*을 1차 PR로 승격 + 기존 문서 정합화 | **Phase 7~8** (아래) |
 | **(B) 후속 — TO-BE 전체 구현** | tobe-temp 에도 없어 *새로 저작* 해야 하는 나머지 TO-BE 강제 항목 | **§ 후속 PR 백로그** (하단) |
-| **(C) 개발자 가이드(교과서)** | TO-BE 의 개발자 가이드 본문을 운영 레포 교과서로 신설 | **Phase 9** (본 PR · 집필 전 목차·범위 사용자 확정) |
+| **(C) 개발자 가이드(교과서)** | TO-BE 의 개발자 가이드 본문을 운영 레포 교과서로 신설 | **Phase 9** ✅ 완료 (`document/dev-process-guide.md`) |
 
 > **원칙**: (B) 는 *한꺼번에 만들지 않는다* (TO-BE §2.3 ② "필요한 시점에 작게 추가"). 다만 본인이 *이번 PR로 실제 개발에 적용*하므로, (B) 중 *체인이 실제로 작동하려면 꼭 필요한 최소 항목*(IP 입력 확인 등)은 Phase 7로 승격한다. 나머지 (B) 는 백로그에 *누락 없이* 적어 두고 하나씩 별도 PR 로 진행한다.
-> **실행 순서**: Phase 0~6(이관) → **Phase 7(실전 보강)** → **Phase 8(문서 정합화)** → **Phase 9(개발자 가이드 — 본 PR, 집필 전 목차·범위 사용자 확정)** → **Phase 10(push & PR)**.
+> **실행 순서**: Phase 0~6(이관) → **Phase 7(실전 보강) ✅** → **Phase 8(문서 정합화) ✅** → **Phase 9(개발자 가이드) ✅** → **Phase 10(push & PR)**.
 
 ---
 
@@ -234,42 +234,38 @@ bash scripts/check-adapters.sh
 
 ---
 
-## Phase 9 — 개발자 프로세스 가이드(교과서) 신설 [본 PR · 집필 착수 전 사용자와 목차·범위 확정]
+## Phase 9 — 개발자 프로세스 가이드(교과서) 신설 [본 PR] ✅ 완료
 
 > **현황(조사 결과)**: 운영 레포에 *개발자가 프로세스를 교과서처럼 배우는 가이드는 없다*. `AGENTS.md`=에이전트/하네스용, `README.md`=레포 구조 설명, `document/`=표준(ip/spec)뿐. **TO-BE(§1~4, §6)가 사실상 개발자 가이드 본문**이나 `-report` 레포에만 존재 → 운영 레포로 가져와 교과서화 필요.
 > **목표 독자**: 사람 개발자(에이전트 아님). *언제·어떤 PHASE에서·어떤 지시를 주는지* 를 순서대로 익히는 문서.
 > **실행 원칙**: **본 PR 포함.** 단 집필 착수 전 Task 9-1·9-2(현황·위치·목차)를 **사용자와 확정**한 뒤 집필한다.
 
-**예상 위치(Task 9-1에서 확정):** `document/dev-process-guide.md`(단일) 또는 `document/guide/`(챕터 분할)
+**위치 확정:** `document/dev-process-guide.md` (단일 파일). 사유: 8장 규모는 처음부터 끝까지 읽는 교과서형 → 단일 파일이 Ctrl+F·진입 링크·mermaid 렌더에 유리. ~800줄 초과 또는 챕터별 오너 분화 시 `document/guide/`로 분할.
 
-### Task 9-1 — 현황·격차 확정 + 위치/형식 결정 [사용자 확정]
+### Task 9-1 — 현황·격차 확정 + 위치/형식 결정 [사용자 확정] ✅ 완료
 
-- [ ] 기존 가이드 부재 결론 확정 (위 조사 내용) + 운영 레포 어디에 둘지(단일 파일 vs 챕터 폴더) 결정
-- [ ] TO-BE(`-report`) ↔ 운영 가이드의 관계 정의 (TO-BE = 설계 원전 / 운영 가이드 = 개발자 실무 교과서)
+- [x] 기존 가이드 부재 결론 확정 + 위치 = **단일 파일 `document/dev-process-guide.md`**
+- [x] TO-BE(`-report`/Notion) ↔ 운영 가이드 관계 정의 — **positioning: self-contained**. 가이드는 핵심 규범까지 본문에 담아 단독으로 읽히고, *깊은 근거*만 `TO-BE §X`로 링크. 규범 정본은 TO-BE/AGENTS/`document/` 표준 유지(드리프트 시 정본 우선)
 
-### Task 9-2 — 목차 설계 (TO-BE 챕터 매핑) [사용자 확정]
+### Task 9-2 — 목차 설계 (TO-BE 챕터 매핑) [사용자 확정] ✅ 완료 (8장 확정·집필됨)
 
-- [ ] 1) 큰 그림 — Agentic Dev Chain이란 / 5 PHASE 한눈에 + **Process Diagram(mermaid)** (TO-BE §1, §3.0 범례, §3.1 전체 흐름, §6) — 전체 흐름 `flowchart`
-- [ ] 2) 핵심 원칙 8개 — 개발자가 외워야 할 것 (TO-BE §2.3)
-- [ ] 3) **PHASE별 사용법 — 언제 무엇을 하고 어떤 지시를 주는가** (TO-BE §3.2~3.6, §4.1~4.5) ← 교과서 핵심. 각 PHASE 진입·산출·게이트를 **mermaid 서브다이어그램**으로 보강
-- [ ] 4) 사람 개입 체크리스트 — PHASE별 게이트 (TO-BE §4.6)
-- [ ] 5) AI에게 지시하는 법 — 지시 템플릿 / Review 방법 (TO-BE §4.7)
-- [ ] 6) 베이스라인·인수·변경관리 (TO-BE §2.2, §4.8) — 베이스라인 v1.0 인수 흐름 mermaid(선택)
-- [ ] 7) 무인/유인 모드 운영 (TO-BE §4.9) — 오케스트레이션 루프 mermaid(선택)
-- [ ] 8) 빠른 참조 — 스킬·서브에이전트 호출 치트시트
+- [x] 1) 큰 그림 — Agentic Dev Chain이란 / 5 PHASE + **마스터 mermaid `flowchart`** + 범례 (TO-BE §1, §3.0, §3.1)
+- [x] 2) 핵심 원칙 8개 (TO-BE §2.3)
+- [x] 3) **PHASE별 사용법** (TO-BE §3.2~3.6, §4.1~4.5) ← 교과서 핵심. PHASE 0/1/CCB/루프 **mermaid 서브다이어그램** 포함
+- [x] 4) 사람 개입 체크리스트 (TO-BE §4.6 + 분석 아키텍트)
+- [x] 5) AI에게 지시하는 법 — 가이드 4종·Review·4팁·§1.4 용어·대안 박스 (TO-BE §4.7)
+- [x] 6) 베이스라인·인수·변경관리 — CCB mermaid (TO-BE §2.2, §4.8)
+- [x] 7) 무인/유인 모드 — 오케스트레이션 루프 mermaid (TO-BE §4.9)
+- [x] 8) 빠른 참조 — 스킬·서브에이전트·표준문서 치트시트
 
-> **다이어그램 방침**: 텍스트 도식(TO-BE §3) → **mermaid**로 변환해 교과서에 직접 렌더. 최소 *전체 흐름 1개*(ch.1)는 필수, PHASE별 서브다이어그램(ch.3)은 권장. GitHub/Notion 모두 mermaid 렌더 지원.
+### Task 9-3 — 챕터별 집필 ✅ 완료
 
-### Task 9-3 — 챕터별 집필
+- [x] `document/dev-process-guide.md` 단일 파일로 8장 집필 (self-contained, 깊은 근거만 TO-BE §X 링크). 깨진 참조·경로는 운영 레포 기준 정합
+- [x] **mermaid 4종 작성** — 마스터 흐름(ch.1) + PHASE 0·PHASE 1 서브(ch.3) + CCB(ch.6) + 무인 루프(ch.7)
 
-- [ ] 확정된 목차에 따라 챕터별 본문 집필 (TO-BE 발췌 → 운영 레포 기준 재서술, 깨진 참조·경로 운영 기준 정합)
-- [ ] **Process Diagram(mermaid) 작성** — TO-BE §3 텍스트 도식을 mermaid `flowchart`로 변환(전체 흐름 필수 + PHASE별 서브 권장)
+### Task 9-4 — 진입 링크 연결 ✅ 완료
 
-### Task 9-4 — 진입 링크 연결 (Phase 8과 조율)
-
-- [ ] `AGENTS.md`·`README.md`에서 개발자 가이드로의 진입 링크 추가
-
-> 작은 결정(파일명·챕터 순서)은 집필 시 제안. **큰 결정(범위·위치·단일/분할)은 Task 9-1에서 사용자와 확정.**
+- [x] `AGENTS.md`(Development Chain 섹션 상단 + 표준 문서 목록)·`README.md`(Development Chain 섹션 + 표준 문서 표)에 가이드 진입 링크 추가. check-adapters 137개 통과
 
 ---
 
@@ -392,6 +388,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **Glossary → SRS §1.4 Terms and Abbreviations 로 정정** — Munto SRS 표준은 별도 §10 Glossary가 아니라 §1.4에 용어를 적음. Task 7-3 제목·항목을 §1.4 기준으로 수정(별도 부록 신설 X) + One Pager용 항목 안내 추가. TO-BE §4.7.2 본문·자기점검·질문강제 절차 §1.4로 일괄 동기화. `OnePager_v1.0_template.md`에 *Terms and Abbreviations* 항목 신설. `spec-standard.md §1.4`는 이미 정확하여 유지 |
 | 2026-05-29 | **Task 7-3 완료** — `munto-spec-writer`에 §1.4 용어·약어 등록 지침(SRS 핵심규칙·자체검증·전용 절) + OnePager 8→9개 항목 동기화. `munto-spec-review` `B. 기호·수식·용어 선행 정의(§1.4)` 확장(누락 의심 용어 🟡) + OnePager 9개 검증. `spec-standard.md §"용어·약어(1.4) 작성 원칙"` 5질문 재사용(중복 정의 회피). check-adapters 137개 통과. **brief(team-developer-brief.md)도 Glossary→§1.4 + N/A·None 표현 동기화** |
 | 2026-05-29 | **Task 7-3 보강 — §1.4 선별 원칙 명시** — "모든 용어·약어 나열 X, 문서 성격·독자(신입 개발자·직원·타 직군) 기준 모르거나 혼동·애매할 만한 것만 선별, 다 적으면 낭비"를 `munto-spec-writer` 전용 절 맨 앞 *선별 원칙* 박스 + SRS 핵심규칙·자체검증(누락/과잉 양방향)에 반영. `munto-spec-review` §B에 *과잉 나열 정리 제안(🟢)* 소프트 체크 추가. (Book SRS §1.4·`spec-standard.md §1.4` 원칙과 일치) |
+| 2026-05-29 | **Phase 9 완료 — 개발자 프로세스 가이드 신설** — 사용자 확정(단일 파일 / 8장 전체 / self-contained)에 따라 `document/dev-process-guide.md` 집필. 8장(큰그림+마스터 mermaid·8원칙·PHASE별 사용법·사람 게이트·지시법(4팁·§1.4·대안박스)·베이스라인/CCB·무인모드·치트시트), mermaid 4종(마스터·PHASE0·PHASE1·CCB·루프). positioning=self-contained(핵심 규범 본문 + 깊은 근거만 TO-BE §X 링크, 정본 우선 명시). `AGENTS.md`·`README.md`에 진입 링크+표준문서 등재. check-adapters 137개 통과 |
 | 2026-05-29 | **Phase 8 완료 — 기존 문서 정합화** — `AGENTS.md`(서브에이전트 13종 목록·`document/` 표준 섹션·`projects/` 구조·`qa-tcl-writer`·`munto-humanize`·frontend 스킬·`jira` 규칙 신설/정정), `README.md`(구조 도식·통합 스킬/규칙표·Development Chain·표준 문서·서브에이전트·옛 커맨드/경로 예시 정정·A~J), `munto-skills/SKILL.md`(stale `*-acli`/Deprecated 제거 후 실제 인벤토리로 전면 백필 + 서브에이전트 안내), `.claude/agents/spec-reviewer.md`(A~I→A~J). check-adapters 137개 통과 |
 | 2026-05-29 | **Task 7-4 완료 — 대안 검토 박스(선별 적용)** — 목적=AI 아키텍처 무지성 수용 차단. `munto-spec-writer`(§2.2 핵심 결정)·`dbml-writer`(핵심 엔티티 구조)·`swagger-writer`(핵심 계약 패턴)에 *선별 원칙 박스*+작성 지침 추가(**모든 결정 X, 핵심 아키텍처만, 버그수정·소규모·기존 표준 답습 면제, 박스 0개도 정상**). 리뷰는 `munto-spec-review`(§J 신설, A~J 갱신)·`dbml-reviewer`(S5)에 *소프트 질문*으로만(부재 자동결함 금지), `spec-reviewer`에 A~J·부재 오검출 방지 가드. **`design-consistency-reviewer`는 정합성 전용이라 제외**(단일 책임 보존). TO-BE §4.7.3 강제 문구도 선별 원칙으로 동기화. check-adapters 137개 통과 |
 | 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
