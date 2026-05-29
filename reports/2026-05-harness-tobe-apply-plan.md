@@ -190,10 +190,13 @@ bash scripts/check-adapters.sh
 - [x] One Pager 템플릿에 *Terms and Abbreviations* 항목 신설 → writer/review 스킬의 OnePager 고정 항목 **8개→9개** 동기화 (구조·작성규칙·출력형식·자체검증 모두 반영) (2026-05-29)
 - [x] `bash scripts/check-adapters.sh` 통과(137개)
 
-### Task 7-4 (권장, TO-BE §4.7.3) — 대안 검토 박스 의무화
+### Task 7-4 (권장, TO-BE §4.7.3) — 대안 검토 박스 의무화 ✅ 완료
 
-- [ ] `munto-spec-writer`(아키텍처 결정) · `dbml-writer`·`swagger-writer`(주요 엔티티·계약) 가 **대안 검토 박스**(고려한 대안 2+ / 채택·기각 사유 / 재검토 조건) 자동 생성
-- [ ] `munto-spec-review` · `dbml-reviewer` · `design-consistency-reviewer` 가 *핵심 결정에 박스 없으면 결함* 검출
+- [x] `munto-spec-writer`(§2.2 핵심 아키텍처 결정) · `dbml-writer`(핵심 엔티티 구조 결정) · `swagger-writer`(핵심 계약 패턴 결정) 가 **대안 검토 박스**(고려한 대안 2+ / 채택·기각 사유 / 재검토 조건) 자동 생성 — **선별 원칙 명시**
+- [x] `munto-spec-review`(§J) · `dbml-reviewer`(S5) 가 *핵심 결정으로 보이는데 대안 흔적 없으면* 🟡 질문으로 보강 요청 (소프트) — `spec-reviewer` 자체검증에 *부재 자동결함 단정 금지* 가드 추가
+- [x] **선별 적용**: 모든 결정 X, 핵심 아키텍처만. 버그수정·소규모·기존 표준 답습 면제, **박스 0개도 정상**. 억지 대안 강요 금지
+- [x] **설계 결정**: `design-consistency-reviewer`는 *산출물 간 정합성 전용*이라 단일 산출물 결정-근거 검출은 범위 밖 → 제외 (TO-BE §4.7.3 강제 문구도 동기화)
+- 변경: `munto-spec-writer/SKILL.md`(대안 박스 작성 지침 §) · `munto-spec-review/SKILL.md`(§J + A~J 갱신) · `dbml-writer.md` · `swagger-writer.md` · `dbml-reviewer.md`(S5) · `spec-reviewer.md`(A~J + 가드) · TO-BE §4.7.3(선별 원칙·강제 문구)
 
 > **범위 판단**: 7-1은 *체인 작동 필수*. 7-2~7-4는 *Spec 품질 직결(P1)* 이라 실전 적용 시 처음부터 높이는 게 유리해 권장 포함. 작업량이 크면 7-2~7-4만 분리 PR 가능 — **실행 시 사용자와 의논**.
 
@@ -384,5 +387,6 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **Glossary → SRS §1.4 Terms and Abbreviations 로 정정** — Munto SRS 표준은 별도 §10 Glossary가 아니라 §1.4에 용어를 적음. Task 7-3 제목·항목을 §1.4 기준으로 수정(별도 부록 신설 X) + One Pager용 항목 안내 추가. TO-BE §4.7.2 본문·자기점검·질문강제 절차 §1.4로 일괄 동기화. `OnePager_v1.0_template.md`에 *Terms and Abbreviations* 항목 신설. `spec-standard.md §1.4`는 이미 정확하여 유지 |
 | 2026-05-29 | **Task 7-3 완료** — `munto-spec-writer`에 §1.4 용어·약어 등록 지침(SRS 핵심규칙·자체검증·전용 절) + OnePager 8→9개 항목 동기화. `munto-spec-review` `B. 기호·수식·용어 선행 정의(§1.4)` 확장(누락 의심 용어 🟡) + OnePager 9개 검증. `spec-standard.md §"용어·약어(1.4) 작성 원칙"` 5질문 재사용(중복 정의 회피). check-adapters 137개 통과. **brief(team-developer-brief.md)도 Glossary→§1.4 + N/A·None 표현 동기화** |
 | 2026-05-29 | **Task 7-3 보강 — §1.4 선별 원칙 명시** — "모든 용어·약어 나열 X, 문서 성격·독자(신입 개발자·직원·타 직군) 기준 모르거나 혼동·애매할 만한 것만 선별, 다 적으면 낭비"를 `munto-spec-writer` 전용 절 맨 앞 *선별 원칙* 박스 + SRS 핵심규칙·자체검증(누락/과잉 양방향)에 반영. `munto-spec-review` §B에 *과잉 나열 정리 제안(🟢)* 소프트 체크 추가. (Book SRS §1.4·`spec-standard.md §1.4` 원칙과 일치) |
+| 2026-05-29 | **Task 7-4 완료 — 대안 검토 박스(선별 적용)** — 목적=AI 아키텍처 무지성 수용 차단. `munto-spec-writer`(§2.2 핵심 결정)·`dbml-writer`(핵심 엔티티 구조)·`swagger-writer`(핵심 계약 패턴)에 *선별 원칙 박스*+작성 지침 추가(**모든 결정 X, 핵심 아키텍처만, 버그수정·소규모·기존 표준 답습 면제, 박스 0개도 정상**). 리뷰는 `munto-spec-review`(§J 신설, A~J 갱신)·`dbml-reviewer`(S5)에 *소프트 질문*으로만(부재 자동결함 금지), `spec-reviewer`에 A~J·부재 오검출 방지 가드. **`design-consistency-reviewer`는 정합성 전용이라 제외**(단일 책임 보존). TO-BE §4.7.3 강제 문구도 선별 원칙으로 동기화. check-adapters 137개 통과 |
 | 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
