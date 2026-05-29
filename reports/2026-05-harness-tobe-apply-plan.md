@@ -175,10 +175,13 @@ bash scripts/check-adapters.sh
 
 > **왜 필수인가**: Phase 3~5에서 만든 `dev-chain-design → dev-chain-implementation-plan → 개발` 체인을, *PHASE 2 스킬이 실제로 IP를 입력으로 소비*하게 만드는 마지막 연결 고리. 이게 없으면 IP를 만들어도 개발 스킬이 무시 → 체인이 끊긴 채 적용된다.
 
-### Task 7-2 (권장, TO-BE §4.7.1) — Spec 작성 4팁 강제
+### Task 7-2 (권장, TO-BE §4.7.1) — Spec 작성 4팁(작성 지침) + 리뷰 TBD 검출 ✅ 완료
 
-- [ ] `munto-spec-writer` 본문에 **TBD / N/A vs None / Will Not Do / 논의 기록(Decision Log)** 4팁 체크리스트 (AI가 비결정 항목을 추측 대신 `TBD:` 명시 + 사람 질문)
-- [ ] `munto-spec-review` · `spec-reviewer` 가 4표기의 **부재(빈칸·`-`·"없음")** 를 결함으로 검출
+> **레이어 분리(중요)**: 4팁은 *작성 시점*엔 모두 유용하지만, *리뷰 검출*은 TBD만 기계적으로 가능하다. 비목표·Decision Log의 *부재*는 리뷰어가 알 수 없으므로 작성자 가이드로만 유도한다.
+
+- [x] **(작성)** `munto-spec-writer` 가 `document/spec-writing-tips.md` §4.1~4.4 4팁을 *작성 지침*으로 로드·적용: ① 미결정은 빈칸 대신 `TBD: 사유+담당+기한` ② N/A(적용 자체가 불가, 예: v1.0의 하위호환성) vs None(적용 대상이나 이번엔 없음·안 함) 구분 ③ Will Not Do(비목표) 명시 ④ Decision Log — A안·B안 의논 시 과정·채택/기각 사유 기록 — `### 비결정·미정 항목 4팁` 섹션 신설 + 시작 전 준비에 tips 로드 추가 (2026-05-29)
+- [x] **(리뷰)** `munto-spec-review`·`spec-reviewer` 는 *검출 가능한 것만*: TBD 잔존·회피문구("추후 결정" 등) → 결함(하드), 빈칸·`-`·"없음" → 권고(소프트). **비목표·Decision Log 부재는 자동 검출 대상 아님** — `H. TBD 및 미정 표기 처리`로 보강 + `spec-reviewer` 자체검증에 부재 오검출 방지 가드 추가 (2026-05-29)
+- [x] `bash scripts/check-adapters.sh` 통과(137개, 깨진 링크 0)
 
 ### Task 7-3 (권장, TO-BE §4.7.2) — Glossary(용어집) 의무화
 
@@ -374,5 +377,7 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **백로그 정리** — 본 PR로 승격된 B-1·B-2·B-3(→Phase 7-2~7-4)·B-7(→Phase 7-1)을 백로그에서 제거(결번 처리, 도입부에 추적 노트). 남은 백로그 = B-4(완료 기록)·B-5·B-6·B-8·B-9·B-10·B-11·B-12 |
 | 2026-05-29 | **백로그 순차 재번호** — 결번을 없애고 남은 8항목을 B-1~B-8로 재정리(옛→새: B-4→B-1, B-5→B-2, B-6→B-3, B-8→B-4, B-9→B-5, B-10→B-6, B-11→B-7, B-12→B-8). 전방 참조(적용범위 박스·Phase 6·PR 본문)와 Task 7 출처 라벨(제거된 옛 B-번호 → TO-BE §4.4/§4.7.1~3)도 동기화 |
 | 2026-05-29 | **tobe-temp 폐기 방침 반영** — tobe-temp는 운영 레포 이관 완료 후 *삭제(폐기)* 결정(아카이브 아님). `PR 이후`의 아카이브 줄을 삭제 절차로 변경 + B-1의 "tobe-temp 잔여 표기 정리"(321)는 *삭제 대상이라 불요*로 종결 → B-1 ✅ 완료 처리 |
+| 2026-05-29 | **Phase 7-2 완료** — 레이어 분리 확정(작성=4팁 전부 / 리뷰=TBD만 검출). `munto-spec-writer`에 `### 비결정·미정 항목 4팁`(TBD·N/A vs None·Will Not Do·Decision Log) 작성 지침 + `spec-writing-tips.md` 로드 추가. `munto-spec-review` `H. TBD 및 미정 표기 처리` 보강(TBD 잔존 하드/빈칸 소프트), 비목표·Decision Log *부재*는 비검출 명시. `spec-reviewer` 자체검증에 부재 오검출 방지 가드. check-adapters 137개 통과 |
 | 2026-05-29 | **Phase 7-1 완료** — `dev-chain-backend·mobile·frontend` 3종에 `## 권장 입력 — IP(구현계획서) 확인` 섹션 + PM 역할표·`입력 확인`·위임 prompt(`(선택) ip=`)에 IP 연결. `backend/mobile/frontend-expert` 입력부에 IP 소비 정의 추가(체인이 IP를 실입력으로 소비). IP는 비블로커 명시(TO-BE §4.4). check-adapters 137개 통과 |
+| 2026-05-29 | **N/A vs None 정의 오해 소지 수정** — "있어야 하지만 없음"이 "있어야 하는데 빠짐(누락)"으로 오독되는 문제 해소. `N/A`=적용 자체가 불가(예: v1.0 하위호환성) / `None`=적용 대상이나 이번엔 없음·안 함(예: v2.0 하위호환 미지원, 실무에선 "지원하지 않음+사유")로 통일. 수정: TO-BE.md 4팁 표, 본 계획서 Task 7-2, `munto-spec-writer`/`munto-spec-review` 스킬, `spec-writing-tips.md §4.2`. `spec-standard.md §해당 없는 항목 처리`는 이미 정확하여 유지 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
