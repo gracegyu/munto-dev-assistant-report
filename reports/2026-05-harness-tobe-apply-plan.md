@@ -166,10 +166,12 @@ bash scripts/check-adapters.sh
 
 **커밋 예시:** `feat: 개발 체인 실전 적용 보강 (IP 입력 확인 + Spec 품질 강제)`
 
-### Task 7-1 (필수, TO-BE §4.4) — PHASE 2 구현 스킬에 "IP 입력 확인" 연결
+### Task 7-1 (필수, TO-BE §4.4) — PHASE 2 구현 스킬에 "IP 입력 확인" 연결 ✅ 완료
 
-- [ ] `dev-chain-backend` · `dev-chain-mobile` · `dev-chain-frontend` 시작부에 *IP(`ImplementationPlan.md`) 존재·참조 확인* 안내 추가
-- [ ] IP 없을 때 안내: "IP가 없습니다. `dev-chain-implementation-plan`을 먼저 호출할까요? (강제 아님 — 작은 변경은 IP 없이 진행 가능)" (TO-BE §4.4)
+- [x] `dev-chain-backend` · `dev-chain-mobile` · `dev-chain-frontend` 시작부에 *IP(`projects/{프로젝트}/ImplementationPlan.md`) 존재·참조 확인* 안내(`## 권장 입력 — IP(구현계획서) 확인` 섹션) 추가 + PM 역할표·`입력 확인`에 IP 행 추가 (2026-05-29)
+- [x] IP 없을 때 안내: "IP가 없습니다. `dev-chain-implementation-plan`을 먼저 호출할까요? (강제 아님 — 작은 변경은 IP 없이 진행 가능)" (TO-BE §4.4) — 3개 스킬 모두 명시
+- [x] 위임 호출 패턴 prompt에 `(선택) ip=<경로>` 추가 + `backend/mobile/frontend-expert` 입력부에 IP 소비 정의 추가 → *체인이 실제로 IP를 입력으로 소비*하도록 연결
+- [x] `bash scripts/check-adapters.sh` 통과(137개, 깨진 링크 0)
 
 > **왜 필수인가**: Phase 3~5에서 만든 `dev-chain-design → dev-chain-implementation-plan → 개발` 체인을, *PHASE 2 스킬이 실제로 IP를 입력으로 소비*하게 만드는 마지막 연결 고리. 이게 없으면 IP를 만들어도 개발 스킬이 무시 → 체인이 끊긴 채 적용된다.
 
@@ -372,4 +374,5 @@ gh pr create --title "feat: Agentic Dev Chain TO-BE 하네스 적용" --body "..
 | 2026-05-29 | **백로그 정리** — 본 PR로 승격된 B-1·B-2·B-3(→Phase 7-2~7-4)·B-7(→Phase 7-1)을 백로그에서 제거(결번 처리, 도입부에 추적 노트). 남은 백로그 = B-4(완료 기록)·B-5·B-6·B-8·B-9·B-10·B-11·B-12 |
 | 2026-05-29 | **백로그 순차 재번호** — 결번을 없애고 남은 8항목을 B-1~B-8로 재정리(옛→새: B-4→B-1, B-5→B-2, B-6→B-3, B-8→B-4, B-9→B-5, B-10→B-6, B-11→B-7, B-12→B-8). 전방 참조(적용범위 박스·Phase 6·PR 본문)와 Task 7 출처 라벨(제거된 옛 B-번호 → TO-BE §4.4/§4.7.1~3)도 동기화 |
 | 2026-05-29 | **tobe-temp 폐기 방침 반영** — tobe-temp는 운영 레포 이관 완료 후 *삭제(폐기)* 결정(아카이브 아님). `PR 이후`의 아카이브 줄을 삭제 절차로 변경 + B-1의 "tobe-temp 잔여 표기 정리"(321)는 *삭제 대상이라 불요*로 종결 → B-1 ✅ 완료 처리 |
+| 2026-05-29 | **Phase 7-1 완료** — `dev-chain-backend·mobile·frontend` 3종에 `## 권장 입력 — IP(구현계획서) 확인` 섹션 + PM 역할표·`입력 확인`·위임 prompt(`(선택) ip=`)에 IP 연결. `backend/mobile/frontend-expert` 입력부에 IP 소비 정의 추가(체인이 IP를 실입력으로 소비). IP는 비블로커 명시(TO-BE §4.4). check-adapters 137개 통과 |
 | 2026-05-29 | **백로그 중복분 제거** — Phase에 이미 기록된 완료 항목 정리: ip-writer/ip-reviewer(전부 Phase 4 기록) 항목 삭제, Hook 견본·`.gitignore`(Phase 6 기록) 중복 `[x]` 줄 삭제. 남은 7항목 B-1~B-7로 재번호(옛→새: B-2→B-1, B-3→B-2, B-4→B-3, B-5→B-4, B-6→B-5, B-7→B-6, B-8→B-7) + 전방 참조 동기화. (B-1 TO-BE 경로 동기화의 완료 체크는 Phase 비종속 백로그 작업이라 유지) |
