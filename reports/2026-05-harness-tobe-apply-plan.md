@@ -86,10 +86,11 @@ git checkout -b feat/agentic-dev-chain-tobe
 
 **커밋 예시:** `feat: projects 템플릿 및 활성 프로젝트 인덱스 추가`
 
-- [ ] `projects/README.md` → `projects/README.md`
-- [ ] `projects/_template/ImplementationPlan.md` → `projects/_template/ImplementationPlan.md`
-- [ ] `projects/_template/README.md` → `projects/_template/README.md`
-- [ ] 내부 상대 경로를 운영 레포 기준으로 수정 (`../../skills/...` → `.agents/skills/...`, `ip-standard.md` 참조 → `document/ip-standard.md` 등)
+- [x] `projects/README.md` → `projects/README.md` (2026-05-29)
+- [x] `projects/_template/ImplementationPlan.md` → `projects/_template/ImplementationPlan.md` (2026-05-29)
+- [x] `projects/_template/README.md` → `projects/_template/README.md` (2026-05-29)
+- [x] 내부 상대 경로를 운영 레포 기준으로 수정 — `../skills/...`·`../../skills/...` → `.agents/skills/common/docs/...`, `ip-standard.md`·`spec-standard.md` 참조 → `document/...` (총 9곳: README 4 / _template README 3 / ImplementationPlan 2)
+- [x] 비운영(`-report/`·"적용 대기") 본문 참조를 운영 기준으로 재작성 — `_template/README.md` 60·62번, `document/ip-standard.md` 188·189번 (스킬은 `.agents/...`, Hook은 별도 PR 트랙 명시). 변경이력(changelog) 행은 historical로 유지
 
 ---
 
