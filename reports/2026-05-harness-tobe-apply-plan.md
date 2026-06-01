@@ -237,6 +237,20 @@ bash scripts/check-adapters.sh
 - [x] **munto-create-pr** — `Step 6: AI 1차 PR 리뷰 자동 호출(munto-pr-review)` 추가 — PR 생성 완료 후 자동 체이닝(유인 시 1회 확인)
 - [x] `bash scripts/check-adapters.sh` 통과
 
+### Task 7-8 (권장, 외부 차용) — mattpocock/skills 유용 패턴 흡수 (그릴링·diagnose·TDD) ✅ 완료
+
+> **배경(사용자 결정)**: 개발자가 공유한 [mattpocock/skills](https://github.com/mattpocock/skills)("Skills For Real Engineers")의 유용 패턴을 검토해 **Munto 맥락에 맞게 변형 흡수**. 원형 통째 이식이 아니라 *기존 산출물(§1.4·Decision Log·TCL·IP·code-investigator)과 연결되도록 재작성*. **사용자 결정: `zoom-out` 미도입, `diagnose` 는 신규 스킬.** 합칠 건 합치고, 새 건 신규, 가이드에 설명 추가, 관련 인벤토리 모두 동기화.
+
+- [x] **합침 — `munto-spec-writer` Step 0 「착수 전 정렬 인터뷰(그릴링)」 신설** (`grill-with-docs`/`grill-me` 차용) — 1문1답·추천답·코드 우선 탐색 4규칙 + Munto 연동표(용어 충돌 지적→§1.4 / 모호어 정밀화 / 구체 시나리오 / 코드 대조 / 트레이드오프→Decision Log) + ADR 3조건 절제. description 트리거에 "그릴해줘"·"grill me" 추가
+- [x] **합침 — `munto-spec-change` Decision Log 에 ADR 3조건 절제 휴리스틱** (되돌리기 어려움+맥락없이 의외+진짜 트레이드오프 셋 다 참일 때만 기록)
+- [x] **합침 — TDD 수직 슬라이스·행위 테스트 원칙** (`tdd` 차용) — `dev-chain-verify` Step 1 판정 기준 박스 + `dev-chain-backend/frontend/mobile` Unit Test 절에 작성 지침 1줄씩
+- [x] **신규 — `munto-diagnose` 스킬** (`diagnose` 차용) — `.agents/skills/common/ops/munto-diagnose/SKILL.md`(6 Phase: 피드백 루프→재현→가설 3~5개→계측→수정+회귀→정리, Munto 연동: code-investigator·dev-chain-*·dev-chain-verify·munto-create-issue·munto-firebase) + `.claude`·`.codex` 어댑터
+- [x] **가이드** `document/dev-process-guide.md` — §3 PHASE 0(그릴링)·PHASE 3(테스트 품질+munto-diagnose) 설명 + §8 치트시트 munto-diagnose 행 + **§9 「외부 차용 스킬 출처(Attribution)」 신설**(차용/미도입 표)
+- [x] **인벤토리** `AGENTS.md`·`README.md`·`munto-skills/SKILL.md` 에 `munto-diagnose` 등록 + **누락돼 있던 `munto-pr-review` 도 함께 등록**(Task 7-7 보완)
+- [x] `bash scripts/check-adapters.sh` 통과
+
+> **결정 요약**: `zoom-out` 미도입(code-investigator 로 충분), `to-prd`·`to-issues`·`triage` 미도입(Munto SRS·IP·Jira 가 더 엄격), `caveman`·`handoff`·`write-a-skill` 미도입(개인 생산성/중복). 흡수 4종은 *Munto 기존 게이트를 강화*하는 것만 선별.
+
 ---
 
 ## Phase 8 — 기존 문서 정합화 [본 PR · 마지막 작업] ✅ 완료

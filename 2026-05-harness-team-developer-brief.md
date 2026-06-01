@@ -240,7 +240,7 @@ flowchart TD
 
 | 산출물 | AI 자율 작성·검증 | 가이드·도구 |
 | --- | --- | --- |
-| **SRS / One Pager** | `munto-spec-writer` 작성 + `munto-spec-review` 형식 리뷰 + `spec-reviewer` 서브에이전트 | TO-BE 가이드 §4.7 |
+| **SRS / One Pager** | `munto-spec-writer` 작성 + `munto-spec-review` 형식 리뷰 + `spec-reviewer` 서브에이전트. *착수 전 모호하면* `munto-spec-writer` Step 0 **그릴링**(1문1답 정렬 인터뷰, 트리거 "그릴해줘") | TO-BE 가이드 §4.7 · §4.7.7 |
 | **DBML** | `dbml-writer` 작성 + `dbml-reviewer` 컨벤션·관계 검증 | TO-BE 가이드 §4.7 |
 | **Swagger** | `swagger-writer` 작성 + `design-consistency-reviewer` 로 DBML↔Swagger 정합성 검증 | TO-BE 가이드 §4.7 |
 | **Unit TCL** | `unit-tcl-writer` (현재 BE 중심, FE/App 보조) | TO-BE 가이드 §3.4 |
@@ -248,7 +248,8 @@ flowchart TD
 | **코드 (BE/App/FE)** | `dev-chain-backend` · `dev-chain-mobile` · `dev-chain-frontend` (현재는 🔄 협업, 목표 🤖) | 각 도메인 스킬 |
 | **PR 1 차 리뷰** | `munto-create-pr` 가 생성 전 *셀프 리뷰*(PR 본문 *Review guide* 영수증) → 생성 후 **`munto-pr-review`** 자동 호출로 *GitHub PR 에 실제 리뷰 게시*(Spec/IP 정합성·도메인 규칙·risk-tier). **AI 는 APPROVE 안 함** — REQUEST_CHANGES/COMMENT 만, 승인=사람 | TO-BE 가이드 §4.7.6 · §4.7.6.1 |
 | **PR 코멘트→수정 루프** | `munto-pr-review` 반자동 루프 — *일반 코멘트는 자동 수정→push→재리뷰*, **risk-tier·설계 변경은 사람 확인**. 수렴 시 *audit trail*(지적-수정 매핑 표) 게시 | TO-BE 가이드 §4.7.6.1 |
-| **검증** | `dev-chain-verify` (TCL · E2E · 수동 일부 — *수동 항목은 IP 수동 DoD·risk-tier 에서 도출*) | TO-BE 가이드 §3.6 · §4.7.6 |
+| **검증** | `dev-chain-verify` (TCL · E2E · 수동 일부 — *수동 항목은 IP 수동 DoD·risk-tier 에서 도출*). 테스트 *품질*은 행위 테스트·수직 슬라이스 기준으로 판정 | TO-BE 가이드 §3.6 · §4.7.6 · §4.7.7 |
+| **버그 진단** | `munto-diagnose` — 어려운 버그·성능 저하를 *피드백 루프 우선* 6단계로 (재현→가설 3~5개→계측→수정+회귀). 분석=`code-investigator`, 수정=`dev-chain-*`, 회귀=`dev-chain-verify` 위임 | TO-BE 가이드 §4.7.7 |
 
 > **사람 Review 보조 프롬프트 패턴** — AI 결과 검토 시 다음 패턴 활용:
 > - **가설 검증**: *"이 [산출물] 에서 [가정] 이 [영역] 과 충돌하는지 봐줘"*
@@ -498,4 +499,5 @@ flowchart TD
 | **2026-05-27** | **`reports/2026-05-harness-*.md` 경로 → Notion URL 일괄 치환** — §1 헤더(L7)·§10.1(L357)·§12 표(TO-BE·AS-IS 2행) 및 임시 GitHub 레포 본문(`ip-standard.md`·`projects/`·`_template/`·`dev-chain-design-update-proposal.md`·`dev-chain-implementation-plan/SKILL.md`·`README.md`) 의 TO-BE/AS-IS 참조를 Notion URL 로 통일. §12 하단 노트를 *운영 레포 경로 표기* 안내로 교체. `jira.md` 고려요소도 동기화. **`munto-dev-assistant/...` 운영 레포 경로·변경 이력의 파일명 기록은 유지** (아래 *URL 치환 보류* 참고). |
 | **2026-05-29** | **"Glossary(용어집)" → "용어·약어 정의 (SRS §1.4 Terms and Abbreviations)" 정정 + N/A vs None 오해 표현 수정** *(TO-BE §4.7.2 동기화 — Munto SRS 표준 용어집은 별도 §10 Glossary 부록이 아니라 §1.4)* — §1 요약(행 7)·§3 메커니즘 표(③)·§3 자기점검 1번·§5 체크리스트·§7.1 절(제목·본문·표·운영 팁)·§8 리뷰 +3·§10.1 액션 6·§10.2 액션 7·8·§11 비교 표의 "Glossary" 표기를 *§1.4 Terms and Abbreviations* 로 일괄 치환. §7 4팁 표의 N/A vs None 을 *N/A(적용 자체가 불가) / None(적용 대상이나 이번엔 없음·안 함)* 로 정정. (변경 이력 내 과거 "Glossary" 서술은 역사 기록이라 유지) |
 | **2026-06-01** | **AI 시대 PR 리뷰·승인 철학 (risk-tier) 동기화** *(TO-BE §4.7.6 신설 동기화 — 사용자 결정: AI 가 대량 생산한 코드의 diff 전수 육안 리뷰는 게이트로서 가치가 낮다, 진짜 게이트는 스펙/설계 리뷰)* — ① **§1 *오늘부터 다르게* 8 → 9 줄** (+ 줄 5 *PR diff 전수 육안 리뷰 금지 → AI 1 차 리뷰·사람 승인·risk-tier 정독* / 줄 6 *사람 직접 확인 동작은 IP 에 사전 명시*, 기존 줄 6~8 → 8~10 재번호). ② **§3 함정 ⑦ 신설** *("AI 가 짠 코드도 사람이 diff 를 전수 육안 리뷰해야 한다" 신드롬)* — 4 기둥 차단 표 + risk-tier 정의(인증·결제·마이그레이션·보안). ③ **§5 사람 체크리스트** — `PHASE 2 PR 승인 (유인·무인 공통)` 행 신설(직접 정독 = risk-tier) + PHASE 3 수동 행에 *IP 수동 DoD·risk-tier 도출* 보강 + 무인 PR 머지 행에 *AI Review guide* 확인 보강. ④ **§6 AI 자율 표** — `PR 1 차 리뷰`(`munto-create-pr` Review guide) 행 추가 + 검증 행에 *수동 = IP 도출* 보강. ⑤ **§11 비교 표** — `코드 리뷰 / PR 리뷰` 행 추가(AS-IS 전수 육안 → TO-BE 4 기둥). **핵심 메시지: 리뷰의 무게중심은 코드에서 스펙·설계로 옮겨졌다 — PR 1 차 리뷰는 AI, 사람은 승인하되 직접 정독은 risk-tier 에 몰아주고, 사람 수동 확인 항목은 IP 에 사전 명시한다.** |
+| **2026-06-01** | **외부 스킬 패턴 흡수 (mattpocock/skills) 동기화** *(TO-BE §4.7.7 신설 동기화 — 사용자 결정: zoom-out 미도입, diagnose 신규 스킬)* — ① **§6 AI 자율 표** — `SRS / One Pager` 행에 *Step 0 그릴링*(착수 전 1문1답 정렬 인터뷰) 보강, `검증` 행에 *행위 테스트·수직 슬라이스 품질 기준* 보강, **`버그 진단`(`munto-diagnose`) 행 신설**. ② 흡수 4종: `grill-with-docs`→`munto-spec-writer` Step 0 그릴링 *합침*, ADR 3조건→`munto-spec-change` Decision Log *합침*, `diagnose`→`munto-diagnose` *신규*, `tdd`→`dev-chain-verify`+도메인 스킬 *합침*. ③ 미도입: `zoom-out`(code-investigator 충분)·`to-prd`·`to-issues`·`triage`(Munto SRS·IP·Jira 더 엄격)·`caveman`·`handoff`·`write-a-skill`. **핵심 메시지: 외부 검증 패턴을 기존 게이트 강화로만 선별 흡수. 그릴링은 *AI 가 의도를 잘못 이해한 채 그럴듯하게 써버리는* 가장 흔한 실패를 착수 시점에 차단한다.** |
 | **2026-06-01** | **`munto-pr-review` 스킬 + 반자동 리뷰 루프 동기화** *(TO-BE §4.7.6.1 신설 동기화 — 사용자 결정: 외부 자동 리뷰 서비스(Bugbot·CodeRabbit) 미사용, 자체 단일 스킬로 운영 + 반자동 루프)* — ① **§6 AI 자율 표** `PR 1 차 리뷰` 행 갱신(`munto-create-pr` 셀프 리뷰 → 생성 후 `munto-pr-review` 자동 호출로 PR 에 실제 리뷰 게시, *AI 는 APPROVE 안 함*) + `PR 코멘트→수정 루프` 행 신설(일반=자동 수정 / risk-tier·설계=사람 / 수렴 시 audit trail). ② **§5 체크리스트** `PHASE 2 PR 승인` 행을 *audit trail 요약 + risk-tier 직접 정독* 으로 갱신. ③ **§11 비교 표** `코드 리뷰 / PR 리뷰` 행에 *자체 `munto-pr-review` 스킬(외부 미사용)* + *반자동 코멘트→수정 루프* 보강. **핵심 메시지: PR 1 차 리뷰는 자체 `munto-pr-review` 가 Spec/IP 컨텍스트로 수행하고(diff 만으로는 정합성·risk-tier 검출 불가), 일반 코멘트는 자동 수정 루프, risk-tier·설계는 사람 확인. 사람은 diff 전수가 아니라 audit trail + risk-tier 만 정독 후 승인.** |
