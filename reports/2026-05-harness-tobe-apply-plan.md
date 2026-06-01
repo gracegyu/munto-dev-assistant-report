@@ -211,6 +211,32 @@ bash scripts/check-adapters.sh
 
 > **범위 판단**: 7-1·7-5는 *체인 작동 필수*. 7-2~7-4는 *Spec 품질 직결(P1)* 이라 실전 적용 시 처음부터 높이는 게 유리해 권장 포함. 작업량이 크면 7-2~7-4만 분리 PR 가능 — **실행 시 사용자와 의논**.
 
+### Task 7-6 (권장, TO-BE §4.7 / §4.9) — AI 시대 PR 리뷰·승인 철학 (코드 리뷰 재정의) ✅ 완료
+
+> **배경(사용자 결정)**: *AI가 대량 생산한 코드의 diff를 사람이 전수 육안 리뷰하는 것은 게이트로서 가치가 낮다(버그 발견·학습효과 모두 미미). 진짜 게이트는 스펙/설계 리뷰다.* 이 철학을 4개 기둥으로 정식화해 전 문서·스킬에 박는다.
+>
+> **4기둥**: ① Diff 전수 육안 리뷰는 게이트가 아니다(진짜 게이트=PHASE 0·1 스펙/설계 리뷰) / ② PR 1차 리뷰 = AI(자동 리뷰) / ③ 사람은 PR *승인*(통과=인수), 직접 정독은 **risk-tier**(인증·인가 / 결제·정산 / DB 마이그레이션 / 보안·개인정보)에 집중 / ④ 동작 검증은 AI 자동화(Unit·E2E) 우선, 자동화 불가분만 사람 — **그 수동 확인 항목은 IP에 사전 명시**(수동 DoD + risk 태그).
+
+- [x] **TO-BE** `reports/2026-05-harness-TO-BE.md` — **§4.7.6 「코드 리뷰 — AI 시대 PR 리뷰·승인 원칙」 신설**(4기둥 + risk-tier 표 + 에이전트 강제) + §4.5 PHASE 3 표 주석(수동=IP 명시 항목) + §4.6 체크리스트 `PR 승인` 행 추가 + §4.9.1 매트릭스 `AI PR 1차 리뷰`(✅ 루프 안) 행 + §4.9.5 risk-tier·AI 1차 리뷰 보강 + 변경이력
+- [x] **dev-process-guide** `document/dev-process-guide.md` — **§5.6 「코드 리뷰 — AI 시대 PR 리뷰·승인」 신설**(4기둥 + risk-tier 표) + ch.4 게이트 표 `PR 승인` 행 + ch.7 무인 루프 다이어그램에 **🤖 AI PR 1차 리뷰** 노드 추가 + 머지 노드 risk-tier 재서술 + ch.8 절대 규칙 1줄
+- [x] **brief** `2026-05-harness-team-developer-brief.md` — 「오늘부터 다르게」 줄 추가(PR=AI 리뷰·사람 승인·risk-tier) + §5 체크리스트 `PR 승인` 행 일반화(유인·무인 공통) + §6 AI 자율 `PR 1차 리뷰` 행 + §11 비교표 `코드리뷰/PR 리뷰` 행 + 변경이력
+- [x] **munto-create-pr** — `Step 5: AI 1차 셀프 리뷰`(도메인 규칙 위반·risk-tier 터치포인트 자동 점검) 추가 + PR 본문 `Review guide`(risk-tier 하이라이트 + IP 수동 확인 항목) + Checklist risk-tier 프롬프트
+- [x] **dev-chain-verify** — Step 3 수동 체크리스트가 *IP 수동 DoD·risk-tier 추적* 임을 명시 + 자동화 우선 원칙 명시
+- [x] **IP 스택** — `ip-standard.md`(DoD 절에 *사람 직접 확인 항목(risk-tier)* 지침 + 완료 체크리스트 1줄) · `ip-writer.md`(작성 규칙 1줄) · `ip-reviewer.md`(🟡 risk-tier Task 수동 DoD 누락 검출) · `dev-chain-implementation-plan/SKILL.md`(Step 3 reviewer 주석) · `projects/_template/ImplementationPlan.md`(수동 DoD+risk 예시) — *8섹션/9필드 고정 구조는 불변, 기존 `dod[]`(mode: manual)·`risk`·§6 자동/수동 칼럼 안에서 표현*
+- [x] `bash scripts/check-adapters.sh` 통과
+
+> **왜 권장(필수 아님)인가**: 체인 작동 자체엔 영향 없으나, *실전 적용 시 PR 운영 방식을 처음부터 올바르게 잡는* 핵심 정책이다. risk-tier·IP 수동 확인 항목은 사람 시간을 *진짜 위험 지점*에만 쓰게 만든다.
+
+### Task 7-7 (권장, TO-BE §4.7.6.1) — `munto-pr-review` 스킬 신설 + PR 리뷰 루프 자동화 ✅ 완료
+
+> **배경(사용자 결정)**: Task 7-6 의 *PR 1차 리뷰 = AI* 를 실행하는 도구를 정한다. **외부 자동 리뷰 서비스(Bugbot·CodeRabbit 등)를 쓰지 않고 자체 단일 스킬 `munto-pr-review` 하나로 운영** — 이유: 우리 게이트의 핵심(Swagger/DBML 정합성·도메인 규칙·risk-tier·IP DoD)은 *diff 만으로는 검출 불가* 하고 *Spec/IP 컨텍스트* 가 필요하기 때문. **루프는 반자동**: 일반 코멘트는 자동 수정→push→재리뷰, risk-tier·설계 변경은 사람 확인.
+
+- [x] **TO-BE** `reports/2026-05-harness-TO-BE.md` — **§4.7.6.1 「운영 — `munto-pr-review` 스킬과 반자동 리뷰 루프」 신설**(수단 결정 근거 + 4입력 + AI는 APPROVE 안 함 + 반자동 루프 mermaid + 코멘트 유형별 처리표 + 재리뷰 자동 트리거 + 사람 승인=audit trail+risk-tier) + §4.7.6 에이전트 강제 박스에 `munto-pr-review` 줄 추가 + §4.9.1 매트릭스 `PR 1차 리뷰` 갱신·`코멘트→수정 루프` 행 신설 + 변경이력
+- [x] **dev-process-guide** `document/dev-process-guide.md` — **§5.7 「PR 리뷰 도구와 반자동 루프 — `munto-pr-review`」 신설** + ch.7 무인 루프 다이어그램에 `munto-pr-review` 노드 + 코멘트 루프(일반 자동 수정 / risk-tier·설계 정지) 반영
+- [x] **munto-pr-review 신설** — `.agents/skills/common/ops/munto-pr-review/SKILL.md`(입력 4종·6 Step: PR 식별→컨텍스트 로드→점검→리뷰 게시(`create_pull_request_review`, APPROVE 금지)→반자동 루프→audit trail) + `.claude`·`.codex` 어댑터
+- [x] **munto-create-pr** — `Step 6: AI 1차 PR 리뷰 자동 호출(munto-pr-review)` 추가 — PR 생성 완료 후 자동 체이닝(유인 시 1회 확인)
+- [x] `bash scripts/check-adapters.sh` 통과
+
 ---
 
 ## Phase 8 — 기존 문서 정합화 [본 PR · 마지막 작업] ✅ 완료
