@@ -1669,6 +1669,28 @@ flowchart TD
 
 ---
 
+### 4.7.9 하네스 엔지니어링 외부 정렬 (OpenAI harness-engineering)
+
+> **배경**: OpenAI 의 [Harness engineering](https://openai.com/index/harness-engineering/)(Codex 로 *0 줄의 수기 코드* 로 100% 에이전트 생성 제품을 5 개월 운영한 사례) + [Claude Code docs](https://code.claude.com/docs) + [MCP](https://modelcontextprotocol.io) 의 교훈을 검토해, *우리 방향과 일치하는 것은 명문화하고 · 빈자리는 메커니즘으로 흡수* 한다. **스킬이 아니라 *철학·운영* 출처** 이므로 §4.7.7(스킬 흡수)과 별도로 기록한다. 우리 risk-tier·사람 게이트 철학과 충돌하는 부분(머지 게이트 최소화)은 *의도적으로 미도입*.
+
+| OpenAI 교훈 | 우리 상태 | 흡수 형태 |
+| --- | --- | --- |
+| Humans steer, agents execute (사람=환경·의도·피드백 루프 설계) | §2.3 전체 · 통과=인수 | 이미 정렬 |
+| **Repo = system of record** ("레포에 없으면 존재하지 않는다" — Slack·머릿속 지식은 에이전트에게 없는 것) | §2.3 ⑧ 컨텍스트 단절 | **명문화 보강** (원칙 ⑧ 문구 추가) |
+| Plans as first-class artifacts (executable plan + decision log) | IP(§4.3) · Decision Log · baseline-handoff | 이미 정렬 |
+| **AGENTS.md = 맵(목차), 백과사전 금지** + progressive disclosure | 어댑터 패턴 · `munto-skills` 인덱스 | **AGENTS.md 다이어트 + `check-adapters.sh` 길이 경고** (기계 강제) |
+| **불변식의 기계 강제 + 교정 메시지** (invariants as lints, 에러메시지에 remediation 주입) | `.agents/rules`(읽기 규칙) | **원칙 ⑤ 명문화** ("문서 규칙 < lint, 에러메시지에 교정지침") — 실제 lint 는 제품 레포 PR |
+| **doc-gardening / 신선도 기계 강제** (stale 자동 탐지·수정 PR, 링크·교차참조 CI 검증) | `check-adapters.sh`(링크) · `harness-diagnostics`(온디맨드) | **`harness-diagnostics` Maintenance = 정기 doc-gardening 명시** + `check-adapters.sh` 확장. *자동 PR 봇* 은 인프라 백로그 |
+| 골든 원칙 + 정기 garbage collection (드리프트 청소·품질 등급) | `harness-diagnostics` 12 원칙(GC·Map·Observability·Knowledge-in-Repo 포함) | 이미 보유 — *정기 자동 실행* 은 인프라 백로그 |
+| **에이전트 legibility** (앱 worktree 부팅 · 로그 LogQL · 메트릭 PromQL 노출 → 버그 재현·수정 검증) | `flutter-driver-mcp` · `cursor-ide-browser`(UI 일부) | **목표 명시** (`dev-chain-verify`) — 백엔드 관측·격리 부팅은 제품 레포/인프라 |
+| Throughput → 머지 게이트 최소화 · 사람 리뷰 선택 | risk-tier 사람 승인(§4.7.6) | **미도입 (의도적)** — 결제·PII·실사용 제품이라 사람 게이트 유지 |
+
+> **맥락 차이 (그대로 베끼면 안 되는 이유)**: OpenAI 사례는 *그린필드·레거시 0·내부 베타·agent-to-agent 리뷰(사람 선택)* 다. 우리는 *실사용·결제·PII·멀티 레포 운영 제품* 이라 risk-tier 사람 게이트가 더 강해야 한다. **흡수는 *legibility·기계 강제·doc-gardening* 에 집중하고, *머지 게이트 완화* 는 흡수하지 않는다.**
+
+> **핵심 메시지**: 외부의 강한 사례라도 *우리 게이트를 강화하는 방향* 으로만 선별 흡수한다 — 이미 일치하는 것은 명문화, 빈자리는 메커니즘화, 충돌하는 것은 사유와 함께 미도입(§4.7.7 과 동일 원칙).
+
+---
+
 ### 4.8 스펙 변경 관리 (모든 PHASE 공통)
 
 §3.4 베이스라인 설정 이후 발생하는 *모든 변경* 은 본 절차를 따른다. **베이스라인이 있다는 것 ≠ 변경 금지** — *변경하되, 영향을 통제해서 변경* 한다는 의미다. (§2.4 변경 원칙 적용)
@@ -2095,3 +2117,4 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | 2026-06-01 | **§4.7.7 *외부 스킬 패턴 흡수 (mattpocock/skills — Munto 변형)* 신설** *(개발자가 공유한 외부 스킬 검토 → 사용자 결정: zoom-out 미도입, diagnose 신규 스킬)* — ① §4.7.7 신설 — 흡수 4종 표(`grill-with-docs`→`munto-spec-writer` Step 0 그릴링 *합침* / ADR 3조건→`munto-spec-change` Decision Log *합침* / `diagnose`→`munto-diagnose` *신규* / `tdd`→`dev-chain-verify`+도메인 스킬 *합침*) + 미도입 결정(`zoom-out`·`to-prd`·`to-issues`·`triage`·`caveman`·`handoff`·`write-a-skill`) + 그릴링 의미(AI 의도 오해를 착수 시점에 차단, PHASE 0 사람 핵심 문단 먼저와 같은 방향). ② **스킬 신설/수정** — `munto-diagnose` 신규(.agents+.claude+.codex), `munto-spec-writer` Step 0 그릴링 + 트리거 추가, `munto-spec-change` ADR 3조건 휴리스틱, `dev-chain-verify` Step 1 테스트 품질 박스 + `dev-chain-backend/frontend/mobile` Unit Test 절 행위 테스트 1줄. ③ **인벤토리** — AGENTS.md·README.md·munto-skills 에 `munto-diagnose` 등록 + 누락돼 있던 `munto-pr-review` 보완 등록. ④ **dev-process-guide §9 「외부 차용 스킬 출처(Attribution)」 신설** + §3 PHASE 0·3 설명 + §8 치트시트. **핵심 메시지: 외부 검증 패턴을 *기존 게이트 강화*로만 선별 흡수하고, 이미 더 강한 게이트가 있는 영역은 도입하지 않는다. 도입/미도입 사유를 함께 기록한다.** |
 | 2026-06-01 | **§4.7.6 *코드 리뷰 — AI 시대 PR 리뷰·승인 원칙 (risk-tier)* 신설 + 게이트·매트릭스 4 군데 동기화** *(사용자 결정: AI 가 대량 생산한 코드의 diff 전수 육안 리뷰는 게이트로서 가치가 낮다 — 진짜 게이트는 스펙/설계 리뷰)* — ① **§4.7.6 신설** — 4 기둥 표(① Diff 전수 육안 리뷰 ≠ 게이트, 진짜 게이트 = PHASE 0·1 / ② PR 1 차 리뷰 = AI, 결과는 PR 본문 영수증 / ③ 사람은 PR *승인*(통과=인수), 직접 정독은 risk-tier 집중 / ④ 동작 검증 = AI 자동화 우선, 수동분은 IP 의 수동 DoD+risk 에 *사전* 명시) + **risk-tier 표**(인증·인가 / 결제·정산 / DB 마이그레이션 / 보안·개인정보 = 사람 직접, 그 외 일반 = AI 리뷰+자동 테스트) + 에이전트 강제 방법(`munto-create-pr` AI 1 차 셀프 리뷰·Review guide / `dev-chain-verify` 수동 = IP 도출 / IP 스택 수동 DoD 명시). ② **§4.5 PHASE 3 표 아래** — *동작 검증 = AI 자동화 우선, 수동분은 IP 에서 도출* 노트. ③ **§4.6 사람 핵심 개입 체크리스트** — `PR 승인` 행(직접 정독 = risk-tier) + PHASE 3 수동 행에 *IP 수동 DoD·risk-tier 도출* 보강. ④ **§4.9.1 무인 매트릭스** — `PR 1 차 리뷰`(✅ 루프 안, AI) 행 추가 + `PR 머지(승인)` 행에 risk-tier 정독 명시. ⑤ **§4.9.5** — `AI 1 차 리뷰 선행`·`사람 직접 정독 = risk-tier` 2 행 추가 + PR 본문 의무 표기에 *AI Review guide·IP 수동 확인 항목* 보강. **핵심 메시지: 리뷰의 무게중심은 코드에서 스펙·설계로 옮겨졌다 — 사람 정독은 희소 자원이므로 risk-tier(인증·결제·마이그레이션·보안)에 배분하고, 나머지는 AI 1 차 리뷰 + 자동 테스트에 맡긴다. 사람 수동 확인 항목은 IP 에 사전 명시한다.** |
 | 2026-06-05 | **역할 용어 *Owner → PL(Project Leader)* 통일** *(개발자 피어 리뷰 — "Owner" 가 애자일 *Product Owner=기획자* 와 의미 충돌·정반대로 오독됨)* — 프로젝트 단위 책임자(개발을 이끄는 책임 개발자)를 가리키던 "Owner" 를 *PL* 로 일괄 변경. *저장소 단위* "Repo Owner"(repo 인벤토리·multi-repo-spec-index·docs/README 담당)는 별개 개념으로 유지. brief·`munto-dev-assistant` 운영 문서(`dev-process-guide` 용어집에 *PL*·*기획자(PO)* 행 신설)·`ip-standard`·`projects/` 템플릿 동기화. **핵심 메시지: PL = 프로젝트 단위 / Repo Owner = 저장소 단위 / 기획 역할은 "기획자(PO)" 로 표기.** |
+| 2026-06-05 | **§4.7.9 *하네스 엔지니어링 외부 정렬 (OpenAI harness-engineering)* 신설 + 메커니즘 직접 흡수** *(사용자 결정: 백로그로 미루지 않고 munto-dev-assistant 에 직접 적용)* — OpenAI [Harness engineering]·Claude Code docs·MCP 교훈을 검토해 ① **일치 항목 명문화** (Repo=system of record → `dev-process-guide` §2 원칙 ⑧ / 불변식 기계 강제+교정메시지 → 원칙 ⑤), ② **빈자리 메커니즘화** (AGENTS.md 맵 다이어트 — "주요 규칙 요약" 중복 블록을 포인터 표로 축소 + `check-adapters.sh` 에 AGENTS.md 길이 경고·표준 문서 링크 검증 / `harness-diagnostics` Maintenance = *정기 doc-gardening* 명시 / `dev-chain-verify` 에 *에이전트 legibility* 목표 박스), ③ **충돌 미도입** (머지 게이트 최소화 — risk-tier 사람 게이트 유지). `dev-process-guide` §2·§9, AGENTS.md, `harness-diagnostics`, `check-adapters.sh`, `dev-chain-verify` 동기화. **핵심 메시지: 외부 강사례도 *우리 게이트 강화 방향* 으로만 선별 흡수 — 일치는 명문화, 빈자리는 메커니즘, 충돌은 사유와 함께 미도입(§4.7.7 과 동일 원칙).** |
