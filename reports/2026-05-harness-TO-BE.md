@@ -47,7 +47,7 @@ Agentic Dev Chain (방법론 · 총칭)
 | --- | --- | --- | --- |
 | **Agentic Dev Chain** | **방법론(총칭)** | Munto 개발 자동화의 표준 프로세스·게이트·역할 분담 정의 | 본 문서로 정의 |
 | **`munto-dev-assistant`** | 구현 요소 — _Agent Configuration 레포_ | AI 에이전트가 위 프로세스를 실행하도록 만드는 **설정 모음** (스킬·규칙·서브에이전트·어댑터) | ✅ 운영 중 |
-| **OpenClaw** (예시·가칭) | 구현 요소 — _무인 실행 서비스_ | **24시간 무인 실행** 환경 (스케줄러·러너·알림·롤백 등) — Spec만 깔아 두면 야간 자동 개발·테스트를 돌릴 인프라 | 🚧 미구축 (향후 검토) |
+| **OpenClaw** (예시·가칭) | 구현 요소 — _무인 실행 서비스_ | **24시간 무인 실행** 환경 (스케줄러·러너·알림·롤백 등) — Spec만 깔아 두면 야간 자동 개발·테스트를 돌릴 인프라 | 🚧 미구축 (향후 검토 — *런타임 후보군·선정은 §4.9.8*) |
 | CI 통합 · 평가 자동화 등 | 구현 요소 — _품질 게이트 강화_ | PR 시 어댑터 검증, 골든 시나리오 회귀 테스트 등 | 🚧 미구축 |
 
 **명명 원칙 (혼동 방지용 핵심 규칙):**
@@ -1818,14 +1818,14 @@ R2 단계에서 AI 가 *생산자 측에 보낼* 영향도 보고서 템플릿:
 | **트리거** | ① 사람이 PHASE 1 게이트 통과 + IP v1.0 확정 후 무인 모드 켜기 / ② IP v1.x 가 갱신되면 다음 사이클 자동 시작 / ③ Jira 이슈 라벨(예: `auto-impl`) 부착 시 / ④ IP 의 Task 카드 1 개(또는 의존성 만족된 묶음) 단위 트리거 |
 | **정상 종료** | IP 의 Task 묶음 모두 PASS · PR 생성 완료 → Slack 알림 → 사람 머지 대기 |
 | **자동 정지 (Auto-stop)** | ① 동일 실패 *N 회 연속* / ② 비용 상한 도달 / ③ 베이스라인 산출물 또는 IP 수정 필요 발견 / ④ 외부 시스템 응답 불가 / ⑤ 야간 작업 윈도우 종료 시각 / ⑥ IP 의 의존성 DAG 가 끊김·순환 감지 |
-| **수동 정지 (Kill Switch)** | Slack 명령 또는 GitHub Actions Workflow Cancel — *언제든지 즉시* 중단 가능 |
+| **수동 정지 (Kill Switch)** | Slack 명령 또는 런타임 작업 취소(예: GitHub Actions Workflow Cancel) — *언제든지 즉시* 중단 가능 |
 
 #### 4.9.3 검증 주체 분리 — *오케스트레이터가 판정한다*
 
 DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의 통과/실패를 본인이 판정하지 않는다.*
 
 - **에이전트**: 작업 수행 + 자체 검증 실행 + 결과 *보고만*.
-- **오케스트레이터 (GitHub Actions 등)**: 검증을 *독립적으로 재실행* 해 PASS/FAIL 판정.
+- **오케스트레이터 (런타임 미결정 — §4.9.8 후보군)**: 검증을 *독립적으로 재실행* 해 PASS/FAIL 판정.
 - **사람**: 오케스트레이터의 PASS 판정이 난 PR 만 검토·머지.
 
 > 본 원칙은 *AI 가 "다 됐다" 고 말하는* 행동 패턴(AS-IS §5.1)을 시스템 차원에서 차단한다. 자기 보고 = 자기 통과는 *통과 = 인수* 원칙과 양립할 수 없다.
@@ -1860,7 +1860,7 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | **비용 상한** | 1 일·1 사이클·1 PR 당 LLM·CI 비용 캡 (사전 합의) |
 | **재시도 제한** | 동일 단계 최대 N 회 (예: 2~3 회) — 초과 시 BLOCKER 보고 |
 | **시간 윈도우** | 야간 작업 윈도우(예: 22 시 ~ 익일 08 시) 외 자동 정지 |
-| **Kill Switch** | Slack 명령(`/auto-stop <repo>`) 또는 GitHub Actions Workflow Cancel — *상시 가용* |
+| **Kill Switch** | Slack 명령(`/auto-stop <repo>`) 또는 런타임 작업 취소(예: GitHub Actions Workflow Cancel) — *상시 가용* |
 | **알림 (Slack)** | Task 1 개 단위 푸시는 *노이즈*. **묶음 정책: ① Phase 완료 / ② BLOCKER / ③ 일일 요약 (07:00 KST — 출근 전) — 3 종만 사람 푸시**. 그 외 Task 단위 결과는 Jira 코멘트 + PR 등록만. 야간 작업 종료 후 출근 전 종합 요약 1 회 |
 | **세션 파일** | Slack 알림과 별개로 *세션 단위 영구 기록* 을 `projects/{프로젝트명}/sessions/` 에 자동 저장 — *상세 정책은 §4.9.7 참조* |
 
@@ -1942,10 +1942,21 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 - ❌ 세션 파일 작성 후 PR 띄움 → *append-only 운영 기록* 정책 위반. `main` 직접 push 가 정답
 - ❌ ImplementationPlan.md 변경을 `sessions/` 에 메모만 하고 IP 본문 미반영 → IP 베이스라인 유실. *IP 변경은 §4.8 CCB 의무*
 
-#### 4.9.8 권장 구현 + 단계적 도입
+#### 4.9.8 오케스트레이션 런타임 후보군 (미결정) + 단계적 도입
 
-- **구현 스택 (권장)**: GitHub Actions (워크플로 트리거·재실행·취소) + Slack Bot (트리거·알림·Kill Switch) + Jira (이슈 등록·라벨·변경 요청 위임).
-- **DEVT-135 와의 관계**: 본 절은 *운영 원칙·경계*. 구체 트리거·워크플로·도커 구성은 DEVT-135 구현 트랙에서 진행한다.
+> **TO-BE 시점에는 오케스트레이션 런타임을 결정하지 않는다.** 아래 후보군 중 *연구·PoC 후 DEVT-135 에서 build-vs-buy 를 비교해 결정*한다. *특정 스택을 권장 디폴트로 박지 않는다* — 잘못 박으면 §1.2 의 "무인 실행 서비스(가칭 OpenClaw) 향후 검토" 와 충돌하고, 구현자가 *기술 스택부터 고정*하게 된다.
+
+**먼저 두 계층을 분리한다 (혼동 방지):**
+
+| 계층 | 무엇 | 후보 (미결정 — 연구·PoC 대상) |
+| --- | --- | --- |
+| **① 에이전트 런타임** | 실제 코드를 짜는 AI 루프 (장시간 stateful) | Claude Code (headless `-p` / SDK) · Cursor (CLI/SDK · cloud/background agents) · OpenHands 등 오픈소스 자율 에이전트 · 상용 무인 개발 서비스(가칭 OpenClaw 류 — *buy* 옵션) |
+| **② 오케스트레이션·스케줄링** | 언제 켜고 · 검증 재실행 · 사람 게이트 · 재개 | 매니지드/전용 SaaS (*buy*) · 장기 실행 호스트 위의 얇은 자체 스케줄러(컨테이너/VM — *단, "사용자 머신 의존·운영 부담" §1.2 제외 사유와의 충돌 여부 검토*) |
+
+> **GitHub Actions 의 위치 — 본체 후보 아님, 보조 역할만.** GitHub Actions 는 *stateless CI* 이고 잡 실행시간 상한이 있어 **24h stateful 에이전트 루프의 "본체"로는 부적합**하다. (DEVT-135 1 차 설계가 S3·Lambda 를 덧붙인 것은 사실상 *이 부적합을 메우는 땜질*이었다.) 다만 어느 런타임을 고르든 **트리거 · 사람 승인 게이트(Environments) · 검증 독립 재실행(§4.9.3)** 같은 *보조 역할*로는 결합할 수 있다. 즉 **②의 후보가 아니라 *어느 안에도 얹히는 보조 부품*** 으로 본다.
+
+- **선정 기준 (DEVT-135 에서 채울 비교 축)**: 장시간 stateful 실행 가능 여부 · 멈춤/재개(사람 개입) 지원 방식 · 비용 모델(대기 중 과금 여부) · 보안/시크릿/감사 · 운영 부담(자체 호스팅 vs 매니지드) · §4.9.3 검증 주체 분리 적용 용이성.
+- **DEVT-135 와의 관계**: 본 절은 *운영 원칙·경계·후보군*. **구체 런타임 선정과 트리거·워크플로 구성은 DEVT-135 구현 트랙에서 *build-vs-buy 비교를 먼저 수행한 뒤* 결정**한다.
 
 | 단계 | 적용 범위 | 진입 조건 |
 | --- | --- | --- |
@@ -2117,4 +2128,5 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | 2026-06-01 | **§4.7.7 *외부 스킬 패턴 흡수 (mattpocock/skills — Munto 변형)* 신설** *(개발자가 공유한 외부 스킬 검토 → 사용자 결정: zoom-out 미도입, diagnose 신규 스킬)* — ① §4.7.7 신설 — 흡수 4종 표(`grill-with-docs`→`munto-spec-writer` Step 0 그릴링 *합침* / ADR 3조건→`munto-spec-change` Decision Log *합침* / `diagnose`→`munto-diagnose` *신규* / `tdd`→`dev-chain-verify`+도메인 스킬 *합침*) + 미도입 결정(`zoom-out`·`to-prd`·`to-issues`·`triage`·`caveman`·`handoff`·`write-a-skill`) + 그릴링 의미(AI 의도 오해를 착수 시점에 차단, PHASE 0 사람 핵심 문단 먼저와 같은 방향). ② **스킬 신설/수정** — `munto-diagnose` 신규(.agents+.claude+.codex), `munto-spec-writer` Step 0 그릴링 + 트리거 추가, `munto-spec-change` ADR 3조건 휴리스틱, `dev-chain-verify` Step 1 테스트 품질 박스 + `dev-chain-backend/frontend/mobile` Unit Test 절 행위 테스트 1줄. ③ **인벤토리** — AGENTS.md·README.md·munto-skills 에 `munto-diagnose` 등록 + 누락돼 있던 `munto-pr-review` 보완 등록. ④ **dev-process-guide §9 「외부 차용 스킬 출처(Attribution)」 신설** + §3 PHASE 0·3 설명 + §8 치트시트. **핵심 메시지: 외부 검증 패턴을 *기존 게이트 강화*로만 선별 흡수하고, 이미 더 강한 게이트가 있는 영역은 도입하지 않는다. 도입/미도입 사유를 함께 기록한다.** |
 | 2026-06-01 | **§4.7.6 *코드 리뷰 — AI 시대 PR 리뷰·승인 원칙 (risk-tier)* 신설 + 게이트·매트릭스 4 군데 동기화** *(사용자 결정: AI 가 대량 생산한 코드의 diff 전수 육안 리뷰는 게이트로서 가치가 낮다 — 진짜 게이트는 스펙/설계 리뷰)* — ① **§4.7.6 신설** — 4 기둥 표(① Diff 전수 육안 리뷰 ≠ 게이트, 진짜 게이트 = PHASE 0·1 / ② PR 1 차 리뷰 = AI, 결과는 PR 본문 영수증 / ③ 사람은 PR *승인*(통과=인수), 직접 정독은 risk-tier 집중 / ④ 동작 검증 = AI 자동화 우선, 수동분은 IP 의 수동 DoD+risk 에 *사전* 명시) + **risk-tier 표**(인증·인가 / 결제·정산 / DB 마이그레이션 / 보안·개인정보 = 사람 직접, 그 외 일반 = AI 리뷰+자동 테스트) + 에이전트 강제 방법(`munto-create-pr` AI 1 차 셀프 리뷰·Review guide / `dev-chain-verify` 수동 = IP 도출 / IP 스택 수동 DoD 명시). ② **§4.5 PHASE 3 표 아래** — *동작 검증 = AI 자동화 우선, 수동분은 IP 에서 도출* 노트. ③ **§4.6 사람 핵심 개입 체크리스트** — `PR 승인` 행(직접 정독 = risk-tier) + PHASE 3 수동 행에 *IP 수동 DoD·risk-tier 도출* 보강. ④ **§4.9.1 무인 매트릭스** — `PR 1 차 리뷰`(✅ 루프 안, AI) 행 추가 + `PR 머지(승인)` 행에 risk-tier 정독 명시. ⑤ **§4.9.5** — `AI 1 차 리뷰 선행`·`사람 직접 정독 = risk-tier` 2 행 추가 + PR 본문 의무 표기에 *AI Review guide·IP 수동 확인 항목* 보강. **핵심 메시지: 리뷰의 무게중심은 코드에서 스펙·설계로 옮겨졌다 — 사람 정독은 희소 자원이므로 risk-tier(인증·결제·마이그레이션·보안)에 배분하고, 나머지는 AI 1 차 리뷰 + 자동 테스트에 맡긴다. 사람 수동 확인 항목은 IP 에 사전 명시한다.** |
 | 2026-06-05 | **역할 용어 *Owner → PL(Project Leader)* 통일** *(개발자 피어 리뷰 — "Owner" 가 애자일 *Product Owner=기획자* 와 의미 충돌·정반대로 오독됨)* — 프로젝트 단위 책임자(개발을 이끄는 책임 개발자)를 가리키던 "Owner" 를 *PL* 로 일괄 변경. *저장소 단위* "Repo Owner"(repo 인벤토리·multi-repo-spec-index·docs/README 담당)는 별개 개념으로 유지. brief·`munto-dev-assistant` 운영 문서(`dev-process-guide` 용어집에 *PL*·*기획자(PO)* 행 신설)·`ip-standard`·`projects/` 템플릿 동기화. **핵심 메시지: PL = 프로젝트 단위 / Repo Owner = 저장소 단위 / 기획 역할은 "기획자(PO)" 로 표기.** |
+| 2026-06-05 | **§4.9.8 *권장 구현* → *오케스트레이션 런타임 후보군(미결정)* 으로 강등 + GitHub Actions 위치 재정의** *(사용자 검토: "Actions 로 24h 오케스트레이션" 자체가 적합하지 않음 — TO-BE 가 §1.2(외부 무인 실행 서비스 향후 검토) ↔ §4.9.8(GitHub Actions 권장) 으로 모순돼 구현자(DEVT-135)가 Actions 자체 구축으로 오인)* — ① §4.9.8 제목·본문을 *후보군 + build-vs-buy 는 DEVT-135 에서 결정* 으로 재작성 — **① 에이전트 런타임**(Claude Code headless/SDK · Cursor SDK · OpenHands · 상용 가칭 OpenClaw 류) vs **② 오케스트레이션·스케줄링**(전용 SaaS · 얇은 자체 스케줄러) **2 계층 분리** + 선정 기준 6 축. ② **GitHub Actions = 본체 후보 아님(상태없음·잡 시간 상한), 보조 역할(트리거·Environments 승인 게이트·검증 재실행)만** 으로 명시 — DEVT-135 의 S3·Lambda 가 사실 이 부적합의 땜질이었음 적시. ③ §4.9.3 *오케스트레이터 (GitHub Actions 등)* → *(런타임 미결정 — §4.9.8 후보군)*. ④ §1.2 OpenClaw 행에 *런타임 후보군·선정 §4.9.8* cross-link. ⑤ §4.9.2·§4.9.6 Kill Switch 의 *GitHub Actions Workflow Cancel* 을 *런타임 작업 취소(예: …)* 로 일반화. **핵심 메시지: 오케스트레이션 런타임은 TO-BE 에서 결정하지 않는다 — 후보군만 적고 build-vs-buy 는 연구·PoC 후 DEVT-135 에서 정한다. GitHub Actions 는 본체가 아니라 보조 부품이다.** |
 | 2026-06-05 | **§4.7.9 *하네스 엔지니어링 외부 정렬 (OpenAI harness-engineering)* 신설 + 메커니즘 직접 흡수** *(사용자 결정: 백로그로 미루지 않고 munto-dev-assistant 에 직접 적용)* — OpenAI [Harness engineering]·Claude Code docs·MCP 교훈을 검토해 ① **일치 항목 명문화** (Repo=system of record → `dev-process-guide` §2 원칙 ⑧ / 불변식 기계 강제+교정메시지 → 원칙 ⑤), ② **빈자리 메커니즘화** (AGENTS.md 맵 다이어트 — "주요 규칙 요약" 중복 블록을 포인터 표로 축소 + `check-adapters.sh` 에 AGENTS.md 길이 경고·표준 문서 링크 검증 / `harness-diagnostics` Maintenance = *정기 doc-gardening* 명시 / `dev-chain-verify` 에 *에이전트 legibility* 목표 박스), ③ **충돌 미도입** (머지 게이트 최소화 — risk-tier 사람 게이트 유지). `dev-process-guide` §2·§9, AGENTS.md, `harness-diagnostics`, `check-adapters.sh`, `dev-chain-verify` 동기화. **핵심 메시지: 외부 강사례도 *우리 게이트 강화 방향* 으로만 선별 흡수 — 일치는 명문화, 빈자리는 메커니즘, 충돌은 사유와 함께 미도입(§4.7.7 과 동일 원칙).** |
