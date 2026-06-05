@@ -222,6 +222,10 @@ Main Spec  ── 프로젝트 비전·전략·Phase/Task 분해·컴포넌트 �
 #### ⑥ 테스트 완전 자동화 지향 — *Unit · E2E · UI 까지*
 
 - **풍부한 Unit Test + E2E Test** — 1차 검증이자 **Regression Test 자산**.
+- **테스트 작성 시점 분리** — *케이스(TCL)는 설계 시점*, *테스트 코드(Unit·E2E)는 구현 시점*에 작성해 버그를 검증 전에 잡는다 (상세: **§4.7.8**).
+  - *설계 시점(PHASE 1)*: **TCL(케이스 목록)만.** 테스트 코드(Unit·E2E)는 아직 작성하지 않는다.
+  - *구현 시점(PHASE 2, Task 단위)*: TCL 기반으로 **Unit Test 코드 + E2E 코드 작성**(백엔드 API-level). 구현하며 드러난 케이스까지 풍부하고 촘촘하게 채운다.
+- **E2E = 백엔드 API-level (클라이언트 미포함)** — Flutter/브라우저를 띄우지 않고 사용자 동작을 *API 호출→응답*으로 시뮬레이션. FE/App 은 Unit/Widget 만 담당.
 - **UI 테스트도 최대한 자동화.** 현재 도구로 가능한 영역과 남은 숙제는 §3.6 / §4.5 에 정리한다.
 - 자동화 비율이 올라갈수록 PHASE 3 의 🔄(협업)·👤(사람) 노드가 🤖 로 옮겨간다.
 
@@ -621,9 +625,10 @@ flowchart TD
         BE1["🔄 Entity 작성<br/>(DBML 참조)"]:::collab
         BE2["🔄 Service 작성<br/>(비즈니스 로직)"]:::collab
         BE3["🔄 Controller 작성<br/>(Swagger 참조)"]:::collab
-        BE4["🔄 Unit Test 작성<br/>(TCL 참조)"]:::collab
-        BE5["🔄 lint · typecheck · test 통과"]:::collab
-        BE0 --> BE1 --> BE2 --> BE3 --> BE4 --> BE5
+        BE4["🔄 Unit Test 작성<br/>(구현 시점, TCL 기반)"]:::collab
+        BE4E["🔄 E2E 코드 추가<br/>(API-level, 클라이언트 미포함)"]:::collab
+        BE5["🔄 lint · typecheck · test · test:e2e 통과"]:::collab
+        BE0 --> BE1 --> BE2 --> BE3 --> BE4 --> BE4E --> BE5
     end
 
     subgraph APP_BLOCK ["모바일 — dating-mobile(BLoC) · munto-mobile(Riverpod)"]
@@ -634,7 +639,7 @@ flowchart TD
         APP3["🔄 Repository"]:::collab
         APP4["🔄 BLoC / Riverpod<br/>(상태 관리)"]:::collab
         APP5["🔄 Screen / View<br/>(UI 설계 참조)"]:::collab
-        APP6["🔄 Unit Test<br/>(TCL 참조)"]:::collab
+        APP6["🔄 Unit/Widget Test 작성<br/>(구현 시점, TCL 기반, E2E는 BE)"]:::collab
         APP0 --> APP1 --> APP2 --> APP3 --> APP4 --> APP5 --> APP6
     end
 
@@ -646,7 +651,7 @@ flowchart TD
         FE3["🔄 ViewModel"]:::collab
         FE4["🔄 View"]:::collab
         FE5["🔄 Page<br/>(UI 설계 참조)"]:::collab
-        FE6["🔄 Unit Test<br/>(TCL 참조)"]:::collab
+        FE6["🔄 Unit Test 작성<br/>(구현 시점, TCL 기반, E2E는 BE)"]:::collab
         FE0 --> FE1 --> FE2 --> FE3 --> FE4 --> FE5 --> FE6
     end
 
@@ -674,8 +679,8 @@ flowchart TD
 ```mermaid
 flowchart TD
     V0["🤖 dev-chain-verify 호출"]:::ai
-    V1["🤖 Step 1: TCL vs Unit Test<br/>1:1 커버리지 대조<br/>(BE · APP · FE 각각)"]:::ai
-    V2["🤖 Step 2: E2E Test<br/>백엔드 e2e · Playwright<br/>Flutter integration"]:::ai
+    V1["🤖 Step 1: TCL vs Unit Test<br/>1:1 커버리지 대조 (구현 시점 작성 누적)<br/>(BE · APP · FE 각각)"]:::ai
+    V2["🤖 Step 2: E2E Test (백엔드 API-level)<br/>pnpm test:e2e (클라이언트 미포함)<br/>※ FE Playwright·App integration = 로컬 보조"]:::ai
     V3["🔄 Step 3: 수동 체크리스트<br/>AI 생성 + 사람 수행<br/>(크로스 플랫폼 · 회귀)"]:::collab
     V4["🤖 Step 4: 최종 검증 보고서"]:::ai
     V5{"🔄 전체 PASS?"}:::collab
@@ -783,7 +788,7 @@ flowchart TD
 | 1C-1 | **Unit TCL 작성** | 🤖 AI | `unit-tcl-writer` | **선행 조건: Swagger·DBML·UI 모두 확정.** SRS·Swagger·DBML 기반으로 API별 정상·오류·경계 시나리오 도출. **현재 BE 중심 — FE/App UI TCL 은 보조 산출물.** |
 | 1C-2 | **AI 리뷰** | 🤖 AI | (consistency 검토) | TCL ↔ Swagger 매핑 누락, 시나리오 중복·모순 검출. |
 | 1C-3 | **사람 리뷰** *(필수)* | 👤 도메인 개발자 (BE / FE / App 각자) | (AI 도움 가능) | AI 가 놓친 도메인 함정·실패 시나리오·경계값 보강. FE/App 은 UI 상호작용 TCL 직접 추가. |
-| 1C-4 | **완료 체크리스트** | (메인) | — | DBML·Swagger·UI·TCL 모두 확정 + 모든 트랙별 사람 리뷰 통과 + 저장 위치 확인. **다음은 아래 PHASE 1 마무리(종합 Peer Review 게이트).** |
+| 1C-4 | **완료 체크리스트** | (메인) | — | DBML·Swagger·UI·TCL 모두 확정 + 모든 트랙별 사람 리뷰 통과 + 저장 위치 확인. **테스트 *코드*(Unit·E2E)는 PHASE 2 에서 작성**(§4.7.8). **다음은 아래 PHASE 1 마무리(종합 Peer Review 게이트).** |
 
 ```
 트리거 예시
@@ -801,6 +806,8 @@ flowchart TD
 | **Swagger**  | `.yaml` (OpenAPI 3.0) | API 엔드포인트·DTO·응답 정의 — Track 1                      |
 | **UI 설계**  | Figma · 문서 등       | 와이어프레임 · IA · 화면 흐름 · 컴포넌트 카탈로그 — Track 2 |
 | **Unit TCL** | `.md` (마크다운 표)   | API별 테스트 시나리오 (BE 중심, FE/App 보조) — Track 3      |
+
+> 테스트 *코드*(Unit·E2E)는 PHASE 1 산출물이 아니다 — PHASE 2(구현, Task 단위)에서 작성한다(§4.7.8).
 
 #### PHASE 1 마무리 — 종합 Peer Review 게이트 *(PHASE 1 마지막 단계, Agentic Dev Chain 핵심 게이트)*
 
@@ -1129,7 +1136,7 @@ IP-6 의 *세션 분리* 모드(Repo 3+ / Task 21+ / 3+ 주 / 2+ 인원)에서 �
 
 | 도메인 | 스킬 | 서브에이전트 | 구현 순서 | 프로젝트 |
 | --- | --- | --- | --- | --- |
-| **백엔드** | `dev-chain-backend` | `backend-expert` | Entity → Service → Controller → Unit Test | `munto-backend` 또는 `dating-backend` |
+| **백엔드** | `dev-chain-backend` | `backend-expert` | Entity → Service → Controller → Unit Test(작성) → E2E(API-level) | `munto-backend` 또는 `dating-backend` |
 | **모바일** | `dev-chain-mobile` | `mobile-expert` | Model(Freezed) → API(Retrofit) → Repository → BLoC/Riverpod → Screen/View → Unit Test | `dating-mobile`(BLoC) 또는 `munto-mobile`(Riverpod) |
 | **프론트엔드** | `dev-chain-frontend` | `frontend-expert` | Model → Repository → ViewModel → View → Page → Unit Test | `munto-frontend` |
 
@@ -1151,10 +1158,12 @@ IP-6 의 *세션 분리* 모드(Repo 3+ / Task 21+ / 3+ 주 / 2+ 인원)에서 �
 
 | 단계 | 무엇을 하나                     | 사용 스킬 / 도구   | 핵심 규칙                                                                                     |
 | ---- | ------------------------------- | ------------------ | --------------------------------------------------------------------------------------------- |
-| 3-1  | **TCL 기반 Unit Test 커버리지** | `dev-chain-verify` | TCL의 BE/APP/FE 항목과 실제 테스트 케이스를 **1:1 대조**. 미구현이면 해당 도메인 스킬로 복귀. |
-| 3-2  | **E2E Test**                    | `dev-chain-verify` | 백엔드 e2e · Playwright(FE) · Flutter integration test. 자동화 불가 케이스는 3-3으로.         |
+| 3-1  | **TCL 기반 Unit Test 커버리지** | `dev-chain-verify` | TCL의 BE/APP/FE 항목과 *누적된* 실제 테스트 케이스를 **1:1 대조**(구현 시점 작성 누적). 미구현·미작성이면 해당 도메인 스킬로 복귀. |
+| 3-2  | **E2E Test (백엔드 API-level)** | `dev-chain-verify` | **시스템 E2E = 백엔드 `pnpm test:e2e`**(클라이언트 미포함 — 사용자 동작을 API 호출→응답으로 시뮬레이션). 프론트 Playwright·모바일 integration_test 는 *도메인 로컬 보조*(게이트 아님). 자동화 불가분은 3-3으로. |
 | 3-3  | **수동 테스트 체크리스트**      | `dev-chain-verify` | 크로스 플랫폼·회귀 항목 생성. 수동 실패 시 Jira 버그 이슈 생성(`munto-create-issue`).         |
 | 3-4  | **최종 검증 보고서**            | `dev-chain-verify` | 전체 PASS → **Product:rc 배포 가능**. 실패 → 해당 도메인 스킬 재실행 → 재검증.                |
+
+> **검증 = 누적 테스트 실행 (§4.7.8)** — 검증 단계는 *테스트를 새로 만드는 곳이 아니라* 구현 시점(Task 단위)에 작성·누적된 Unit·E2E 를 전체 실행·대조하는 곳이다. E2E 는 *백엔드 API-level* 이 시스템 게이트다.
 
 > **동작 검증 = AI 자동화 우선, 수동분은 IP 에서 도출 (§4.7.6 ④)** — 3-1·3-2(Unit·E2E)로 *최대한 자동화* 하고, *AI 가 자동화할 수 없는 확인* 만 3-3 수동 체크리스트로 남긴다. **수동 항목은 AI 가 임의 생성하지 않고 *IP 의 수동 DoD(`mode: manual`)·risk-tier(인증·결제·마이그레이션·보안)* 에서 도출** 한다 — 사람이 *무엇을 직접 확인해야 하는지* 가 IP 만 봐도 사전에 정해져 있어야 한다.
 
@@ -1632,6 +1641,34 @@ flowchart TD
 
 ---
 
+### 4.7.8 테스트 전략 — 케이스는 설계, 코드는 구현(Task 단위) + API-level E2E
+
+> **목표**: 테스트를 *검증 단계에 몰아서 작성*하지 않는다. **케이스(TCL)는 설계 시점, 테스트 코드(Unit·E2E)는 구현 시점(Task 단위)** 에 작성해 **점진적으로 촘촘히 쌓아** 버그를 검증 전에 잡고, 최대한 자동화한다(§2.3 ⑥·⑦). 이는 흡수한 TDD 철학(§4.7.7 `tdd`)의 운영 형태다.
+
+#### (1) 작성 시점 모델
+
+| 시점 | Unit Test | E2E Test | 담당 |
+| --- | --- | --- | --- |
+| **PHASE 1 (설계)** | **TCL(케이스 *목록*)만.** 테스트 코드는 작성하지 않음 | **작성하지 않음** | `dev-chain-design` (Track 3 = TCL) |
+| **PHASE 2 (구현, Phase/Task 단위)** | TCL 기반 **Unit Test 코드 작성** + 구현 중 발견 케이스(추가 분기·경계·실패 조건)까지 풍부하게 | **E2E 코드 작성** (Task 가 닿는 사용자 흐름, API-level) | `dev-chain-backend/frontend/mobile` |
+| **PHASE 3 (검증)** | 누적 Unit 전체 실행 + TCL 1:1 대조 | 누적 E2E 전체 실행 | `dev-chain-verify` |
+
+- **TCL ≠ 테스트 코드**: TCL 은 테스트 케이스 *목록(시나리오 표)*, Unit/E2E 코드는 그 TCL 을 옮긴 *실행 가능한 코드*. TCL ID ↔ 테스트 케이스가 1:1로 추적된다.
+- **왜 코드는 구현 시점인가**: 막상 구현하면 설계 단계에서 *예상하지 못한* 케이스가 드러난다. 설계에서 TCL 로 *케이스 목록*을 고정하고, 구현 시점에 Unit·E2E 코드를 *훨씬 자세히* 작성하면 설계 단계가 깔끔해지고 검증 단계에서 *풍부한 회귀 자산*이 된다.
+- **IP DoD 반영**: 각 Task `dod[]` 가 *Unit Test 작성 + (백엔드면) E2E 추가* 를 포함한다(`ip-standard.md` §DoD). E2E 를 별도 후행 Phase 로 몰지 않는다.
+
+#### (2) E2E = 백엔드 API-level (클라이언트 미포함)
+
+- **클라이언트를 끼지 않는다**: Flutter/브라우저 앱을 구동하지 않는다. 사용자 행위(예: "사용자 추가")도 **App UI 조작이 아니라 해당 API 호출 시퀀스 + 응답 단언**으로 시뮬레이션한다.
+  - 예: "사용자가 프로필을 만들고 소셜링에 참여" = `POST /profiles` → `POST /socialings/:id/join` → `GET /socialings/:id` 응답 검증.
+- **인증도 실제 경로**: 로그인 API 로 토큰을 받아 헤더에 실어 *실제 인가 경로*를 통과시킨다(인증 mock 우회 금지 — risk-tier).
+- **책임 분담**: 시스템 E2E 의 작성·실행은 **백엔드**(`pnpm test:e2e`). **FE/App 은 Unit/Widget 테스트만** 담당한다. 프론트 Playwright·모바일 `integration_test` 는 *도메인 로컬 보조 검증*일 뿐 *시스템 E2E 게이트가 아니다*(자동화 비용·환경 의존이 큼).
+- **무인 실행 적합성**: 클라이언트 구동을 배제하므로 E2E 가 *헤드리스·결정론적*으로 돌아 §4.9 무인 루프에서 그대로 자동화된다.
+
+> **핵심 메시지**: 테스트는 *설계에서 케이스(TCL) → 구현에서 Unit·E2E 코드 작성 → 검증에서 전체 실행* 으로 쌓는다. 테스트 *코드* 는 구현 시점(Task 단위)에 풍부하고 촘촘하게 작성한다. E2E 는 클라이언트를 끼지 않고 *API 호출→응답 시뮬레이션* 으로 백엔드가 책임진다. 이로써 검증 단계가 *훨씬 풍부* 해지고 *완전 자동화 목표* 에 부합한다.
+
+---
+
 ### 4.8 스펙 변경 관리 (모든 PHASE 공통)
 
 §3.4 베이스라인 설정 이후 발생하는 *모든 변경* 은 본 절차를 따른다. **베이스라인이 있다는 것 ≠ 변경 금지** — *변경하되, 영향을 통제해서 변경* 한다는 의미다. (§2.4 변경 원칙 적용)
@@ -1952,18 +1989,20 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 │  ├─ Track 2 (UI, FE/App만, 케이스별)                                │
 │  │   👤Figma·IA·상태도·컴포넌트 카탈로그 → 👤FE/App 리드 리뷰        │
 │  ├─ Track 3 (Unit TCL, Track 1·2 종료 후)                          │
-│  │   Unit TCL(AI, BE 중심) → AI리뷰 → 👤도메인 개발자 리뷰          │
+│  │   Unit TCL(AI) → AI리뷰 → 👤리뷰 → 확정 (테스트 코드는 PHASE 2) │
+│  │   ※ E2E는 PHASE 2에서 추가 (§4.7.8)                              │
 │  └─ 🚧 PHASE 1 마무리 — 종합 Peer Review 게이트                      │
 │       👤 BE+FE+App 리드 종합 (4종 산출물 교차 검증)                  │
 │       ✅ 승인 = 「Spec 완료」 → PHASE 2 진입                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│ PHASE 2  구현 (도메인별 병렬 가능)                                  │
-│  ┌─ BE:  Entity → Service → Controller → Unit Test                │
-│  ├─ APP: Model → API → Repo → BLoC/Riverpod → Screen → Test      │
-│  └─ FE:  Model → Repo → ViewModel → View → Page → Test           │
+│ PHASE 2  구현 (도메인별 병렬 가능) — Task마다 테스트 코드 작성     │
+│  ┌─ BE:  Entity → Service → Controller → Unit작성 → E2E(API-level)│
+│  ├─ APP: Model → API → Repo → BLoC/Riverpod → Screen → Unit작성  │
+│  └─ FE:  Model → Repo → ViewModel → View → Page → Unit작성       │
+│  ※ E2E는 BE만(클라이언트 미포함, API 호출→응답 시뮬레이션)         │
 ├─────────────────────────────────────────────────────────────────────┤
-│ PHASE 3  검증                                                      │
-│  TCL 커버리지 → E2E → 수동 체크리스트 → 보고서                     │
+│ PHASE 3  검증 (누적 테스트 실행)                                   │
+│  Unit 커버리지 대조 → E2E(BE API-level) → 수동 체크리스트 → 보고서 │
 │  PASS → Product:rc  |  FAIL → PHASE 2 복귀                        │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -2051,5 +2090,6 @@ DEVT-135 의 핵심 인사이트. 에이전트는 *본인이 작성한 결과의
 | 2026-05-29 | **§4.7.1 4팁 표의 `N/A` vs `None` 정의를 오해 없이 재서술** *(사용자 지적: "있어야 하지만 없음" = "있어야 하는데 빠짐(누락)"으로 오독됨)* — `N/A` = *적용 자체가 불가(검토 무의미, 예: v1.0 최초 제품의 하위호환성 — 이전 버전이 없어 적용 불가)*, `None` = *적용 대상이지만 이번엔 없음·안 함(예: v2.0이나 하위호환 미지원, 실무에선 "지원하지 않음 — 사유 …"로 적음)* 으로 명확화. *None 을 "있어야 하는데 빠짐"으로 오해 금지* 주석 추가. 적용 계획서·`munto-spec-writer`/`munto-spec-review` 스킬·`spec-writing-tips.md §4.2` 동기화 |
 | 2026-05-22 | **Implementation Plan (구현계획서, IP) 도입 — PHASE 1 의 마지막 활동으로** *(Spec → 무인 실행 사이의 누락 고리 해결)* — ① **§4.3 끝에 *PHASE 1 마지막 활동 — Implementation Plan 작성* 소절 신설** (8 개 하위 항목: IP-1 문서 구조(8 섹션 + Task 카드 9 필드) / IP-2 Task 단위 기준(분량·책임·시간·외부 의존·롤백) / IP-3 멀티 Repo Spec 참조 4 요소 `{repo}/{path}#{anchor}@{sha}` / IP-4 의존성 DAG / IP-5 DoD = TCL 케이스 ID 매핑 / IP-6 *디폴트 없음* 세션 통합 vs 분리 판단 기준 4 개(Repo 수·Task 수·기간·인원) / IP-7 Spec 작성 3 방식 매트릭스(① 기존 수정 디폴트 / ② Sub스펙 누적 / ③ 별도 repo 예외 + PHASE 3 후 원본 통합 의무) / IP-8 IP 자체의 사람 리뷰 = 통과=인수). ② **§3.4 PHASE 1 다이어그램 보강** — GATE 통과 후 *베이스라인 v1.0 설정 → IP 작성 → IP 리뷰 → DONE* 흐름 추가. PHASE 2 진입 자격은 *IP 통과 시점*에 확정. ③ **§3.4 본문에 IP 작성 박스 신설** — 위치/입력/출력/게이트/작성 책임 + *왜 별도 활동인가* 메시지. ④ **§2.3 ② Phase→Task→Sub스펙 박스** 끝에 *"IP = ②의 실행 가능한 산출물"* 1 줄 보강. ⑤ **§4.9 무인 실행 모드 보강** — *루프의 유일한 입력 = IP v1.x* 박스 신설, 트리거 4 종에 *IP Task 카드 단위 트리거* 추가, 자동 정지 조건에 *IP DAG 끊김·순환* 추가, **Slack 알림을 *Phase 완료 / BLOCKER / 일일 요약* 3 종 묶음** 정책으로 보강 (Task 1:1 푸시는 노이즈). ⑥ **§4.8.1 변경 관리 표** — *IP 변경* 행 추가 (IP 도 베이스라인 산출물). ⑦ **§7 비교 표에 4 행 추가** — *Task 단위 컨텍스트 전달 / 멀티 Repo Spec 매핑 / 분산 Spec 작성 3 방식 정책 / Spec→구현 세션 운영*. **핵심 메시지: Spec 이 완벽해도 *Task 마다 컨텍스트를 매번 설명해야 하면 무인화는 불가능*. IP 는 Spec 을 *무인 실행 가능한 형태로 변환한 단일 문서*다.** |
 | 2026-06-01 | **§4.7.6.1 *운영 — `munto-pr-review` 스킬과 반자동 리뷰 루프* 신설** *(사용자 결정: 자체 단일 스킬만 사용(외부 Bugbot 등 미사용) + 반자동 루프)* — ① §4.7.6 에이전트 강제 박스에 `munto-pr-review` 신설 줄 추가 + `munto-create-pr` 가 PR 생성 후 자동 호출 명시. ② §4.7.6.1 신설 — *수단 결정 근거*(diff 만으로는 Spec 정합성·도메인 규칙·risk-tier 검출 불가 → Spec/IP 입력 자체 스킬 필요, 외부 서비스 미사용) + 4 입력(PR diff·IP DoD/risk·Swagger/DBML·도메인 rules) + *AI 는 APPROVE 안 함*(REQUEST_CHANGES/COMMENT만, 승인=사람) + 반자동 루프 mermaid + 코멘트 유형별 처리표(일반=자동 수정 루프 / risk-tier=사람 확인 / 설계=CCB) + *재리뷰 자동 트리거*(push 시 재실행) + *사람 최종 승인 = audit trail 요약 + risk-tier 직접 정독*(diff 전수 아님) + 리뷰 라운드 audit trail 표 예시. ③ §4.9.1 매트릭스 `PR 1 차 리뷰` 행을 `munto-pr-review` 로 갱신 + `코멘트→수정 루프` 행 신설. **핵심 메시지: PR 1 차 리뷰는 자체 `munto-pr-review` 가 Spec/IP 컨텍스트로 수행하고, 일반 코멘트는 자동 수정 루프(재리뷰 자동 트리거), risk-tier·설계는 사람 확인. 사람은 diff 전수가 아니라 지적-수정 audit trail + risk-tier 만 정독 후 승인.** |
+| 2026-06-05 | **§4.7.8 *테스트 전략 — 케이스는 설계·코드는 구현(Task 단위) + API-level E2E* 신설 + 전 PHASE 동기화** *(사용자 결정: 케이스(TCL)는 설계 시점, 테스트 코드(Unit·E2E)는 구현 시점(Task 단위)에 작성 — 설계 단계는 TCL 까지만, E2E는 클라이언트 미포함 백엔드 API-level)* — ① **§4.7.8 신설** — 작성 시점 모델 표(PHASE 1: TCL(케이스)만, 테스트 코드 없음 / PHASE 2: Unit·E2E 코드 작성 / PHASE 3: 누적 실행) + E2E 정의(Flutter/브라우저 미구동, 사용자 동작=API 호출→응답 시뮬레이션, 인증도 실제 경로, 시스템 E2E=백엔드, FE/App=Unit/Widget만). ② **§2.3 ⑥** 테스트 원칙에 작성 시점 분리·API-level E2E 추가. ③ **§3.4 Track 3** 는 TCL 까지만 산출(테스트 코드는 PHASE 2). ④ **§3.6 / §4.5 PHASE 3** Step 1(누적 대조)·Step 2(E2E=백엔드 API-level, FE Playwright·App integration=로컬 보조) 갱신 + 검증=누적 실행 노트. ⑤ **다이어그램** — PHASE 2 BE 블록에 E2E 노드, FE/App Unit 작성, 검증 V1/V2 갱신, 치트시트 ASCII 갱신. ⑥ **스킬** — `dev-chain-design`(설계는 TCL 까지·테스트 코드 PHASE 2 명시), `dev-chain-backend`(Unit Test 작성 + E2E Step 신설), `dev-chain-frontend/mobile`(Unit 작성 + E2E는 BE 위임), `dev-chain-verify`(작성 시점 전제 + E2E API-level), `unit-tcl-writer`(E2E 표기 의미), `ip-standard`(Task DoD 에 Unit/E2E 작성), `dev-process-guide`(§3 PHASE 1/2/3). **핵심 메시지: 케이스(TCL)는 설계 시점, 테스트 코드(Unit·E2E)는 구현 시점(Task 단위)에 풍부하고 촘촘하게 작성→검증에서 전체 실행. E2E는 클라이언트를 끼지 않고 API 호출→응답 시뮬레이션으로 백엔드가 책임진다. 검증이 풍부해지고 완전 자동화 목표에 부합.** |
 | 2026-06-01 | **§4.7.7 *외부 스킬 패턴 흡수 (mattpocock/skills — Munto 변형)* 신설** *(개발자가 공유한 외부 스킬 검토 → 사용자 결정: zoom-out 미도입, diagnose 신규 스킬)* — ① §4.7.7 신설 — 흡수 4종 표(`grill-with-docs`→`munto-spec-writer` Step 0 그릴링 *합침* / ADR 3조건→`munto-spec-change` Decision Log *합침* / `diagnose`→`munto-diagnose` *신규* / `tdd`→`dev-chain-verify`+도메인 스킬 *합침*) + 미도입 결정(`zoom-out`·`to-prd`·`to-issues`·`triage`·`caveman`·`handoff`·`write-a-skill`) + 그릴링 의미(AI 의도 오해를 착수 시점에 차단, PHASE 0 사람 핵심 문단 먼저와 같은 방향). ② **스킬 신설/수정** — `munto-diagnose` 신규(.agents+.claude+.codex), `munto-spec-writer` Step 0 그릴링 + 트리거 추가, `munto-spec-change` ADR 3조건 휴리스틱, `dev-chain-verify` Step 1 테스트 품질 박스 + `dev-chain-backend/frontend/mobile` Unit Test 절 행위 테스트 1줄. ③ **인벤토리** — AGENTS.md·README.md·munto-skills 에 `munto-diagnose` 등록 + 누락돼 있던 `munto-pr-review` 보완 등록. ④ **dev-process-guide §9 「외부 차용 스킬 출처(Attribution)」 신설** + §3 PHASE 0·3 설명 + §8 치트시트. **핵심 메시지: 외부 검증 패턴을 *기존 게이트 강화*로만 선별 흡수하고, 이미 더 강한 게이트가 있는 영역은 도입하지 않는다. 도입/미도입 사유를 함께 기록한다.** |
 | 2026-06-01 | **§4.7.6 *코드 리뷰 — AI 시대 PR 리뷰·승인 원칙 (risk-tier)* 신설 + 게이트·매트릭스 4 군데 동기화** *(사용자 결정: AI 가 대량 생산한 코드의 diff 전수 육안 리뷰는 게이트로서 가치가 낮다 — 진짜 게이트는 스펙/설계 리뷰)* — ① **§4.7.6 신설** — 4 기둥 표(① Diff 전수 육안 리뷰 ≠ 게이트, 진짜 게이트 = PHASE 0·1 / ② PR 1 차 리뷰 = AI, 결과는 PR 본문 영수증 / ③ 사람은 PR *승인*(통과=인수), 직접 정독은 risk-tier 집중 / ④ 동작 검증 = AI 자동화 우선, 수동분은 IP 의 수동 DoD+risk 에 *사전* 명시) + **risk-tier 표**(인증·인가 / 결제·정산 / DB 마이그레이션 / 보안·개인정보 = 사람 직접, 그 외 일반 = AI 리뷰+자동 테스트) + 에이전트 강제 방법(`munto-create-pr` AI 1 차 셀프 리뷰·Review guide / `dev-chain-verify` 수동 = IP 도출 / IP 스택 수동 DoD 명시). ② **§4.5 PHASE 3 표 아래** — *동작 검증 = AI 자동화 우선, 수동분은 IP 에서 도출* 노트. ③ **§4.6 사람 핵심 개입 체크리스트** — `PR 승인` 행(직접 정독 = risk-tier) + PHASE 3 수동 행에 *IP 수동 DoD·risk-tier 도출* 보강. ④ **§4.9.1 무인 매트릭스** — `PR 1 차 리뷰`(✅ 루프 안, AI) 행 추가 + `PR 머지(승인)` 행에 risk-tier 정독 명시. ⑤ **§4.9.5** — `AI 1 차 리뷰 선행`·`사람 직접 정독 = risk-tier` 2 행 추가 + PR 본문 의무 표기에 *AI Review guide·IP 수동 확인 항목* 보강. **핵심 메시지: 리뷰의 무게중심은 코드에서 스펙·설계로 옮겨졌다 — 사람 정독은 희소 자원이므로 risk-tier(인증·결제·마이그레이션·보안)에 배분하고, 나머지는 AI 1 차 리뷰 + 자동 테스트에 맡긴다. 사람 수동 확인 항목은 IP 에 사전 명시한다.** |

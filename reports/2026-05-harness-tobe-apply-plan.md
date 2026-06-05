@@ -251,6 +251,21 @@ bash scripts/check-adapters.sh
 
 > **결정 요약**: `zoom-out` 미도입(code-investigator 로 충분), `to-prd`·`to-issues`·`triage` 미도입(Munto SRS·IP·Jira 가 더 엄격), `caveman`·`handoff`·`write-a-skill` 미도입(개인 생산성/중복). 흡수 4종은 *Munto 기존 게이트를 강화*하는 것만 선별.
 
+### Task 7-9 (권장, TO-BE §4.7.8) — 테스트 전략: 케이스는 설계·코드는 구현(Task 단위) + API-level E2E ✅ 완료
+
+> **배경(사용자 결정)**: 테스트 *케이스(TCL)는 설계 시점*, *테스트 코드(Unit·E2E)는 구현 시점(Task 단위)* 에 작성해 버그를 검증 전에 잡는다. 설계 단계는 TCL 까지만 만들고, Unit·E2E 코드는 각 Phase/Task 를 구현할 때 풍부하고 촘촘하게 작성한다. **E2E 는 Flutter/브라우저 클라이언트를 끼지 않고 *API 호출→응답 시뮬레이션*(백엔드 책임), FE/App 은 Unit/Widget 만.** 최대한 자동화 목표에 부합.
+
+- [x] **TO-BE** `reports/2026-05-harness-TO-BE.md` — **§4.7.8 「테스트 전략 — 케이스는 설계·코드는 구현(Task 단위) + API-level E2E」 신설** + §2.3 ⑥·§3.4 Track 3(TCL 까지)·§3.6/§4.5 PHASE 3·다이어그램(BE E2E 노드·FE/App Unit 작성·V1/V2·치트시트 ASCII) 동기화 + 변경 이력
+- [x] **dev-process-guide** `document/dev-process-guide.md` — §3 PHASE 1(설계는 TCL 까지)·PHASE 2(Task별 Unit·E2E 코드 작성)·PHASE 3(작성 시점 전제 + E2E API-level 정의)
+- [x] **dev-chain-design** — Track 3 는 TCL 까지만 산출 + 테스트 코드(Unit·E2E)는 PHASE 2 명시 + TCL 컨벤션 E2E 정의(API-level) + 완료 체크리스트·보고 표
+- [x] **dev-chain-backend** — `Step 4 Unit Test 작성(구현 시점)` 재정의 + **`Step 5 E2E 테스트 코드 추가(API-level)` 신설** + 개발 순서·완료 체크리스트·보고 표·E2E 명령
+- [x] **dev-chain-frontend / dev-chain-mobile** — `Step 6 Unit Test 작성(구현 시점)` 재정의 + E2E 는 백엔드 위임(FE/App 은 Unit/Widget 만) 명시
+- [x] **dev-chain-verify** — Step 1 작성 시점 전제(누적 실행) + Step 2 E2E = 백엔드 API-level(클라이언트 미포함), Playwright/integration_test = 로컬 보조(게이트 아님)
+- [x] **unit-tcl-writer** — `E2E` 대상 표기 의미를 API-level + 코드화는 PHASE 2 로 명확화
+- [x] **ip-standard** — §DoD 에 「Task DoD 에 테스트 작성 시점 반영」 소절 신설 (구현 시 Unit 작성 + 백엔드 Task E2E, FE/App 중복 부여 금지, E2E 후행 Phase 금지)
+- [x] **brief** `2026-05-harness-team-developer-brief.md` — §6(테스트 작성 시점 분리·E2E API-level·검증 갱신) + §11(테스트 작성 시점·E2E 방식 2행) + 변경 이력
+- [x] `bash scripts/check-adapters.sh` 통과
+
 ---
 
 ## Phase 8 — 기존 문서 정합화 [본 PR · 마지막 작업] ✅ 완료
