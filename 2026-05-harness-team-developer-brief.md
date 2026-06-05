@@ -29,7 +29,7 @@
 | 8 | **PHASE 2 무인 실행 모드 (오케스트레이션 루프)** | 야간 무인 구현·검증·PR 생성을 위한 운영 규칙. **무인화 범위는 PHASE 2 구현·검증·PR 생성까지** — PHASE 0/1 사람 게이트와 PR 머지는 무인화 비대상. 검증은 *오케스트레이터가 판정* (에이전트 자기 보고 X), 베이스라인 산출물 불변 |
 | 9 | **Implementation Plan (구현계획서, IP) — PHASE 1 의 마지막 활동** | Spec 이 완벽해도 *"Task 1 번 구현해"* 라고만 지시하면 매 Task 마다 *어느 Repo · 어느 파일 · 어느 섹션 · 어느 TCL 케이스* 를 사람이 다시 설명해야 한다 → 무인 자동화 불가능. **IP = Spec 을 무인 실행 가능한 형태로 변환한 단일 문서.** Task별 *Spec 참조 경로 4 요소 · DoD · 의존성 DAG · Repo 매핑* 사전 박음. 멀티 Repo 베이스라인(Repo n 개의 SHA 묶음) 도 IP 헤더가 잠금 |
 | 10 | **Spec ↔ 구현의 컨텍스트 단절 원칙** *(NEW)* | PHASE 0~1 (Spec 작성) = *컨텍스트 적극 보존* (세션·핸드오프·결정 이력 모두 박음). PHASE 2 (구현) = *컨텍스트 단절* (IP / Spec 만으로 누구나 — AI·사람 모두 — 구현·테스트 가능해야 함). 구현 개발자가 *Spec 작성 세션* 을 봐야 한다면 *Spec 이 부족하다* 는 신호. *(상세: TO-BE §2.3 ⑧)* |
-| 11 | **Spec 작성 세션 저장 정책 + `spec-baseline-handoff.md` 의무화** *(NEW)* | Spec 본문만 남고 *왜 그렇게 박혔는지* (= AI·사람이 나눈 추론·검토·대안 비교 대화) 가 휘발되던 빈자리 해소. PHASE 1 GATE 통과 시 Owner 가 *baseline-handoff* 작성 의무 — ip-writer 가 IP 초안 생성 시 *우선 참조*. 멀티 작성자 race 회피 위해 파일명에 `{author-id}` 박음 *(Munto 권장 = Slack 멘션 핸들)*. 상세: TO-BE §4.7.4 |
+| 11 | **Spec 작성 세션 저장 정책 + `spec-baseline-handoff.md` 의무화** *(NEW)* | Spec 본문만 남고 *왜 그렇게 박혔는지* (= AI·사람이 나눈 추론·검토·대안 비교 대화) 가 휘발되던 빈자리 해소. PHASE 1 GATE 통과 시 PL 이 *baseline-handoff* 작성 의무 — ip-writer 가 IP 초안 생성 시 *우선 참조*. 멀티 작성자 race 회피 위해 파일명에 `{author-id}` 박음 *(Munto 권장 = Slack 멘션 핸들)*. 상세: TO-BE §4.7.4 |
 | 12 | **멀티 Repo Spec 인프라 — 작성 백로그 (TODO)** *(NEW)* | 수십 개 Repo 의 `docs/` 에 분산된 기존 Spec 을 신규 프로젝트가 어떻게 *발견·매핑·참조* 할지 가이드 0. 표기 양식 (`{repo}/{path}#{anchor}@{sha}`) 은 박혔으나 *Repo 인벤토리·docs/ 구조 표준·인덱스 실체·SHA 핀 절차·anchor 안정성·Repo 별 docs/README 컨벤션* 7 종 산출물이 *통째로 비어 있음*. *백로그 완료 전까지 분석 아키텍트가 수동 보완*. 상세: TO-BE §4.7.5 |
 | 13 | **AI 시대 PR 리뷰·승인 철학 (risk-tier)** *(NEW)* | AI 가 대량 생산한 코드의 diff 를 사람이 *전수 육안 리뷰* 하는 것은 게이트로서 가치가 낮다 — 진짜 게이트는 스펙·설계 리뷰. 4 기둥: ① diff 전수 육안 ≠ 게이트 / ② PR 1 차 리뷰 = AI(`munto-create-pr` Review guide 영수증) / ③ 사람은 PR *승인*(통과=인수), 직접 정독은 **risk-tier(인증·결제·마이그레이션·보안)** 집중 / ④ 동작 검증 = AI 자동화 우선, *사람 수동 확인 항목은 IP 에 사전 명시*. 상세: TO-BE §4.7.6 (§3 함정 ⑦) |
 
@@ -43,7 +43,7 @@
 6. **사람이 직접 확인해야 할 동작은 IP 에 미리 박는다.** 동작 검증은 Unit·E2E 로 최대한 자동화하고, *AI 가 자동화할 수 없는 확인*(특히 risk-tier)만 사람이 한다. 그 수동 확인 항목은 **IP 의 수동 DoD(`mode: manual`) + Task `risk` 필드에 *사전* 명시** — 구현 다 끝난 뒤 "이건 사람이 봐야 하나?"를 묻지 않도록.
 7. **무인 루프가 만든 PR 도 *사람이* 머지한다.** *CI 그린 = 자동 머지* 금지. 머지 시점에 *통과 = 인수* 원칙이 그대로 적용된다 (PR 머지자가 책임자). 무인 루프가 베이스라인 산출물 수정이 필요하다고 멈췄으면 §9 변경 관리로 위임.
 8. **베이스라인 v1.0 다음 단계는 IP 작성이다.** Spec 이 끝났다고 바로 *"BE-1 구현해"* 라고 던지지 않는다. Task 별 *Spec 참조 경로 · DoD · 의존성 · Repo 매핑* 을 IP 한 장에 박은 뒤에야 PHASE 2 (유인이든 무인이든) 가 시작된다. *멀티 Repo (BE+FE+APP+harness) 프로젝트는 IP 가 곧 단일 진입점이다.*
-9. **Spec 작성은 *프로젝트 폴더 cwd* 에서 한다.** `cd munto-dev-assistant/projects/{프로젝트명}/` 에서 `munto-spec-writer` 호출 시 `sessions/spec-session-*.md` 자동 박힘 (= *왜 그렇게 박혔는지* 보존). PHASE 1 GATE 통과 시 Owner 가 `spec-baseline-handoff.md` 직접 작성 *(없으면 IP 작성 단계가 컨텍스트 결손)*. **단, 구현 개발자는 본 폴더와 무관 — cwd = 각 제품 Repo, IP/Spec 만 보고 구현.** *(§3 핵심 원칙 ⑧)*
+9. **Spec 작성은 *프로젝트 폴더 cwd* 에서 한다.** `cd munto-dev-assistant/projects/{프로젝트명}/` 에서 `munto-spec-writer` 호출 시 `sessions/spec-session-*.md` 자동 박힘 (= *왜 그렇게 박혔는지* 보존). PHASE 1 GATE 통과 시 PL 이 `spec-baseline-handoff.md` 직접 작성 *(없으면 IP 작성 단계가 컨텍스트 결손)*. **단, 구현 개발자는 본 폴더와 무관 — cwd = 각 제품 Repo, IP/Spec 만 보고 구현.** *(§3 핵심 원칙 ⑧)*
 10. **신규 프로젝트 입력 단계에서 *기존 Repo `docs/`* 를 분석 아키텍트가 *수동* 으로 끌어온다.** 인벤토리·인덱스·SHA 핀 인프라가 *아직 비어 있음* (§4.7.5 백로그 7 종 산출물 대기). 백로그 완료 전까지 *어느 Repo 의 어느 docs/* 를 봐야 할지 사람이 직접 식별 + IP §2 Spec Index 표에 *4 요소 전체 표기* 의무.
 
 ---
@@ -152,7 +152,7 @@ IP 의 *표기 양식* 은 박혔다 (`{repo}/{path}#{anchor}@{sha}`). 그러나
 | 함정 | 시스템 차원 차단 |
 | --- | --- |
 | **"`munto-backend/docs/` 어디 보면 결제 Spec 있겠지"** — 사람마다 다르게 기억. 실제 위치 모를 때마다 *Slack 질문 + 리포 grep* 반복 → IP 작성·dev-chain-design 입력 단계가 *매번 사람 의존* | ① **TO-BE §4.7.5 작성 백로그 — 7 종 산출물 트랙** (Repo 인벤토리 / docs/ 컨벤션 / 멀티 Repo 인덱스 / SHA 핀 절차 / dev-chain-design 입력 정책 갱신 / anchor 안정성 / Repo 별 docs/README) / ② **백로그 완료 전까지 *분석 아키텍트가 수동 보완 의무*** — IP 작성 시 *관여 Repo·경로* 직접 식별 + IP §2 Spec Index 표에 *4 요소 전체 표기* / ③ **각 Repo Owner 는 본인 Repo 의 `docs/` 가 *7 종 산출물 (2) docs/ 구조 표준* 에 맞는지* 합의 후 마이그레이션 PR 박을 의무 (백로그 진척에 따라)** |
-| **"AI 에이전트가 알아서 Repo docs/ 찾아주겠지"** — `dev-chain-design/SKILL.md` 입력 정책은 *기존 Swagger URL* 한 줄만 있고 *기존 Repo docs/ 탐색 정책* 없음. AI 가 매번 *Repo 탐색·grep* 시도 → 컨텍스트 비용 폭증·결과 무작위 | ④ **본 7 종 산출물 (5) — dev-chain-design 입력 정책 4 단계로 확장** (인벤토리 조회 → 도메인 매칭 → docs/specs/ 탐색 → 인덱스 등록 + Owner 확인) / ⑤ **백로그 완료 전까지 *분석 아키텍트가 dev-chain-design 호출 전 입력 명세서를 사람이 박음*** |
+| **"AI 에이전트가 알아서 Repo docs/ 찾아주겠지"** — `dev-chain-design/SKILL.md` 입력 정책은 *기존 Swagger URL* 한 줄만 있고 *기존 Repo docs/ 탐색 정책* 없음. AI 가 매번 *Repo 탐색·grep* 시도 → 컨텍스트 비용 폭증·결과 무작위 | ④ **본 7 종 산출물 (5) — dev-chain-design 입력 정책 4 단계로 확장** (인벤토리 조회 → 도메인 매칭 → docs/specs/ 탐색 → 인덱스 등록 + Repo Owner 확인) / ⑤ **백로그 완료 전까지 *분석 아키텍트가 dev-chain-design 호출 전 입력 명세서를 사람이 박음*** |
 
 > **핵심 메시지**: *Spec 의 표기 양식은 박혔으나 *그 표기가 가리키는 실체 인프라* 가 통째로 비어 있다 — IP 작성·dev-chain-design 입력의 가장 큰 빈자리*. 본 함정은 *시스템 결함* 으로 솔직히 인정하고, *백로그 완료 전까지는 *사람 책임* 임을 명시* 하는 것이 차단의 첫 단계다. *(작성 책임자·트리거는 TO-BE §4.7.5 참조)*
 
@@ -222,7 +222,7 @@ flowchart TD
 | **PHASE 1** | UI 설계 | FE/App 리드 사람 리뷰 (와이어프레임·상태·접근성) | 현재 UI 자동화 스킬 부재, 사람이 주도 |
 | **PHASE 1** | TCL | 도메인 개발자가 **누락 케이스 · 경계값 · 실패 시나리오** 보강 | AI 가 놓친 도메인 함정을 사람이 채움 |
 | **PHASE 1** | 🚧 게이트 | **BE + FE + App 리드 종합 교차 검증 + 베이스라인 v1.0 설정 결정** | 트랙 간 정합성·Spec 완료 결정 |
-| **PHASE 1** | GATE 직후 | **`spec-baseline-handoff.md` Owner 사람 작성 (프로젝트당 1 회 의무)** — 문서 4 종 경로·동결 SHA·핵심 결정 3~5·재검토 조건·미해결 TBD·ip-writer 우선 참조 5 컨텍스트 박음. 분석 아키텍트가 ack | 없으면 ip-writer 가 Spec 본문만 보고 *의도 추측* → *왜* 가 영원히 유실. PHASE 0~1 = 컨텍스트 보존, PHASE 2 = 단절 의 *연결 다리* (§3 핵심 원칙 ⑧) |
+| **PHASE 1** | GATE 직후 | **`spec-baseline-handoff.md` PL 사람 작성 (프로젝트당 1 회 의무)** — 문서 4 종 경로·동결 SHA·핵심 결정 3~5·재검토 조건·미해결 TBD·ip-writer 우선 참조 5 컨텍스트 박음. 분석 아키텍트가 ack | 없으면 ip-writer 가 Spec 본문만 보고 *의도 추측* → *왜* 가 영원히 유실. PHASE 0~1 = 컨텍스트 보존, PHASE 2 = 단절 의 *연결 다리* (§3 핵심 원칙 ⑧) |
 | **PHASE 1** | 마지막 | **Implementation Plan (IP) 작성 + IP 사람 리뷰** — Task 별 *Spec 참조 4 요소·DoD·의존성 DAG·Repo 매핑* 사전 박기. 작은 프로젝트는 리더 1 인 자기점검, 멀티 Repo·다도메인은 BE+FE 리드 입회 | IP 가 잘못되면 무인 루프가 24 시간 잘못된 방향으로 돈다. IP 통과 = 인수 (§3 함정 ⑤) |
 | **PHASE 2** | (목표) | **개입 없음** — 현재는 협업 반복 단계마다 검토. *IP 의 Task 카드 단위로* 진행 | 자동화 진척에 따라 가이드 보강으로 줄여간다 |
 | **PHASE 2** | PR 승인 (유인·무인 공통) | **PR *승인*(머지) = 인수.** PR 1 차 리뷰는 AI(`munto-pr-review` 가 PR 에 리뷰 게시 + 반자동 수정 루프), 사람은 *audit trail 요약* + **risk-tier(인증·인가·결제·정산·DB 마이그레이션·보안/개인정보)만 직접 정독** 후 머지. *CI 그린 = 자동 머지* 금지 | diff 전수 육안 ≠ 게이트. 머지 = 인수, *"AI 가 짰으니"* 면책 금지. 사람 집중력은 risk-tier 에 배분 *(§3 함정 ⑦)* |
@@ -443,7 +443,7 @@ flowchart TD
 | **분산 Spec 작성 3 방식 정책** | 어디에 적을지 합의 없음 — 같은 기능의 Spec 이 BE/FE 양쪽에 다르게 적힘 | **TO-BE §4.3 IP-7 매트릭스** — ① 기존 Spec 수정 *(디폴트)* / ② Sub스펙 누적 / ③ 별도 repo *(예외 — PHASE 3 후 원본 통합 의무)* |
 | **Spec→구현 세션 운영** | 항상 별도 세션·별도 사람 — 컨텍스트 손실 큼 | **디폴트 없음. 판단 기준 4 개**(Repo 수·Task 수·기간·인원). 작은 프로젝트는 *세션 통합* 으로 베이스라인 전달 손실 0, 큰 프로젝트는 *세션 분리 + IP 가 인계 컨텍스트* |
 | **Spec ↔ 구현 컨텍스트 관계** | 모호 — 구현 개발자가 *Spec 작성 세션* 까지 봐야 의도 알 수 있는 경우 다수. *Spec 의 부족함을 사람 인계로 메움* | **§2.3 ⑧ 양단 분리 원칙** — PHASE 0~1 = *컨텍스트 적극 보존* (세션·핸드오프·결정 이력 박음), PHASE 2 = *컨텍스트 단절* (IP / Spec 만으로 누구나 구현 가능). 구현 개발자가 *Spec 작성 세션* 을 봐야 한다면 *Spec 이 부족하다* 는 신호 |
-| **Spec 작성 세션 보존** | 없음 — Spec 본문만 남고 *왜 그렇게 박혔는지* (= AI·사람 대화·검토·대안) 휘발 | `sessions/spec-session-{date}-{author-id}.md`·`spec-review-{date}-{doc}-{author-id}.md` 자동 박힘 + **`spec-baseline-handoff.md` Owner 사람 작성 의무** (프로젝트당 1 회). 작성자별 파일 분리 — 멀티 작성자 race·merge conflict 0. ip-writer 가 IP 초안 생성 시 *baseline-handoff 우선 참조* (TO-BE §4.7.4) |
+| **Spec 작성 세션 보존** | 없음 — Spec 본문만 남고 *왜 그렇게 박혔는지* (= AI·사람 대화·검토·대안) 휘발 | `sessions/spec-session-{date}-{author-id}.md`·`spec-review-{date}-{doc}-{author-id}.md` 자동 박힘 + **`spec-baseline-handoff.md` PL 사람 작성 의무** (프로젝트당 1 회). 작성자별 파일 분리 — 멀티 작성자 race·merge conflict 0. ip-writer 가 IP 초안 생성 시 *baseline-handoff 우선 참조* (TO-BE §4.7.4) |
 | **작성자 식별자 표준** | 모호 — *AI 가 썼다* 가 사실상 익명 통과 | **`{author-id}` — 팀이 합의한 작성자 식별 문자열** *(Munto 권장 = Slack 멘션 핸들, 예: `gyuhyeon.jeon`)*. 호출 인자 `author={본인}` 우선 / 미명시 시 세션 첫 호출에 1 회 질문 + 캐싱. 환경변수 `MUNTO_AUTHOR_ID` 1 회 설정 시 Hook 트랙 작동 (TO-BE §4.7.4 (4)) |
 | **멀티 Repo `docs/` 인프라** | Repo 마다 `docs/` 자유 — 인벤토리·인덱스·SHA 핀 절차·anchor 안정성·docs/README 컨벤션 0 | **TO-BE §4.7.5 작성 백로그 명시** — 7 종 산출물 트랙 (Repo 인벤토리 / docs/ 구조 표준 / 멀티 Repo Spec 인덱스 / SHA 핀 절차 / dev-chain-design 입력 정책 / anchor 안정성 / Repo 별 docs/README). *백로그 완료 전까지 분석 아키텍트가 수동 보완* (§3 함정 ⑥) |
 

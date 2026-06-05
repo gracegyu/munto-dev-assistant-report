@@ -63,7 +63,7 @@ PHASE 2 (유인/무인 모드) — IP 가 유일한 입력
 
 ### 권장 입력 (없으면 사용자에게 질문)
 
-- 프로젝트 Owner (Slack 핸들)
+- 프로젝트 PL (Slack 핸들)
 - 무인 모드 / 유인 모드 선호 (기본: 유인)
 - Slack 알림 채널명
 - *Spec 작성 방식* — ① 기존 Spec 수정 / ② Sub스펙 누적 / ③ 별도 repo Spec (③ 인 경우 *통합 마감 Task* 자동 포함)
@@ -84,7 +84,7 @@ PHASE 2 (유인/무인 모드) — IP 가 유일한 입력
 | 항목 | 값 |
 |------|------|
 | 프로젝트명 | paid-socialing-v2 |
-| Owner | @grace.gyu |
+| PL | @grace.gyu |
 | 참여 Repo | munto-backend (sha a1b2c3d), munto-frontend (sha e4f5g6h) |
 | Spec 4 종 경로 | (위 4 종 경로) |
 | 운영 모드 | 유인 디폴트 (P1·P2 완료 후 무인 전환 검토) |

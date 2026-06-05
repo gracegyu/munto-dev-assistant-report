@@ -40,7 +40,7 @@ projects/
 
 ## 2. 활성 프로젝트 (Active)
 
-| 프로젝트명 | Owner | 현재 버전 | Operating Mode | 관련 Repo | Slack 채널 | 마지막 갱신 | 비고 |
+| 프로젝트명 | PL | 현재 버전 | Operating Mode | 관련 Repo | Slack 채널 | 마지막 갱신 | 비고 |
 |----------|-------|-----------|----------------|----------|------------|------------|------|
 | <!-- 예시 행 (실제 프로젝트 등록 시 이 줄 삭제 후 추가): --> |
 | paid-socialing-v2 | @grace.gyu | v1.0 (2026-05-25) | 유인 → P3 부터 무인 | munto-backend, munto-frontend, dating-mobile | #dev-paid-socialing | 2026-05-25 | TO-BE §4.3 IP-7 ③ 방식 사용 (T-MIGRATE-SPEC-FINAL 포함) |
@@ -53,7 +53,7 @@ projects/
 
 > 일시 보류 중인 프로젝트. 재개 시 *활성* 으로 이동.
 
-| 프로젝트명 | Owner | 보류 일자 | 보류 사유 | 재개 예정 |
+| 프로젝트명 | PL | 보류 일자 | 보류 사유 | 재개 예정 |
 |----------|-------|----------|----------|----------|
 | <!-- 해당 없을 시 본 표는 비워둠 --> |
 
@@ -63,7 +63,7 @@ projects/
 
 > 종료된 프로젝트. 3 개월 이상 비활성이면 `_archive/{YYYY}/{프로젝트명}/` 로 이동 (Git 히스토리 보존).
 
-| 프로젝트명 | Owner | 종료 일자 | 최종 버전 | 아카이브 경로 |
+| 프로젝트명 | PL | 종료 일자 | 최종 버전 | 아카이브 경로 |
 |----------|-------|----------|----------|--------------|
 | <!-- 해당 없을 시 본 표는 비워둠 --> |
 
@@ -92,7 +92,7 @@ cp -R munto-dev-assistant/projects/_template munto-dev-assistant/projects/{프�
 | 컬럼 | 의미 | 기록 형식 | 누가 갱신 |
 |------|------|----------|----------|
 | **프로젝트명** | IP 폴더 이름 = 프로젝트 식별자 | kebab-case 영문 50 자 이내. 메이저 버전(v2) 만 표기 | IP 작성 시 (1 회) |
-| **Owner** | 본 IP 의 작성·유지 책임자 (분석 아키텍트와 별도일 수 있음) | `@{author-id}` *(Munto 권장 = Slack 멘션 핸들 — 예: `@gyuhyeon.jeon`)* | Owner 변경 시 |
+| **PL** | 본 IP 의 작성·유지 책임자 (분석 아키텍트와 별도일 수 있음) | `@{author-id}` *(Munto 권장 = Slack 멘션 핸들 — 예: `@gyuhyeon.jeon`)* | PL 변경 시 |
 | **현재 버전** | IP 의 현재 baseline 버전 + 동결 일자 | `v{X.Y} ({YYYY-MM-DD})` | §8 Change History 갱신 시 |
 | **Operating Mode** | 본 프로젝트의 현재 운영 모드 | `유인` \| `무인` \| `유인 → P{N} 부터 무인` | §7 Operating Mode 변경 시 |
 | **관련 Repo** | 본 IP 가 건드리는 모든 Repo (쉼표 구분) | `munto-backend, munto-frontend, dating-mobile` 등 | Repo 추가/제거 시 |

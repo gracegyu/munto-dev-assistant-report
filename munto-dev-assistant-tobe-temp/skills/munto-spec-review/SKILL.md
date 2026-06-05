@@ -353,7 +353,7 @@ Notion MCP `notion-fetch` 도구를 사용합니다.
    - 핵심 아키텍처 결정 3~5 개 (대안 검토 박스 요약)
    - 미해결 TBD 잔여 목록
    - PHASE 2 진입 시 ip-writer 가 우선 참조해야 할 5 가지 컨텍스트
-   - Owner 사인
+   - PL 사인
    - 분석 아키텍트 사인
 
 ### 미존재·미충족 시 → **🔴 BLOCKER 리포트**
@@ -367,13 +367,13 @@ projects/{프로젝트명}/sessions/spec-baseline-handoff.md 가 {없음 | 필�
 파일이 없거나 미완성이면 다음 단계 (dev-chain-implementation-plan) 가 *왜* 를 모르고 IP 를 작성하게 됩니다.
 
 다음 중 하나를 선택하세요:
-  (i) 본 파일을 Owner 가 직접 작성·인수자 사인 후 재호출
+  (i) 본 파일을 PL 이 직접 작성·인수자 사인 후 재호출
   (ii) baseline 동결 보류 — 사용자가 *명시적으로* "spec-baseline-handoff.md 없이 진행" 선택 시에만 통과 (권장 안 함)
 ```
 
 ### 자동 작성하지 않는 이유
 
-§4.7.4 (1) 매트릭스의 _spec-baseline-handoff.md_ 는 _유일하게 수동 의무_ — _Owner 의 사람 책임_ 으로 박혀 있어야 다음 단계가 신뢰할 수 있다. 자동 작성하면 _형식적 통과_ 가 되어 본 정책의 목적 (PHASE 1 → PHASE 2 _왜_ 인계) 이 무력화됨.
+§4.7.4 (1) 매트릭스의 _spec-baseline-handoff.md_ 는 _유일하게 수동 의무_ — _PL 의 사람 책임_ 으로 박혀 있어야 다음 단계가 신뢰할 수 있다. 자동 작성하면 _형식적 통과_ 가 되어 본 정책의 목적 (PHASE 1 → PHASE 2 _왜_ 인계) 이 무력화됨.
 
 ---
 
@@ -386,4 +386,4 @@ projects/{프로젝트명}/sessions/spec-baseline-handoff.md 가 {없음 | 필�
 - 모호한 표현 탐지 시 대체 표현을 반드시 제안합니다
 - DB/API가 표에만 나열되고 스키마가 없는 경우 Critical로 분류합니다
 - **세션 저장은 _자동 동작_ 입니다** — 사용자가 별도 요청하지 않아도 _시작 전 준비 3_ 에서 활성 판정 시 수행
-- **baseline 동결 점검은 _자동 트리거_ 입니다** — 사용자의 baseline 통과 신호 발신 시 무조건 점검. 누락 시 🔴 BLOCKER. _Owner 의 사람 작성_ 으로만 해소 가능
+- **baseline 동결 점검은 _자동 트리거_ 입니다** — 사용자의 baseline 통과 신호 발신 시 무조건 점검. 누락 시 🔴 BLOCKER. _PL 의 사람 작성_ 으로만 해소 가능

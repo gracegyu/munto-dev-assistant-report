@@ -392,14 +392,14 @@ Technical Description
 
 ```
 ⚠️ Spec baseline v1.0 동결 직전입니다.
-다음 단계로 진입하기 전에 다음 파일을 *Owner 가 직접* 작성해주세요:
+다음 단계로 진입하기 전에 다음 파일을 *PL 이 직접* 작성해주세요:
   → projects/{프로젝트명}/sessions/spec-baseline-handoff.md
 
 본 파일은 *ip-writer (dev-chain-implementation-plan 스킬) 가 IP 초안 생성 시 우선 참조* 합니다.
 최소 양식: TO-BE §4.7.4 (2) 의 spec-baseline-handoff.md 행 참조.
 ```
 
-> **이 파일은 자동 생성하지 않는다** — TO-BE §4.7.4 (1) 매트릭스에서 _유일하게 수동 의무_ 인 산출물. _Owner 의 사람 책임_ 으로 박혀 있어야 다음 단계 ip-writer 가 신뢰할 수 있다.
+> **이 파일은 자동 생성하지 않는다** — TO-BE §4.7.4 (1) 매트릭스에서 _유일하게 수동 의무_ 인 산출물. _PL 의 사람 책임_ 으로 박혀 있어야 다음 단계 ip-writer 가 신뢰할 수 있다.
 
 ## 주의사항
 
