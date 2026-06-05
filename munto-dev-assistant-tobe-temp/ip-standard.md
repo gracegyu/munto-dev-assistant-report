@@ -177,7 +177,7 @@ munto-dev-assistant/projects/
 
 | 파일 | 유인 모드 | 무인 모드 | 트리거 | 커밋 |
 |------|----------|----------|--------|------|
-| `YYYY-MM-DD-daily-summary.md` | 수동 (선택) | **자동 의무** ✅ | 매일 09:00 KST | `main` 직접 push, 리뷰 불요 |
+| `YYYY-MM-DD-daily-summary.md` | 수동 (선택) | **자동 의무** ✅ | 매일 07:00 KST | `main` 직접 push, 리뷰 불요 |
 | `YYYY-MM-DD-phase-{n}-summary.md` | 수동 (선택) | **자동 의무** ✅ | Phase 완료 시 | `main` 직접 push, 리뷰 불요 |
 | `YYYY-MM-DD-blocker-{id}.md` | 수동 (선택) | **자동 의무** ✅ | BLOCKER 발생 시 즉시 | `main` 직접 push, 해소 시 같은 파일 끝에 append |
 | `YYYY-MM-DD-handover-{from}-to-{to}.md` | 인계 시 수동 | 인계 시 수동 | 사람 인계 시 (§IP-9 인계 6 단계) | 인수자 Slack ack |
@@ -309,7 +309,7 @@ graph LR
 | 무인 전환 조건 | (조건 기술 — 예: P1·P2 완료 + Kill Switch 검증 후) |
 | 무인 모드 안전 기본값 | DB 마이그레이션 자동 적용 금지 / 외부 API 변경 자동 머지 금지 / Cost cap 일 100 K 토큰 |
 | BLOCKER 정의 | 의존 Task 미완료 / TCL 자동 검증 실패 / 외부 API 변경 감지 |
-| Slack 알림 정책 | Phase 완료 / BLOCKER 발생 / 일일 요약 (00:00) |
+| Slack 알림 정책 | Phase 완료 / BLOCKER 발생 / 일일 요약 (07:00 KST) |
 ```
 
 ### 8. Change History (변경 이력)
@@ -475,7 +475,7 @@ IP 는 **무인 실행 루프의 유일한 입력**입니다. 따라서 IP 자�
 | **루프 단위** | Task Card 1 개 = 루프 1 회 |
 | **루프 순서** | Dependency DAG 의 위상 정렬 결과 |
 | **자동 정지 조건** | 의존 Task BLOCKER / DoD 자동 검증 실패 / Cost cap 초과 / 외부 API 변경 감지 / Kill Switch |
-| **사람 알림 시점** | Phase 완료 / BLOCKER 발생 / 일일 요약 (00:00) |
+| **사람 알림 시점** | Phase 완료 / BLOCKER 발생 / 일일 요약 (07:00 KST) |
 | **사람 결정 시점** | BLOCKER 해결 / PR 머지 (안전 기본값: *사람 머지* 디폴트) |
 
 ---

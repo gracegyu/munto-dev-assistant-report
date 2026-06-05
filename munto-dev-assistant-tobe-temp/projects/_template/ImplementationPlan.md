@@ -169,7 +169,7 @@ graph LR
 | 무인 모드 안전 기본값 | DB 마이그레이션 자동 적용 금지 / 외부 API 변경 자동 머지 금지 / Cost cap 일 {N}K 토큰 / PR 자동 머지 금지 (사람 머지 = 인수) |
 | BLOCKER 정의 | 의존 Task 미완료 / TCL 자동 검증 실패 / 외부 API 변경 감지 / 비용 cap 초과 |
 | Kill Switch | {GitHub Action 워크플로명 또는 Slack 슬래시 명령} <!-- *반드시* 명시. 미명시 시 무인 모드 진입 금지 --> |
-| Slack 알림 정책 | Phase 완료 / BLOCKER 발생 / 일일 요약 (09:00 KST) <!-- TO-BE §4.9.6 정책 --> |
+| Slack 알림 정책 | Phase 완료 / BLOCKER 발생 / 일일 요약 (07:00 KST) <!-- TO-BE §4.9.6 정책 --> |
 | 세션 파일 저장 정책 (PHASE 2 — 구현 운영) | **대상 독자 = 오케스트레이터·Owner — _구현 개발자 X_** (TO-BE §2.3 ⑧ + §4.4 _구현 개발자 운영_ 박스). **무인 모드 = 자동 의무 3 종** (`sessions/YYYY-MM-DD-daily-summary.md` / `…-phase-{n}-summary.md` / `…-blocker-{id}.md`) — 오케스트레이터가 자동 생성·`main` 직접 push. 유인 모드 = 선택. 사람 인계 시 `…-handover-{from}-to-{to}.md` 수동 작성. _상세는 TO-BE §4.9.7 참조_ |
 | 세션 파일 저장 정책 (PHASE 0~1 — Spec 작성) | **자동 (a) 2 종 — 작성자별 파일 분리** (`sessions/spec-session-{date}-{author-id}.md` / `spec-review-{date}-{doc}-{author-id}.md`) = `munto-spec-writer`·`munto-spec-review` 스킬 호출 시 자동 박힘. _멀티 작성자 race·merge conflict 0_. `spec-handover-{date}-{from}-to-{to}.md` = Spec 작성 중 사람 인계 시 수동. **`spec-baseline-handoff.md` = PHASE 1 GATE 통과 시 Owner 사람 작성 의무** (_프로젝트당 1 회, `{author-id}` 불요_) — _ip-writer 가 IP 초안 생성 시 우선 참조_. 누락 시 `munto-spec-review` 가 🔴 BLOCKER. _상세는 TO-BE §4.7.4 참조_ |
 | 본 IP 의 _Spec baseline 인계 파일_ | `projects/{프로젝트명}/sessions/spec-baseline-handoff.md` — _본 IP v0.1 작성 시 ip-writer 가 우선 참조한 컨텍스트 출처_. _없으면 §8 Change History v0.1 행에 "spec-baseline-handoff 없이 작성 — 컨텍스트 신뢰도 낮음" 명시 의무_ |
